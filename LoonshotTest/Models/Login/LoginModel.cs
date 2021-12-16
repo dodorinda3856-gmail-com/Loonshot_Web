@@ -1,35 +1,33 @@
-﻿using System;
+﻿using MyWeb.Lib.DataBase;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyWeb.Lib.DataBase;
 
 namespace LoonshotTest.Models.Login
 {
     public class LoginModel
     {
-        public string staff_login_Id { get; set; }
+        public string patient_login_Id { get; set; }
 
-        public int staff_id { get; set; }
+        public int patient_id { get; set; }
 
-        public string staff_login_pw { get; set; }
+        public string patient_login_pw { get; set; }
 
         public void ConvertPassword()
         {
             var sha = new System.Security.Cryptography.HMACSHA512();
-            sha.Key = System.Text.Encoding.UTF8.GetBytes(this.staff_login_Id);
+            sha.Key = System.Text.Encoding.UTF8.GetBytes(this.patient_login_Id);
 
-            var hash = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(this.staff_login_Id));
+            var hash = sha.ComputeHash(System.Text.Encoding.UTF8.GetBytes(this.patient_login_Id));
 
-            this.staff_login_pw = System.Convert.ToBase64String(hash);
+            this.patient_login_pw = System.Convert.ToBase64String(hash);
         }
 
 
         public int Register()
         {
             string sql = @"
-                      INSERT INTO MEDI_STAFF_LOGIN(staff_login_id, staff_id, staff_login_pw)
-                      VALUES(:staff_login_id, :staff_id, :staff_login_pw)";
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status)
+                      VALUES(:patient_login_id, null, :patient_login_pw, 'L')";
 
 
             using (var db = new MySqlDapperHelper())
@@ -38,19 +36,50 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-
-        /*
-        internal LoginModel GetLoginUser(string staff_login_id)
+        public void UserCheck(string patient_id)
         {
-            
+            LoginModel loginModel = new LoginModel();
+
+            string sql = @"
+                SELECT patient_login_id, patient_id, 
+                patient_login_pw, status FROM patient_login WHERE patient_login_id = :patient_login_id";
             using (var db = new MySqlDapperHelper())
             {
-                string sql = @"
-                SELECT staff_login_id, staff_id, staff_login_pw FROM medi_staff_login where staff_login_id = :staff_login_id";
+                loginModel = db.QuerySingle<LoginModel>(sql, this);
+                if(loginModel.patient_login_Id == patient_login_Id)
+                {
+                    throw new Exception("이미 사용중인 아이디입니다.");
+                }
+            }
+                
+        }
 
-            } 
+        public LoginModel GetLoginUser()
+        {
+            LoginModel loginModel = new LoginModel();
+
+            string sql = @"
+                SELECT patient_login_id, patient_id, 
+                patient_login_pw, status FROM patient_login WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+               
+                loginModel = db.QuerySingle<LoginModel>(sql, this);
+
+                if (loginModel == null)
+                {
+                    throw new Exception("사용자가 존재하지 않습니다.");
+                }
+
+                if (loginModel.patient_login_pw != this.patient_login_pw)
+                {
+                    throw new Exception("비밀번호가 틀립니다.");
+                }
+                return loginModel;
+            }
 
         }
-        */
+        
     }
 }

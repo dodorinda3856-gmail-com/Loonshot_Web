@@ -30,6 +30,10 @@ namespace LoonshotTest.Controllers
             return View("/login/login");
         }
 
+
+
+        
+        #region 로그인
         [HttpGet]
         public IActionResult Login(string msg)
         {
@@ -37,34 +41,45 @@ namespace LoonshotTest.Controllers
             return View();
         }
 
-        /*
         [HttpPost]
         [Route("/login/login")]
-        public async Task<IActionResult> LoginProc([FromForm]LoginModel input)
+        public async Task <IActionResult> LoginProc([FromForm] LoginModel input)
         {
-            var Login = input.GetLoginUser();
-
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.staff_login_Id));
-            identity.AddClaim(new Claim(ClaimTypes.Name, Login.staff_id.ToString()));
-            identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
-
-
-            var principal = new ClaimsPrincipal(identity);
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+            try
             {
-                IsPersistent = false,
-                ExpiresUtc = DateTime.UtcNow.AddHours(4),
-                AllowRefresh = true
-            });
-            
-                
-            return null;
-            
-        }
-        */
+                input.ConvertPassword();
+                var Login = input.GetLoginUser();
 
+                //로그인작업
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_Id));
+                identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_Id));
+                identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
+
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+                {
+                    IsPersistent = false,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                    AllowRefresh = true
+                });
+
+
+
+                return Redirect("/");
+            }
+            catch(Exception ex)
+            {
+                return Redirect($"/login/login?msg={HttpUtility.UrlEncode(ex.Message)}");
+            }
+            
+
+           
+        }
+        #endregion 
+
+        #region 회원가입
         public IActionResult Register(string msg)
         {
             ViewData["msg"] = msg;
@@ -75,11 +90,25 @@ namespace LoonshotTest.Controllers
         [Route("/login/register")]
         public IActionResult RegisterProc([FromForm] LoginModel input)
         {
+            
+
             try
             {
-                string staff_login_pw2 = Request.Form["staff_login_pw2"];
+                input.UserCheck(input.patient_login_Id);
+
+                string patient_login_pw2 = Request.Form["patient_login_pw2"];
+
+                if(input.patient_login_Id.Length < 5 || input.patient_login_Id.Length > 14)
+                {
+                    throw new Exception("ID는 5자리 이상 14자리 이하까지 가능합니다.");
+                }
+
+                if(input.patient_login_pw.Length < 6)
+                {
+                    throw new Exception("패스워드는 6자리 이상만 가능합니다.");
+                }
                 
-                if (input.staff_login_pw != staff_login_pw2)
+                if (input.patient_login_pw != patient_login_pw2)
                 {
                     throw new Exception("패스워드가 불일치 합니다.");
                 }
@@ -94,6 +123,7 @@ namespace LoonshotTest.Controllers
                 return Redirect($"/login/register?msg={HttpUtility.UrlEncode(ex.Message)}");
             }
         }
+        #endregion 
 
         [Authorize]
         public async Task<IActionResult> LogOut()

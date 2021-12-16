@@ -14,7 +14,7 @@ namespace MyWeb.Lib.DataBase
 
         public MySqlDapperHelper()
         {
-            _conn = new OracleConnection("User Id=admin;Password=c4iloonshot!;Data Source=database-1.cgpw1y90uonr.ap-northeast-2.rds.amazonaws.com:1521/ORCL;");
+            _conn = new OracleConnection("User Id=loonshot;Password=loonshot123;Data Source=loonshot.cgxkzseoyswk.us-east-2.rds.amazonaws.com:1521/ORCL;");
         }
 
         public void BeginTransaction()
@@ -37,6 +37,18 @@ namespace MyWeb.Lib.DataBase
         public List<T> Query<T>(string sql, object param)
         {           
              return Dapper.SqlMapper.Query<T>(_conn, sql, param, _trans).ToList();  
+        }
+
+        public T QuerySingle<T>(string sql, object param)
+        {
+            return Dapper.SqlMapper.QuerySingleOrDefault<T>(_conn, sql, param, _trans);
+        }
+
+
+
+        public List<T> Query<T>(string sql)
+        {
+            return Dapper.SqlMapper.Query<T>(_conn, sql).ToList();
         }
 
         public int Execute(string sql, object param)

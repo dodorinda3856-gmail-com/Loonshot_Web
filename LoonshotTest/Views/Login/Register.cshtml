@@ -2,41 +2,44 @@
     string msg = ViewData["msg"] as string;
 }
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-     style="background:url(../assets/images/big/auth-bg.jpg) no-repeat center center;">
+     style="background:url(../assets/images/big/auth-bg.jpg) no-repeat center center; top:135px;">
     <div class="auth-box row text-center">
-        <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(/img/login/3.jpg);">
+        <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(/img/login/liaco.png); background-repeat:repeat-y;">
         </div>
         <div class="col-lg-5 col-md-7 bg-white">
             <div class="p-3">
                 <img src="/img/login/icon.png" alt="wrapkit">
                 <h2 class="mt-3 text-center">Sign Up for Free</h2>
-           
+                 @if (string.IsNullOrWhiteSpace(msg) == false)
+                  {
+                        <div class="alert alert-danger">@msg</div>
+                  }   
                 <form id="form1" method="post" action="/login/register" class="mt-4">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_login_id" class="form-control" type="text" placeholder="staff_login_id">
+                                <input name="patient_login_id" class="form-control" type="text" placeholder="insert your id">
+                                <br />
                             </div>
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_id" class="form-control" type="number" placeholder="staff_id">
+                                <input name="patient_login_pw" class="form-control" type="password" placeholder="insert your password">
+                                <br />
                             </div>
                         </div>
+                        
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_login_pw" class="form-control" type="password" placeholder="password">
+                                <input name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password">
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="staff_login_pw2" class="form-control" type="password" placeholder="password2">
-                            </div>
+                            <br />
                             <div class="col-lg-12 text-center">
                                 <button type="submit" class="btn btn-block btn-dark">Sign Up</button>
                             </div>
                             <div class="col-lg-12 text-center mt-5">
-                                Already have an account? <a href="/login" class="text-danger">Sign In</a>
+                                Already have an account? <a href="/login/login" class="text-danger">Sign In</a>
                             </div>
                         </div>
                     </div>
