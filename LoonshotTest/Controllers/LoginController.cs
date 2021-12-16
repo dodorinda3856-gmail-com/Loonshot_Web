@@ -95,7 +95,6 @@ namespace LoonshotTest.Controllers
             try
             {
                 input.UserCheck(input.patient_login_Id);
-
                 string patient_login_pw2 = Request.Form["patient_login_pw2"];
 
                 if(input.patient_login_Id.Length < 5 || input.patient_login_Id.Length > 14)
@@ -112,7 +111,7 @@ namespace LoonshotTest.Controllers
                 {
                     throw new Exception("패스워드가 불일치 합니다.");
                 }
-
+                
                 input.ConvertPassword();
 
                 input.Register();

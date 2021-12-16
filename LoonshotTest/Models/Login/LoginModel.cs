@@ -12,6 +12,8 @@ namespace LoonshotTest.Models.Login
 
         public string patient_login_pw { get; set; }
 
+        public char status { get; set; }
+
         public void ConvertPassword()
         {
             var sha = new System.Security.Cryptography.HMACSHA512();
@@ -36,22 +38,23 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-        public void UserCheck(string patient_id)
+        public void UserCheck(string patient_login_id)
         {
             LoginModel loginModel = new LoginModel();
 
             string sql = @"
                 SELECT patient_login_id, patient_id, 
                 patient_login_pw, status FROM patient_login WHERE patient_login_id = :patient_login_id";
+
             using (var db = new MySqlDapperHelper())
             {
                 loginModel = db.QuerySingle<LoginModel>(sql, this);
-                if(loginModel.patient_login_Id == patient_login_Id)
+
+                if(loginModel.patient_login_Id == patient_login_id)
                 {
                     throw new Exception("이미 사용중인 아이디입니다.");
-                }
-            }
-                
+                }              
+            }              
         }
 
         public LoginModel GetLoginUser()
@@ -66,6 +69,7 @@ namespace LoonshotTest.Models.Login
             {
                
                 loginModel = db.QuerySingle<LoginModel>(sql, this);
+             
 
                 if (loginModel == null)
                 {
