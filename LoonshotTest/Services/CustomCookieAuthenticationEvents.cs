@@ -24,7 +24,7 @@ public class CustomCookieAuthenticationEvents : CookieAuthenticationEvents
         var lastCheckDateTime = DateTime.ParseExact(CheckClaim.Value, "yyyyMMDDHHmmss", CultureInfo.InvariantCulture);
         int intervalMin = 15;
 
-        if (lastCheckDateTime.AddMinutes(15) < DateTime.UtcNow)
+        if (lastCheckDateTime.AddMinutes(intervalMin) < DateTime.UtcNow)
         {
             //  이 사용자가 정상 사용자인지 검증
             if (1 == 1)
@@ -39,12 +39,10 @@ public class CustomCookieAuthenticationEvents : CookieAuthenticationEvents
             }
         }
         //  이 사용자가 정상 사용자인지 검증
-        if (1==2)
+        else
         {
             context.RejectPrincipal();
-
-            await context.HttpContext.SignOutAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme);
+            await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
     

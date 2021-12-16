@@ -30,8 +30,6 @@ namespace LoonshotTest.Controllers
             return View("/login/login");
         }
 
-
-
         
         #region 로그인
         [HttpGet]
@@ -43,7 +41,7 @@ namespace LoonshotTest.Controllers
 
         [HttpPost]
         [Route("/login/login")]
-        public async Task <IActionResult> LoginProc([FromForm] LoginModel input)
+        public async Task <IActionResult> LoginProc([FromForm]LoginModel input)
         {
             try
             {
@@ -52,8 +50,8 @@ namespace LoonshotTest.Controllers
 
                 //로그인작업
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_Id));
-                identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_Id));
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
+                identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
                 identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
 
                 var principal = new ClaimsPrincipal(identity);
@@ -73,9 +71,7 @@ namespace LoonshotTest.Controllers
             {
                 return Redirect($"/login/login?msg={HttpUtility.UrlEncode(ex.Message)}");
             }
-            
-
-           
+    
         }
         #endregion 
 
@@ -90,21 +86,19 @@ namespace LoonshotTest.Controllers
         [Route("/login/register")]
         public IActionResult RegisterProc([FromForm] LoginModel input)
         {
-            
-
-            try
+           try
             {
-                input.UserCheck(input.patient_login_Id);
+                input.UserCheck(input.patient_login_id);
                 string patient_login_pw2 = Request.Form["patient_login_pw2"];
 
-                if(input.patient_login_Id.Length < 5 || input.patient_login_Id.Length > 14)
+                if(input.patient_login_id.Length < 5 || input.patient_login_id.Length > 14)
                 {
                     throw new Exception("ID는 5자리 이상 14자리 이하까지 가능합니다.");
                 }
 
-                if(input.patient_login_pw.Length < 6)
+                if(input.patient_login_pw.Length < 6 || input.patient_login_pw.Length > 15)
                 {
-                    throw new Exception("패스워드는 6자리 이상만 가능합니다.");
+                    throw new Exception("패스워드는 6자리 이상, 15자리 이하만 가능합니다.");
                 }
                 
                 if (input.patient_login_pw != patient_login_pw2)
