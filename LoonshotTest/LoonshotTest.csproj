@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Login\Register.cshtml" />
+    <None Include="Views\Mypage\Mypage.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
