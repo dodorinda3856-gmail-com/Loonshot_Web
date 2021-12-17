@@ -22,7 +22,7 @@ namespace LoonshotTest.Controllers
         {
             _logger = logger;
         }
-
+        [Route("/mypage/info")]
         public IActionResult Mypage() {
             TreatMentModel myinfo = TreatMentModel.GetMyinfo(2);
             List<TreatMentModel> treatList = TreatMentModel.TreatmentList(2);

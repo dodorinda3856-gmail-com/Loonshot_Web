@@ -48,7 +48,7 @@ namespace LoonshotTest.Models
                 SELECT p.RESIDENT_REGIST_NUM ,p.ADDRESS,p.PATIENT_NAME ,p.PHONE_NUM ,p.GENDER ,p.DOB ,p.AGREE_OF_ALARM 
                 FROM PATIENT p 
                 WHERE PATIENT_ID = :patient_Id AND PATIENT_STATUS_VAL = 'T'";
-                return db.QueryFirst<TreatMentModel>(sql, new { patient_id = patient_Id });
+                return db.QuerySingle<TreatMentModel>(sql, new { patient_id = patient_Id });
             }
         }
 
