@@ -64,33 +64,6 @@ namespace LoonshotTest.Models
             }
         } 
 
-        public int UserBolt(int patient_id) {
-            using (var db = new MySqlDapperHelper()) {
-                db.BeginTransaction();
-
-                try {
-                    string sql = @"
-                        UPDATE PATIENT 
-                        SET PATIENT_STATUS_VAL = 'F'
-                        WHERE PATIENT_ID = : patient_id
-                    ";
-
-                    int r = 0;
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-
-                    db.Commit();
-                    return r;
-                }
-                catch (Exception ex)
-                {
-                    db.Rollback();
-                    throw ex;
-                }
-            }
-    }
-
         public int UserAlarm(TreatMentModel param)
         {
             using (var db = new MySqlDapperHelper())

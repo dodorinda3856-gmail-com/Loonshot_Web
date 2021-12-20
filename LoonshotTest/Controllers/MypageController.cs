@@ -13,6 +13,7 @@ using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
 using Microsoft.AspNetCore.Authentication;
 using LoonshotTest.Controllers;
 using LoonshotTest.Filters;
+using LoonshotTest.Models.Login;
 
 namespace LoonshotTest.Controllers
 {
@@ -29,25 +30,21 @@ namespace LoonshotTest.Controllers
 
         [Route("/mypage/info")]
         public IActionResult Mypage() {
-            string test =  HttpContext.User.Identity.Name;
-            
-            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
-            loginUserInfo.patient_login_id = User.Identity.Name;
-            loginUserInfo = loginUserInfo.GetUserId();
-
-            TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginUserInfo.patient_id);
-            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginUserInfo.patient_id);
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+            TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
+            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
 
             return View(Tuple.Create(myinfo, treatList));
         }
 
         [Route("/mypage/UserSecession")]
         public IActionResult MypageUserRemove() {
-            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
-            loginUserInfo.patient_login_id = User.Identity.Name;
-            loginUserInfo = loginUserInfo.GetUserId();
-            loginUserInfo.UserSecession(loginUserInfo.patient_id);
+            LoginModel loginmodel = new LoginModel();
+            loginmodel = loginmodel.GetUserInfo(User.Identity.Name);
 
+            loginmodel.UserBolt(loginmodel.patient_id);
             HttpContext.SignOutAsync();
 
             return Redirect("/");
@@ -55,8 +52,11 @@ namespace LoonshotTest.Controllers
 
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
+            LoginModel loginmodel = new LoginModel(); 
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             TreatMentModel alarmStat = new TreatMentModel();
-            alarmStat.patient_Id = 2;
+            alarmStat.patient_Id = loginmodel.patient_id;
             alarmStat.agree_Of_Alarm = (AGREE_OF_ALARM == "true" ? 'T' : 'F');
             string message = "succces";
             if (alarmStat.UserAlarm(alarmStat) != 1) {
@@ -69,9 +69,9 @@ namespace LoonshotTest.Controllers
         [HttpPost]
         public JsonResult UpdateUser(string SqlType, string ajaxData)
         {
-            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
-            loginUserInfo.patient_login_id = User.Identity.Name;
-            loginUserInfo = loginUserInfo.GetUserId();
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
 
             TreatMentModel userinfo = new TreatMentModel();
             string sql_choice = SqlType;
@@ -80,7 +80,7 @@ namespace LoonshotTest.Controllers
             { userinfo.patient_name = ajaxData; }
             else if (sql_choice == "P") { userinfo.phone_Num = ajaxData; }
             else if (sql_choice == "A") { userinfo.address = ajaxData; }
-            userinfo.patient_Id = loginUserInfo.patient_id;
+            userinfo.patient_Id = loginmodel.patient_id;
 
             string message = "succces";
 
