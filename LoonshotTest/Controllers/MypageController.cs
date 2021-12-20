@@ -8,26 +8,49 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Dynamic;
-
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
+using Microsoft.AspNetCore.Authentication;
+using LoonshotTest.Controllers;
+using LoonshotTest.Filters;
 
 namespace LoonshotTest.Controllers
 {
+    [CheckUser]
     public class MypageController : Controller
     {
+
         private readonly ILogger<MypageController> _logger;
 
         public MypageController(ILogger<MypageController> logger)
         {
             _logger = logger;
         }
+
         [Route("/mypage/info")]
         public IActionResult Mypage() {
-            TreatMentModel myinfo = TreatMentModel.GetMyinfo(2);
-            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(2);
+            string test =  HttpContext.User.Identity.Name;
+            
+            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
+            loginUserInfo.patient_login_id = User.Identity.Name;
+            loginUserInfo = loginUserInfo.GetUserId();
+
+            TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginUserInfo.patient_id);
+            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginUserInfo.patient_id);
 
             return View(Tuple.Create(myinfo, treatList));
+        }
+
+        [Route("/mypage/UserSecession")]
+        public IActionResult MypageUserRemove() {
+            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
+            loginUserInfo.patient_login_id = User.Identity.Name;
+            loginUserInfo = loginUserInfo.GetUserId();
+            loginUserInfo.UserSecession(loginUserInfo.patient_id);
+
+            HttpContext.SignOutAsync();
+
+            return Redirect("/");
         }
 
         [HttpPost]
@@ -46,6 +69,10 @@ namespace LoonshotTest.Controllers
         [HttpPost]
         public JsonResult UpdateUser(string SqlType, string ajaxData)
         {
+            Models.Login.LoginModel loginUserInfo = new Models.Login.LoginModel();
+            loginUserInfo.patient_login_id = User.Identity.Name;
+            loginUserInfo = loginUserInfo.GetUserId();
+
             TreatMentModel userinfo = new TreatMentModel();
             string sql_choice = SqlType;
 
@@ -53,7 +80,7 @@ namespace LoonshotTest.Controllers
             { userinfo.patient_name = ajaxData; }
             else if (sql_choice == "P") { userinfo.phone_Num = ajaxData; }
             else if (sql_choice == "A") { userinfo.address = ajaxData; }
-            userinfo.patient_Id = 2;
+            userinfo.patient_Id = loginUserInfo.patient_id;
 
             string message = "succces";
 
@@ -71,6 +98,5 @@ namespace LoonshotTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }
