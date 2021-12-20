@@ -17,7 +17,6 @@ using LoonshotTest.Models.Login;
 
 namespace LoonshotTest.Controllers
 {
-    [CheckUser]
     public class MypageController : Controller
     {
 
@@ -26,6 +25,7 @@ namespace LoonshotTest.Controllers
         public MypageController(ILogger<MypageController> logger)
         {
             _logger = logger;
+            
         }
 
         [Route("/mypage/info")]

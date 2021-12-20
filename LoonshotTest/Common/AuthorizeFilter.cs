@@ -9,9 +9,15 @@ using Microsoft.AspNetCore.Routing;
 
 namespace LoonshotTest.Filters
 {
+    [AttributeUsage(AttributeTargets.All)]
     public class CheckUser : ActionFilterAttribute, IActionFilter
     {
+        public CheckUser( )
+        {
+            Console.WriteLine("");
 
+
+        }
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             var ctx = context.HttpContext;
