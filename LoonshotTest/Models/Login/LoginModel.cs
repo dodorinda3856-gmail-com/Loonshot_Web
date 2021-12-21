@@ -14,6 +14,12 @@ namespace LoonshotTest.Models.Login
 
         public char status { get; set; }
 
+        public string phone_num { get; set; }
+
+        public string resident_regist_num { get; set; }
+
+        public string patient_name { get; set; }
+
         public void ConvertPassword()
         {
             var sha = new System.Security.Cryptography.HMACSHA512();
@@ -25,11 +31,22 @@ namespace LoonshotTest.Models.Login
         }
 
 
+        public void checkPhone()
+        {
+            string sql = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+
+            using(var db = new MySqlDapperHelper())
+            {
+                this.patient_id = db.QuerySingle<int>(sql, this);
+            }
+        }
+
         public int Register()
         {
+
             string sql = @"
-                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status)
-                      VALUES(:patient_login_id, null, :patient_login_pw, 'L')";
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, resident_regist_num, patient_name)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :resident_regist_num, :patient_name)";
 
 
             using (var db = new MySqlDapperHelper())
@@ -58,6 +75,65 @@ namespace LoonshotTest.Models.Login
                 }
             }  
         }
+
+        public int SocialCheck()
+        {
+            int k = 0;
+            LoginModel loginModel;
+
+            string sql = @"
+                SELECT patient_login_id FROM patient_login WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                loginModel = db.QuerySingle<LoginModel>(sql, this);
+            }
+
+            if (loginModel == null)
+            {
+                string sql2 = @"
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, patient_name)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :patient_name)";
+
+                using (var db = new MySqlDapperHelper())
+                {
+                    db.Execute(sql2, this);                    
+                }
+                k = 1;
+                return k;
+            }
+            else
+            {
+                k = 2;
+                return k;
+            }
+        }
+
+
+        public void SocialRegister()
+        {
+            LoginModel loginModel;
+            string sql2 = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                loginModel = db.QuerySingle<LoginModel>(sql2, this);
+            }
+
+            if(loginModel != null)
+            {
+                this.patient_id = loginModel.patient_id;
+            }
+
+            string sql = "UPDATE patient_login SET patient_id = :patient_id, phone_num = :phone_num, resident_regist_num = :resident_regist_num, patient_name = :patient_name WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                db.Execute(sql, this);
+            }
+        }
+
+
         
 
         internal LoginModel GetLoginUser()
