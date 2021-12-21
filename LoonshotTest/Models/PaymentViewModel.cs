@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-
+//주석추가
 namespace LoonshotTest.Models
 {
     public class PaymentViewModel
