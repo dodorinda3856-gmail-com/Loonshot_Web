@@ -1,0 +1,51 @@
+@{
+    string msg = ViewData["msg"] as string;
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
+    <div class="auth-box row">
+        <div class="col-lg-7 col-md-5 modal-bg-img">
+        </div>
+        <div class="col-lg-5 col-md-7 bg-white">
+            <div class="p-3">
+                <h2 class="mt-3 text-center">Please your additional information</h2>
+                @if (string.IsNullOrWhiteSpace(msg) == false)
+                {
+                    <div id="notify" class="alert alert-danger">@msg</div>
+                }
+                <form id="form1" method="post" action="/login/socialRegister" class="mt-4">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="phone_num" class="form-control" type="text" placeholder="insert your phoneNumber">
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="resident_regist_num" class="form-control" type="text" placeholder="insert regident regist number">
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="patient_name" class="form-control" type="text" placeholder="your name">
+                            </div>
+                            <br />
+                            <div class="col-lg-12 text-center">
+                                <button id="signUp" type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

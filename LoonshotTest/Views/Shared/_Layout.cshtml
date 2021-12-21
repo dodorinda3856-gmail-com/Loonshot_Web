@@ -1,4 +1,15 @@
 ﻿<!DOCTYPE html>
+<script>
+
+    function KaKaoLogOut() {
+        Kakao.Auth.logout(function () {
+            alert("logout complete");
+            console.log(Kakao.Auth.getAccessToken());
+        });
+    }
+    
+</script>
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,6 +17,7 @@
     <title>@ViewData["Title"] - 이지피부과의원</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap_sandstone.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 </head>
 <body>
     <header>
@@ -54,7 +66,7 @@
                         </li>
                         <li class="nav-item">
                             
-                            <a class="nav-link" href="https://blog.bootswatch.com/">마이페이지</a>
+                            <a class="nav-link" href="/mypage/info">마이페이지</a>
                         </li>
                         <li class="nav-item">
                             @if (User.Identity.IsAuthenticated) 

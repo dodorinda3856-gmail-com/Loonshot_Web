@@ -14,6 +14,12 @@ namespace LoonshotTest.Models.Login
 
         public char status { get; set; }
 
+        public string phone_num { get; set; }
+
+        public string resident_regist_num { get; set; }
+
+        public string patient_name { get; set; }
+
         public void ConvertPassword()
         {
             var sha = new System.Security.Cryptography.HMACSHA512();
@@ -25,11 +31,22 @@ namespace LoonshotTest.Models.Login
         }
 
 
+        public void checkPhone()
+        {
+            string sql = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+
+            using(var db = new MySqlDapperHelper())
+            {
+                this.patient_id = db.QuerySingle<int>(sql, this);
+            }
+        }
+
         public int Register()
         {
+
             string sql = @"
-                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status)
-                      VALUES(:patient_login_id, null, :patient_login_pw, 'L')";
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, resident_regist_num, patient_name)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :resident_regist_num, :patient_name)";
 
 
             using (var db = new MySqlDapperHelper())
@@ -38,8 +55,22 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-        public void UserCheck(string patient_login_id)
+        public LoginModel GetUserInfo(string patient_login_id) {
+            LoginModel login = new LoginModel();
+
+            string sql = "SELECT * FROM patient_login WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                login = db.QuerySingle<LoginModel>(sql, this);
+            }
+            return login;
+        }
+<<<<<<< HEAD
+
+        public int SocialCheck()
         {
+            int k = 0;
             LoginModel loginModel;
 
             string sql = @"
@@ -50,15 +81,54 @@ namespace LoonshotTest.Models.Login
                 loginModel = db.QuerySingle<LoginModel>(sql, this);
             }
 
-            if( loginModel != null)
+            if (loginModel == null)
             {
-                if (loginModel.patient_login_id == patient_login_id)
+                string sql2 = @"
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, patient_name)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :patient_name)";
+
+                using (var db = new MySqlDapperHelper())
                 {
-                    throw new Exception("이미 사용중인 아이디입니다.");
+                    db.Execute(sql2, this);                    
                 }
-            }  
+                k = 1;
+                return k;
+            }
+            else
+            {
+                k = 2;
+                return k;
+            }
         }
+
+
+        public void SocialRegister()
+        {
+            LoginModel loginModel;
+            string sql2 = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                loginModel = db.QuerySingle<LoginModel>(sql2, this);
+            }
+
+            if(loginModel != null)
+            {
+                this.patient_id = loginModel.patient_id;
+            }
+
+            string sql = "UPDATE patient_login SET patient_id = :patient_id, phone_num = :phone_num, resident_regist_num = :resident_regist_num, patient_name = :patient_name WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                db.Execute(sql, this);
+            }
+        }
+
+
         
+=======
+>>>>>>> ae17008c9617988f0fe1f80405f822931036ded1
 
         internal LoginModel GetLoginUser()
         {
@@ -89,7 +159,59 @@ namespace LoonshotTest.Models.Login
             return loginModel;
             }
 
+        public void UserCheck(string patient_login_id)
+        {
+            LoginModel loginModel;
+
+            string sql = @"
+                SELECT patient_login_id FROM patient_login WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                loginModel = db.QuerySingle<LoginModel>(sql, this);
+            }
+
+            if (loginModel != null)
+            {
+                if (loginModel.patient_login_id == patient_login_id)
+                {
+                    throw new Exception("이미 사용중인 아이디입니다.");
+                }
+            }
         }
+
+        public int UserBolt(int patient_id)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                db.BeginTransaction();
+
+                try
+                {
+                    string sql = @"
+                        UPDATE PATIENT 
+                        SET PATIENT_STATUS_VAL = 'F'
+                        WHERE PATIENT_ID = : patient_id
+                    ";
+
+                    int r = 0;
+                    r += db.Execute(sql, this);
+                    r += db.Execute(sql, this);
+                    r += db.Execute(sql, this);
+
+                    db.Commit();
+                    return r;
+                }
+                catch (Exception ex)
+                {
+                    db.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+    }
+
 
     }
 
