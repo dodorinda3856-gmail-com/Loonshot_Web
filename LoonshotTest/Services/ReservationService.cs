@@ -44,7 +44,8 @@ namespace LoonshotTest.Services
         {
             using (var db = new MySqlDapperHelper())
             {
-                string sql = "SELECT MEDICAL_STAFF_ID, PATIENT_ID, RESERVATION_DATE, TIME_ID FROM RESERVATION WHERE MEDICAL_STAFF_ID=:doctorId AND TO_CHAR(RESERVATION_DATE, 'YYYY-MM-DD')=:day";
+
+                string sql = "SELECT  R.MEDICAL_STAFF_ID, R.PATIENT_ID, R.RESERVATION_DATE, R.TIME_ID, T.HOUR FROM (SELECT * FROM RESERVATION WHERE MEDICAL_STAFF_ID=:doctorId AND TO_CHAR(RESERVATION_DATE, 'YYYY-MM-DD')=:day) R INNER JOIN TIME T ON T.TIME_ID=R.TIME_ID";
                 return db.Query<Reservation>(sql, new { doctorId, day });
 
             }
@@ -58,7 +59,7 @@ namespace LoonshotTest.Services
                     " :patientId, :timeId, To_Date(:reservationDate, 'YYYY-MM-DD'), :medicalStaffId, :symptom)";
                 db.Execute(sql, new { patientId, medicalStaffId, reservationDate, timeId, symptom });
                 string getMax = "SELECT R.RESERVATION_ID, R.RESERVATION_DATE, R.SYMPTOM, T.HOUR, M.STAFF_NAME, P.PATIENT_NAME " +
-                    "FROM(SELECT* FROM RESERVATION WHERE RESERVATION_ID= (SELECT MAX(RESERVATION_ID) FROM RESERVATION)) R " +
+                    "FROM(SELECT* FROM RESERVATION WHERE RESERVATION_ID= (SELECT MAX(RESERVATION_ID) FROM (SELECT * FROM RESERVATION WHERE PATIENT_ID=:patientId))) R " +
                     "INNER JOIN MEDI_STAFF M ON R.MEDICAL_STAFF_ID = M.STAFF_ID INNER JOIN TIME T ON T.TIME_ID = R.TIME_ID " +
                     "INNER JOIN PATIENT P ON P.PATIENT_ID=R.PATIENT_ID";
                 return db.QueryFirst<ReservationViewModal>(getMax);

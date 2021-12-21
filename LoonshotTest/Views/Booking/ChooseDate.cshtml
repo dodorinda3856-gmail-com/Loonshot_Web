@@ -110,7 +110,7 @@
 
 @section Scripts{
     <script>
-        
+
         $('input[type=radio][name=pickdate]').change(function () {
             var selectedDate = this.value.slice(0, 10);
             var day = new Date(selectedDate).getDay();
@@ -135,18 +135,23 @@
                             console.log(timetable);
                             console.log(booked);
 
-                            for (let i = 0; i < timetable.length; i++) {
-                                if (booked.some(b => b.time_Id == timetable[i].time_Id && b.patient_Id == @ViewBag.userId)) {
-                                    scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-                                        <div class="card-header">${timetable[i].hour}</div>
+
+                            var index = booked.findIndex(b=> b.patient_Id==@ViewBag.userId)
+                            console.log(index, @ViewBag.userId);
+                            if (index>-1) {
+                                scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                                        <div class="card-header">${booked[index].hour}</div>
                                         <div class="card-body">
                                         <h4 class="card-title">내 예약</h4>
                                         <p class="card-text" style="display: none"></p>
                                         </div>
                                         </div>`
-                                    break;
-                                } else if (booked.some(b => b.time_Id == timetable[i].time_Id)) {
-                                    scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                            } else {
+
+                                for (let i = 0; i < timetable.length; i++) {
+
+                                    if (booked.some(b => b.time_Id == timetable[i].time_Id)) {
+                                        scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
                                         <div class="card-header">${timetable[i].hour}</div>
                                         <div class="card-body">
                                         <h4 class="card-title">예약 불가</h4>
@@ -154,7 +159,7 @@
                                         </div>
                                         </div>`
                                     } else {
-                                    scheduleCard += ` <div class="card text-white bg-success mb-3 reservation-card" style="max-width: 20rem;">
+                                        scheduleCard += ` <div class="card text-white bg-success mb-3 reservation-card" style="max-width: 20rem;">
                                         <div class="card-header" data-tableid=${timetable[i].time_Id}
                                         >${timetable[i].hour}</div>
                                         <div class="card-body">
@@ -162,6 +167,7 @@
                                         <p class="card-text" style="display: none"></p>
                                         </div>
                                         </div>`
+                                    }
                                 }
                             }
                             $(document).on("click", ".reservation-card", function (e) {
