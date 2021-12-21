@@ -7,9 +7,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
+using LoonshotTest.Models.Login;
+using LoonshotTest.Filters;
 
 namespace LoonshotTest.Controllers
 {
+
+    [CheckUser]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,8 +23,14 @@ namespace LoonshotTest.Controllers
             _logger = logger;
         }
 
+
         public IActionResult Index()
         {
+            Console.WriteLine("Index start=====================================================================================================");
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+
             return View();
         }
 

@@ -41,11 +41,11 @@ namespace LoonshotTest.Models
 
                 paymentViewModel = db.QuerySingle<PaymentViewModel>(sql, this);
                 //Debug.WriteLine("***************디비에서 넘어온 값 : "+paymentViewModel.patient_name);
-               //Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.prescription);
+                //Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.prescription);
                 //Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.staff_name);
-                
+
             }
-            if(paymentViewModel != null)
+            if (paymentViewModel != null)
             {
                 return paymentViewModel;
             }
@@ -56,7 +56,7 @@ namespace LoonshotTest.Models
 
 
 
-            
+
         }
-    }   
+    }
 }

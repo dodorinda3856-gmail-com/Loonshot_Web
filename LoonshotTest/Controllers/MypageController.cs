@@ -17,7 +17,8 @@ using LoonshotTest.Models.Login;
 
 namespace LoonshotTest.Controllers
 {
-    public class MypageController : Microsoft.AspNetCore.Mvc.Controller
+    [CheckUser]
+    public class MypageController : Controller
     {
 
         private readonly ILogger<MypageController> _logger;
@@ -42,9 +43,8 @@ namespace LoonshotTest.Controllers
         [Route("/mypage/UserSecession")]
         public IActionResult MypageUserRemove() {
             LoginModel loginmodel = new LoginModel();
-            loginmodel = loginmodel.GetUserInfo(User.Identity.Name);
-
-            loginmodel.UserBolt(loginmodel.patient_id);
+            
+            loginmodel.UserBolt(User.Identity.Name);
             HttpContext.SignOutAsync();
 
             return Redirect("/");
@@ -63,7 +63,7 @@ namespace LoonshotTest.Controllers
                 message = "Error";
             }
 
-            return new JsonResult(new { Message = message, JsonRequestBehavior.AllowGet });
+            return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
         }
 
         [HttpPost]

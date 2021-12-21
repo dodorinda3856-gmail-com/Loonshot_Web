@@ -126,14 +126,13 @@ namespace LoonshotTest.Models.Login
         }
 
 
+
+
         internal LoginModel GetLoginUser()
         {
             LoginModel loginModel;
 
             string sql = "SELECT * FROM patient_login WHERE patient_login_id = :patient_login_id";
-
-            //string sql1 = "SELECT patient_login_id FROM patient_login WHERE patient_login_id = :patient_login_id";
-            //string sql2 = "SELECT patient_login_pw FROM patient_login WHERE patient_login_id = :patient_login_id";
 
             using (var db = new MySqlDapperHelper())
             {
@@ -176,7 +175,7 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-        public int UserBolt(int patient_id)
+        public int UserBolt(string patient_login_id)
         {
             using (var db = new MySqlDapperHelper())
             {
@@ -185,9 +184,9 @@ namespace LoonshotTest.Models.Login
                 try
                 {
                     string sql = @"
-                        UPDATE PATIENT 
-                        SET PATIENT_STATUS_VAL = 'F'
-                        WHERE PATIENT_ID = : patient_id
+                        UPDATE PATIENT_LOGIN
+                        SET DEL_STATUS = 'F'
+                        WHERE PATIENT_LOGIN_ID = : patient_login_id
                     ";
 
                     int r = 0;
