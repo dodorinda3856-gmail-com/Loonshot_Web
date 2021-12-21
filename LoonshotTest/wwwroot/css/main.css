@@ -24,18 +24,37 @@
         position: relative;
     }
 
-    .content .card-box .card .card-body {
-        position : absolute;
-        top: 50%;
-        left : 50%;
-        transform: translate(-50%, -50%)
+    .content .card-box .text-posi {
+        display: block;
+        position: relative;
+        width: 100%;
+        height : 100%;
     }
-    .content .card-box .card .card-body .card-title {
-            font-size: 45px;
+
+    .content .card-box .card .card-title {
+        display: inline-block;
+        position: relative;
+        top: 50%;
+        transform:translateY(-50%);
+        font-size: 45px;
+       
     }
 
     .content .card-box .card:nth-child(odd){
         margin-right: 2.4rem
+    }
+
+    .content .card-box .card:nth-child(1) {
+        background-color : darkgoldenrod;
+    }
+    .content .card-box .card:nth-child(2) {
+        background-color: darkorchid;
+    }
+    .content .card-box .card:nth-child(3) {
+        background-color: orange;
+    }
+    .content .card-box .card:nth-child(4) {
+        background-color: darksalmon;
     }
 
 @media (max-width: 1024px) {

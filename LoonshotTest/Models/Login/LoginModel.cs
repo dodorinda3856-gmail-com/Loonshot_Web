@@ -55,26 +55,18 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-        public void UserCheck(string patient_login_id)
-        {
-            LoginModel loginModel;
+        public LoginModel GetUserInfo(string patient_login_id) {
+            LoginModel login = new LoginModel();
 
-            string sql = @"
-                SELECT patient_login_id FROM patient_login WHERE patient_login_id = :patient_login_id";
+            string sql = "SELECT * FROM patient_login WHERE patient_login_id = :patient_login_id";
 
             using (var db = new MySqlDapperHelper())
             {
-                loginModel = db.QuerySingle<LoginModel>(sql, this);
+                login = db.QuerySingle<LoginModel>(sql, this);
             }
-
-            if( loginModel != null)
-            {
-                if (loginModel.patient_login_id == patient_login_id)
-                {
-                    throw new Exception("이미 사용중인 아이디입니다.");
-                }
-            }  
+            return login;
         }
+<<<<<<< HEAD
 
         public int SocialCheck()
         {
@@ -135,6 +127,8 @@ namespace LoonshotTest.Models.Login
 
 
         
+=======
+>>>>>>> ae17008c9617988f0fe1f80405f822931036ded1
 
         internal LoginModel GetLoginUser()
         {
@@ -165,7 +159,59 @@ namespace LoonshotTest.Models.Login
             return loginModel;
             }
 
+        public void UserCheck(string patient_login_id)
+        {
+            LoginModel loginModel;
+
+            string sql = @"
+                SELECT patient_login_id FROM patient_login WHERE patient_login_id = :patient_login_id";
+
+            using (var db = new MySqlDapperHelper())
+            {
+                loginModel = db.QuerySingle<LoginModel>(sql, this);
+            }
+
+            if (loginModel != null)
+            {
+                if (loginModel.patient_login_id == patient_login_id)
+                {
+                    throw new Exception("이미 사용중인 아이디입니다.");
+                }
+            }
         }
+
+        public int UserBolt(int patient_id)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                db.BeginTransaction();
+
+                try
+                {
+                    string sql = @"
+                        UPDATE PATIENT 
+                        SET PATIENT_STATUS_VAL = 'F'
+                        WHERE PATIENT_ID = : patient_id
+                    ";
+
+                    int r = 0;
+                    r += db.Execute(sql, this);
+                    r += db.Execute(sql, this);
+                    r += db.Execute(sql, this);
+
+                    db.Commit();
+                    return r;
+                }
+                catch (Exception ex)
+                {
+                    db.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
+    }
+
 
     }
 

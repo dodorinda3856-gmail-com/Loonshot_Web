@@ -45,7 +45,15 @@ namespace LoonshotTest.Controllers
 
             return View();
         }
-        
+
+        [HttpGet]
+        [Route("/home/hospital")]
+        public IActionResult HospitalIinfo()
+        {
+            return View("HospitalInfo");
+        }
+
+
         public IActionResult PatientInsert([FromForm] PatientModel model)
         {
             
@@ -53,7 +61,6 @@ namespace LoonshotTest.Controllers
 
             return Redirect("/home/PatientList");
         }
-
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

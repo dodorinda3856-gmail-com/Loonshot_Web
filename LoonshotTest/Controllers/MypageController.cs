@@ -8,33 +8,55 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using System.Dynamic;
-
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Authentication;
+using LoonshotTest.Controllers;
+using LoonshotTest.Filters;
+using LoonshotTest.Models.Login;
 
 namespace LoonshotTest.Controllers
 {
     public class MypageController : Microsoft.AspNetCore.Mvc.Controller
     {
+
         private readonly ILogger<MypageController> _logger;
 
         public MypageController(ILogger<MypageController> logger)
         {
             _logger = logger;
+            
         }
 
+        [Route("/mypage/info")]
         public IActionResult Mypage() {
-            TreatMentModel myinfo = TreatMentModel.GetMyinfo(2);
-            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(2);
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+            TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
+            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
 
             return View(Tuple.Create(myinfo, treatList));
         }
 
+        [Route("/mypage/UserSecession")]
+        public IActionResult MypageUserRemove() {
+            LoginModel loginmodel = new LoginModel();
+            loginmodel = loginmodel.GetUserInfo(User.Identity.Name);
+
+            loginmodel.UserBolt(loginmodel.patient_id);
+            HttpContext.SignOutAsync();
+
+            return Redirect("/");
+        }
+
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
+            LoginModel loginmodel = new LoginModel(); 
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             TreatMentModel alarmStat = new TreatMentModel();
-            alarmStat.patient_Id = 2;
+            alarmStat.patient_Id = loginmodel.patient_id;
             alarmStat.agree_Of_Alarm = (AGREE_OF_ALARM == "true" ? 'T' : 'F');
             string message = "succces";
             if (alarmStat.UserAlarm(alarmStat) != 1) {
@@ -47,6 +69,10 @@ namespace LoonshotTest.Controllers
         [HttpPost]
         public JsonResult UpdateUser(string SqlType, string ajaxData)
         {
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+
             TreatMentModel userinfo = new TreatMentModel();
             string sql_choice = SqlType;
 
@@ -54,7 +80,7 @@ namespace LoonshotTest.Controllers
             { userinfo.patient_name = ajaxData; }
             else if (sql_choice == "P") { userinfo.phone_Num = ajaxData; }
             else if (sql_choice == "A") { userinfo.address = ajaxData; }
-            userinfo.patient_Id = 2;
+            userinfo.patient_Id = loginmodel.patient_id;
 
             string message = "succces";
 
@@ -72,6 +98,5 @@ namespace LoonshotTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }

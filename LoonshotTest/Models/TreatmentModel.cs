@@ -62,13 +62,15 @@ namespace LoonshotTest.Models
                 ";
                 return db.Query<TreatMentModel>(sql, new { patient_id = patient_Id });
             }
-        } 
-
-        public int UserBolt(int patient_id) {
-            using (var db = new MySqlDapperHelper()) {
+        }
+        public int UserBolt(int patient_id)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
                 db.BeginTransaction();
 
-                try {
+                try
+                {
                     string sql = @"
                         UPDATE PATIENT 
                         SET PATIENT_STATUS_VAL = 'F'
@@ -89,7 +91,7 @@ namespace LoonshotTest.Models
                     throw ex;
                 }
             }
-    }
+        }
 
         public int UserAlarm(TreatMentModel param)
         {
