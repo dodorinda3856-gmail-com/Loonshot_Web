@@ -151,7 +151,6 @@ namespace LoonshotTest.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
                 identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
                 identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
-                identity.AddClaim(new Claim(ClaimTypes.UserData, Login.patient_id.ToString()));
 
                 var principal = new ClaimsPrincipal(identity);
 
