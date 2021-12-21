@@ -1,0 +1,201 @@
+﻿@model List<Reservation>
+@{
+    IEnumerable<Time> timeTable = ViewData["TimeTable"] as IEnumerable<Time>;
+    IEnumerable<DateTime> days = ViewData["Days"] as IEnumerable<DateTime>;
+    MediStaff doctor = ViewData["Doctor"] as MediStaff;
+}
+
+<div style="margin-top: 100px">
+    this is choosedate page
+</div>
+
+@foreach (var item in Model)
+{
+    @item.Reservation_Id
+}
+
+
+
+<h2>@doctor.Staff_Name 의사 예약</h2>
+    <div class="radio-group" role="group" aria-label="Basic radio toggle button group">
+        @foreach (var date in days.Select((value, index) => (value, index)))
+        {
+            @if (date.value.DayOfWeek == DayOfWeek.Sunday)
+            {
+                <input type="radio" class="btn-check" name="pickdate" id="btnradio@(date.index)" value="@(date.value.Date)" autocomplete="off" disabled />
+            }
+            else
+            {
+                <input type="radio" class="btn-check" name="pickdate" id="btnradio@(date.index)" value="@(date.value.Date)" autocomplete="off" />
+            }
+
+            <label class="btn btn-outline-primary" for="btnradio@(date.index)">
+                <div class="mb-3" style="max-width: 240px;">
+                    <div>@date.value.Month / @date.value.Day</div>
+
+                    <div>
+                        <div>
+                            @switch (date.value.DayOfWeek)
+                            {
+                                case DayOfWeek.Monday:
+                                    <h4>월요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Tuesday:
+                                    <h4>화요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Wednesday:
+                                    <h4>수요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Thursday:
+                                    <h4>목요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Friday:
+                                    <h4>금요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Saturday:
+                                    <h4>토요일</h4>
+                                    <p>가능</p>
+                                    break;
+                                case DayOfWeek.Sunday:
+                                    <h4>일요일</h4>
+                                    <p>불가능</p>
+                                    break;
+                                default:
+                                    break;
+                            }
+                        </div>
+                    </div>
+                </div>
+            </label>
+        }
+    </div>
+
+    <div class="time-schedule-container">
+
+    </div>
+
+
+    <div class="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" asp-action="ChooseDate" id="apply-reservation-form">
+                    <div class="modal-header">
+                        <h2 class="modal-date">예약확인</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>@doctor.Staff_Name</p>
+                        <input id="confirm-timetable" name="time_id" value="" style="display:none" />
+                        <input  name="medical_staff_id" value=@doctor.Staff_Id style="display:none"/>
+                        <input id="confirm-reservation-time" name="reservation_date" value="" />
+                        <div id="timetable-show">
+
+                        </div>
+                        <p>예약시간 준수 부탁드립니다.</p>
+                        <textarea id='symptom-explain' form="apply-reservation-form" name="symptom" placeholder="병원 방문 이유나 증상을 간략히 설명해주세요"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="Create" id="submit-reservation"/>
+                        <button type="button" class="btn btn-secondary" id="close-modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+@section Scripts{
+    <script>
+        
+        $('input[type=radio][name=pickdate]').change(function () {
+            var selectedDate = this.value.slice(0, 10);
+            var day = new Date(selectedDate).getDay();
+            $.ajax({
+                url: "/api/BookingApi/Appointment",
+                type: 'GET',
+                data: ({
+                    doctorId: window.location.pathname.split("/").pop(),
+                    date: selectedDate
+                }),
+                success: function (booked) {
+
+                    $.ajax({
+                        url: "/api/BookingApi/Schedule",
+                        type: 'GET',
+                        data: ({
+                            day: day
+                        }),
+                        success: function (timetable) {
+
+                            var scheduleCard = '';
+                            console.log(timetable);
+                            console.log(booked);
+
+                            for (let i = 0; i < timetable.length; i++) {
+                                if (booked.some(b => b.time_Id == timetable[i].time_Id && b.patient_Id == @ViewBag.userId)) {
+                                    scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                                        <div class="card-header">${timetable[i].hour}</div>
+                                        <div class="card-body">
+                                        <h4 class="card-title">내 예약</h4>
+                                        <p class="card-text" style="display: none"></p>
+                                        </div>
+                                        </div>`
+                                    break;
+                                } else if (booked.some(b => b.time_Id == timetable[i].time_Id)) {
+                                    scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                                        <div class="card-header">${timetable[i].hour}</div>
+                                        <div class="card-body">
+                                        <h4 class="card-title">예약 불가</h4>
+                                        <p class="card-text" style="display: none"></p>
+                                        </div>
+                                        </div>`
+                                    } else {
+                                    scheduleCard += ` <div class="card text-white bg-success mb-3 reservation-card" style="max-width: 20rem;">
+                                        <div class="card-header" data-tableid=${timetable[i].time_Id}
+                                        >${timetable[i].hour}</div>
+                                        <div class="card-body">
+                                        <h4 class="card-title">예약 가능</h4>
+                                        <p class="card-text" style="display: none"></p>
+                                        </div>
+                                        </div>`
+                                }
+                            }
+                            $(document).on("click", ".reservation-card", function (e) {
+                                $('.modal').css("display", "block");
+                                var date = $('input[type=radio][name=pickdate]:checked').val().slice(0,10);
+                                var time = $(this).children(".card-header").data("tableid")
+                                var timeshow = $(this).children(".card-header").text();
+                                console.log(date);
+                                console.log(timeshow);
+                                $("#timetable-show").text(timeshow);
+                                $("#confirm-timetable").val(time);
+                                $("#symptom-explain").val("");
+                                $("#confirm-reservation-time").val(date);
+
+                            });
+                            $('.time-schedule-container').empty();
+                            $('.time-schedule-container').append(scheduleCard);
+
+                        }
+                    });
+
+
+                },
+                error: function () {
+                    alert("failed to retrieve data");
+                }
+            });
+
+        });
+
+        $(document).on("click", "#close-modal", function (e) {
+                $('.modal').css("display", "none");
+            });
+
+    </script>
+
+}

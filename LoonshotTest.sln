@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoonshotTest", "LoonshotTest\LoonshotTest.csproj", "{22F72590-53DD-4CD8-8381-077D87E6EDD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoonshotTest", "LoonshotTest\LoonshotTest.csproj", "{22F72590-53DD-4CD8-8381-077D87E6EDD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWeb.Lib", "MyWeb.Lib\MyWeb.Lib.csproj", "{48E4F5FE-C7F3-40D6-8147-C501D97E7617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyWeb.Lib", "MyWeb.Lib\MyWeb.Lib.csproj", "{48E4F5FE-C7F3-40D6-8147-C501D97E7617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoonshotTest.Models
 {
-    public class PatientModel
+    public class Patient
     {
         public int patient_Id { get; set; }
 
@@ -28,13 +28,13 @@ namespace LoonshotTest.Models
 
         public char agree_Of_Alarm { get; set; }
 
-        public static List<PatientModel> GetList(int patient_Id)
+        public static List<Patient> GetList(int patient_Id)
         {
            using(var db = new MySqlDapperHelper())
             {
                 string sql = @"
                 SELECT * FROM PATIENT WHERE patient_id = :patient_id";
-                return db.Query<PatientModel>(sql, new { patient_id = patient_Id });
+                return db.Query<Patient>(sql, new { patient_id = patient_Id });
             }
         }
 

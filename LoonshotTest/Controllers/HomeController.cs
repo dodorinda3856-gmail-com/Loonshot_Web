@@ -28,11 +28,11 @@ namespace LoonshotTest.Controllers
         public IActionResult PatientList()
         {
             int patientId = 3;
-            return View(PatientModel.GetList(patientId));
+            return View(Patient.GetList(patientId));
         }
 
 
-        public IActionResult PatientChange([FromForm]PatientModel model)
+        public IActionResult PatientChange([FromForm]Patient model)
         {
 
             model.Update();
@@ -46,7 +46,7 @@ namespace LoonshotTest.Controllers
             return View();
         }
         
-        public IActionResult PatientInsert([FromForm] PatientModel model)
+        public IActionResult PatientInsert([FromForm] Patient model)
         {
             
             model.Insert();
