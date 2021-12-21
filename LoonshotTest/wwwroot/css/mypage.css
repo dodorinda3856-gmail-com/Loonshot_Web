@@ -1,0 +1,11 @@
+﻿.content {
+    position: relative;
+    top: 5.25rem;
+    margin: 0 auto;
+    width: 90%;
+    padding-bottom: 80px;
+}
+
+.hidden {
+    display: none;
+}
