@@ -45,8 +45,8 @@ namespace LoonshotTest.Models.Login
         {
 
             string sql = @"
-                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, resident_regist_num, patient_name)
-                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :resident_regist_num, :patient_name)";
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, resident_regist_num, patient_name, del_status)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :resident_regist_num, :patient_name, 'T')";
 
 
             using (var db = new MySqlDapperHelper())
@@ -66,7 +66,7 @@ namespace LoonshotTest.Models.Login
             }
             return login;
         }
-<<<<<<< HEAD
+
 
         public int SocialCheck()
         {
@@ -84,8 +84,8 @@ namespace LoonshotTest.Models.Login
             if (loginModel == null)
             {
                 string sql2 = @"
-                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, patient_name)
-                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :patient_name)";
+                      INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, patient_name, del_status)
+                      VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :patient_name, 'T')";
 
                 using (var db = new MySqlDapperHelper())
                 {
@@ -125,10 +125,6 @@ namespace LoonshotTest.Models.Login
             }
         }
 
-
-        
-=======
->>>>>>> ae17008c9617988f0fe1f80405f822931036ded1
 
         internal LoginModel GetLoginUser()
         {
