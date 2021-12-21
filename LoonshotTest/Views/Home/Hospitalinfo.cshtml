@@ -1,0 +1,111 @@
+﻿<div class="conetnt hospitalInfo-page">
+    <div class="tap-box">
+        <div class="btn-tap info">인사말</div>
+        <div class="btn-tap staff">의료진</div>
+        <div class="btn-tap map">오시는 길</div>
+    </div>
+    <div class="info-box hospi">
+        <h3>안녕하세요. 의료전문병원 이지입니다.</h3>
+        <h1>이지는 <span>국내최초</span>를 넘어, <span>세계최고 병원</span>을 꿈꾸고 있습니다.</h1>
+
+        <img src="~/img/AfterService/cat1.jpg" />
+
+        <p class="info-detail">
+            한강수병원은 국내 최초로 성형외과 전문의가 주축이 되어 만든 토털 번케어 센터입니다.</br>
+            대학병원 화상전문 성형외과 교수진들이 모여 만든 한강수병원은 화상치료전문 후배 양성과 화상환자들에게 최상의 의료서비스를 제공하고자 설립하였습니다.</br>
+            </br>
+            또한 화상으로 인한 소외된 이들에게 지속적인 서비스를 제공하자고 노력하고 있는 한강수병원은</br>
+            예방적 차원에서의 소아화상, 급성화상치료 뿐만 아니라</br>
+            화상재건 후 화상재활치료, 흉터제거 및 화상피부케어, 미용성형 등 분야별 전문가들의 모여 화상협진시스템을 구현하였습니다.</br></br>
+            한강수병원은 화상으로 특화된 분야를 담당함으로써 향후 미래지향적인 글로벌 화상병원이 될 수 있도록 모든 역랑을 다할 것입니다.</br>
+            감사합니다.</br>
+        </p>
+    </div>
+
+    <div class="staff-info">
+        <h3>안녕하세요. 의료전문병원 이지입니다.</h3>
+        <h1>이지는 <span>최고의 전문가</span>의 최고의 진료를 제공하기위해 노력하고 있습니다.</h1>
+
+        <div class="img-box">
+            <div>
+                <img src="/img/AfterService/cat1.jpg" />
+            </div>
+            <h4><span>고양이1</span>대표원장</h4>
+        </div>
+        <div class="img-box">
+            <div>
+                <img src="/img/AfterService/cat2.jpg" />
+            </div>
+            <h4><span>고양이2</span>대표원장</h4>
+        </div>
+        <div class="img-box">
+            <div>
+                <img src="/img/AfterService/cat3.jpg" />
+            </div>
+            <h4><span>고양이3</span>원장</h4>
+        </div>
+    </div>
+
+    <div class="map-info">
+        <h3>안녕하세요. 의료전문병원 이지입니다.</h3>
+        <h1><span>이지</span>병원을 만나보세요.</h1>
+
+        <div id="map" style="width:500px;height:400px;"></div>
+
+        <div class="logo-box">
+            <div class="img-box logo">
+                <img src="~/img/AfterService/cat3.jpg" />
+            </div>
+        </div>
+        <div class="map-detail">
+            <div>
+                <h4 class="title">주소</h4>
+                <p class="address">서울특별시 영등포구 영등포로 83 이지병원 </p>
+            </div>
+            <div>
+                <h4 class="title">대표전화</h4>
+                <p class="address">1800-7119</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a8c0247eb3a528882194639a23f614b3&libraries=services"></script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+        mapOption = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
+
+    // 지도를 생성합니다    
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('서울 중구 동호로 204', function (result, status) {
+
+        // 정상적으로 검색이 완료됐으면 
+        if (status === kakao.maps.services.Status.OK) {
+
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">이지병원</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        }
+    });
+
+</script>

@@ -48,7 +48,7 @@ namespace LoonshotTest.Models
                 SELECT p.RESIDENT_REGIST_NUM ,p.ADDRESS,p.PATIENT_NAME ,p.PHONE_NUM ,p.GENDER ,p.DOB ,p.AGREE_OF_ALARM 
                 FROM PATIENT p 
                 WHERE PATIENT_ID = :patient_Id AND PATIENT_STATUS_VAL = 'T'";
-                return db.QueryFirst<TreatMentModel>(sql, new { patient_id = patient_Id });
+                return db.QuerySingle<TreatMentModel>(sql, new { patient_id = patient_Id });
             }
         }
 
@@ -63,33 +63,6 @@ namespace LoonshotTest.Models
                 return db.Query<TreatMentModel>(sql, new { patient_id = patient_Id });
             }
         } 
-
-        public int UserBolt(int patient_id) {
-            using (var db = new MySqlDapperHelper()) {
-                db.BeginTransaction();
-
-                try {
-                    string sql = @"
-                        UPDATE PATIENT 
-                        SET PATIENT_STATUS_VAL = 'F'
-                        WHERE PATIENT_ID = : patient_id
-                    ";
-
-                    int r = 0;
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-
-                    db.Commit();
-                    return r;
-                }
-                catch (Exception ex)
-                {
-                    db.Rollback();
-                    throw ex;
-                }
-            }
-    }
 
         public int UserAlarm(TreatMentModel param)
         {
