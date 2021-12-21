@@ -11,10 +11,11 @@ using System.Dynamic;
 
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using JsonResult = Microsoft.AspNetCore.Mvc.JsonResult;
+using System.Web.Mvc;
 
 namespace LoonshotTest.Controllers
 {
-    public class MypageController : Controller
+    public class MypageController : Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ILogger<MypageController> _logger;
 
@@ -40,7 +41,7 @@ namespace LoonshotTest.Controllers
                 message = "Error";
             }
 
-            return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
+            return new JsonResult(new { Message = message, JsonRequestBehavior.AllowGet });
         }
 
         [HttpPost]
