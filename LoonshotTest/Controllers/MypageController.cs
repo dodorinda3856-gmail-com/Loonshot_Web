@@ -43,9 +43,8 @@ namespace LoonshotTest.Controllers
         [Route("/mypage/UserSecession")]
         public IActionResult MypageUserRemove() {
             LoginModel loginmodel = new LoginModel();
-            loginmodel = loginmodel.GetUserInfo(User.Identity.Name);
-
-            loginmodel.UserBolt(loginmodel.patient_id);
+            
+            loginmodel.UserBolt(User.Identity.Name);
             HttpContext.SignOutAsync();
 
             return Redirect("/");
