@@ -1,0 +1,262 @@
+﻿@model Tuple<LoonshotTest.Models.TreatMentModel, List<LoonshotTest.Models.TreatMentModel>>
+<head>
+    <link rel="stylesheet" href="~/css/mypage.css" />
+</head>
+
+
+<div class="user-profile">
+    <h2>@Model.Item1.patient_name </h2>
+    <div class="user-box">
+        <div class="mypage-tap">
+            <div class="btn-tap" onclick="contentshow('input-box')">
+                <div>
+                    <img src="/img/AfterService/cat1.jpg" />
+                </div>
+                <h4>내 정보</h4>
+            </div>
+
+            <div class="btn-tap" onclick="contentshow('history-box')">
+                <div>
+                    <img src="~/img/AfterService/cat2.jpg"/>
+                </div>
+                <h4>진료이력</h4>
+            </div>
+
+            <div class="btn-tap" onclick="contentshow('as-box')">
+                <div>
+                    <img src="~/img/AfterService/cat3.jpg"/>
+                </div>
+                <h4>사후관리</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content mypage">
+    <div classs="content-wrapper">
+    </div>
+
+    <div class="content-box input-box">
+        <form asp-area="" asp-controller="" asp-action="">
+            <fieldset>
+                <div class="form-check form-switch">
+                    @if (Model.Item1.agree_Of_Alarm == 'T')
+                    {
+                        <input class="form-check-input" name="agree_of_alarm" type="checkbox" data="F" id="flexSwitchCheckChecked" checked="">
+                    }
+                    else
+                    {
+                        <input class="form-check-input" type="checkbox" name="agree_of_alarm" data="T" id="flexSwitchCheckDefault">
+                    }
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label for="name-input" class="form-label mt-4">성 명</label>
+                <input type="text" name="patient_name" class="form-control" id="name-input" value="@Model.Item1.patient_name " disabled="disabled">
+                <button type="button" class="mody-btn">수정하기</button>
+                <button type="button" class="submit-btn hidden" data="name">적용하기</button>
+            </div>
+            <div class="form-group">
+                <label for="address-input" class="form-label mt-4">주소 </label>
+                @*<input type="text" id="postcode" name="address1" class="form-control " placeholder="우편번호" readonly>*@
+                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn"><br>
+                <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
+                <button type="button" class="mody-btn">수정하기</button>
+                <button type="button" class="submit-btn hidden" data="address">적용하기</button>
+            </div>
+            <div class="form-group">
+                <label for="phone-input" class="form-label mt-4">핸드폰</label>
+                <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
+                <button type="button" class="mody-btn">수정하기</button>
+                <button type="button" class="submit-btn hidden" data="phone">적용하기</button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn-remove">회원 탈퇴</button>
+            </div>
+        </form>
+    </div>
+
+
+
+    <div class="content-box history-box" id="accordionExample">
+        @foreach (var item in Model.Item2)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        @item.disease_name
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                    <div class="accordion-body">
+                        <strong>@item.prescription</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        @item.treat_details
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @item.a_s
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        @item.treat_details
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @item.treat_date
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="content-box as-box">
+        as
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    // 이름, 핸드폰 번호 정규 표현식 시작
+    name_check = /^[ㄱ-ㅎ|가-힣]{2,20}$/;
+    phone_check = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+    // 정규 표현식 끝
+
+    // 유저 알람 처리 시작
+    $(".form-check-input").on("click", function () {
+        var alarm_check = $(this).prop("checked");
+        alert(alarm_check);
+        $.ajax({
+            url: '@Url.Action("ChangeAlarm", "Mypage")',
+            type: "POST",
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            data: { AGREE_OF_ALARM: !alarm_check },
+                    error: function (requerst, status, error) {
+                        console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+                    }
+        });
+    });
+    // 유저 알람 끝
+
+
+    //주소 시작
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var roadAddr = data.roadAddress; // 도로명 주소 변수
+                var extraRoadAddr = ''; // 참고 항목 변수
+
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                    extraRoadAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if (data.buildingName !== '' && data.apartment === 'Y') {
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if (extraRoadAddr !== '') {
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                @*document.getElementById('_postcode').value = data.zonecode;*@
+                document.getElementById("roadAddress").value = roadAddr;
+            }
+        }).open();
+    }
+    // 주소 끝
+
+    // 탈퇴버튼 시작
+    $(".btn-remove").on("click", function () {
+        if (confirm("ezwait를 탈퇴하시겠습니까?")) {
+            location.href = "/mypage/UserSecession";
+        }
+    })
+    // 탈퇴 끝
+
+
+    // 개인정보 수정 시작
+    $(".mody-btn").on("click", function () {
+        $(this).parent(".form-group").find(".form-control").attr("disabled", false);
+        $(this).hide();
+        @*$(this).next(".submit-btn").show();*@
+        $(this).parent(".form-group").find(".hidden").show();
+    })
+
+    $(".submit-btn").on("click", function () {
+        var ajax_check = $(this).attr("data");
+        var ajax_data = null;
+        var data_type = null;
+        var search = $(this);
+        if (ajax_check == "name") {
+            ajax_data = $("#name-input").val();
+            data_type = "N";
+            if (!name_check.test(ajax_data)) {
+                alert("이름은 한글만 입력 가능합니다.");
+                $("#name-input").val("");
+                return false;
+            }
+
+        }
+        else if (ajax_check == "phone") {
+            ajax_data = $("#phone-input").val();
+            data_type = "P";
+            if (!phone_check.test(ajax_data)) {
+                $("#phone-input").val("");
+                alert("휴대폰 입력이 부적합니다.");
+                return false;
+            }
+
+        }
+        else if (ajax_check == "address") {
+            ajax_data = $("#roadAddress").val();
+            data_type = "A";
+            if (ajax_data.length < 3) {
+                alert("주소를 입력해 주세요.");
+                $("#roadAddress").val("");
+                @*$("#postcode").val("");*@
+                return false;
+            }
+        }
+
+         $.ajax({
+            url: '@Url.Action("UpdateUser", "Mypage")',
+            type: "POST",
+            dataType: 'json',
+             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+             data: { SqlType: data_type, ajaxData: ajax_data },
+             success: function () {
+                 search.hide();
+                 search.parent(".form-group").find(".form-control").attr("disabled", true);
+                 search.prev().show();
+             },
+             error: function (requerst, status, error) {
+               console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+              }
+        });
+
+    })
+    // 개인정보 수정 끝
+    // CONTENT 출력 기능 시작
+    function contentshow(v) {
+        $(".content-box").hide();
+        $(".content-box." + v).show();
+    }
+</script>

@@ -1,42 +1,65 @@
-@{ 
+@{
     string msg = ViewData["msg"] as string;
 }
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-     style="background:url(../assets/images/big/auth-bg.jpg) no-repeat center center;">
-    <div class="auth-box row text-center">
-        <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url(/img/login/3.jpg);">
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
+    <div class="auth-box row">
+        <div class="col-lg-7 col-md-5 modal-bg-img">
         </div>
         <div class="col-lg-5 col-md-7 bg-white">
             <div class="p-3">
-                <img src="/img/login/icon.png" alt="wrapkit">
                 <h2 class="mt-3 text-center">Sign Up for Free</h2>
-           
+                @if (string.IsNullOrWhiteSpace(msg) == false)
+                {
+                    <div id ="notify" class="alert alert-danger">@msg</div>
+                }
                 <form id="form1" method="post" action="/login/register" class="mt-4">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_login_id" class="form-control" type="text" placeholder="staff_login_id">
+                                <input name="patient_login_id" class="form-control" type="text" placeholder="insert your id">
+                                <br />
                             </div>
                         </div>
+
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_id" class="form-control" type="number" placeholder="staff_id">
+                                <input name="patient_login_pw" class="form-control" type="password" placeholder="insert your password">
+                                <br />
                             </div>
                         </div>
+
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_login_pw" class="form-control" type="password" placeholder="password">
+                                <input name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password">
+                            </div>
+                            <br />
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="resident_regist_num" class="form-control" type="text" placeholder="insert your regist_num">
+                                <br />
                             </div>
                         </div>
-                        <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="staff_login_pw2" class="form-control" type="password" placeholder="password2">
+                                <input id="pnNum" name="phone_num" class="form-control" type="text" placeholder="your phone number">
+                                <br />
+                                <input id ="authNum" name="Authentication number" class="form-control" type="text" placeholder="Authentication number">
                             </div>
+                            
+                            <br />
                             <div class="col-lg-12 text-center">
-                                <button type="submit" class="btn btn-block btn-dark">Sign Up</button>
+                                <button type="button" class="btn btn-secondary" onClick="fncAuth()">Send Code</button>
+                                <button type="button" class="btn btn-success" onClick="fncCheckAuth()">Certify</button>
+                                <!-- <button id="signUp" type="submit" class="btn btn-primary" disabled>Sign Up</button> -->
+
+                                <button id="signUp" type="submit" class="btn btn-primary">Sign Up</button>
                             </div>
                             <div class="col-lg-12 text-center mt-5">
-                                Already have an account? <a href="/login" class="text-danger">Sign In</a>
+                                Already have an account? <a href="/login/login" class="text-danger">Sign In</a>
                             </div>
                         </div>
                     </div>
@@ -45,3 +68,59 @@
         </div>
     </div>
 </div>
+
+
+<script>
+
+    var key = "";
+    var authNum = "";
+
+    /*
+    $("#authNum").keypress(function (e) {
+        //console.log(e.key);
+        authNum += e.key;
+        console.log(authNum);       
+    });
+   */
+
+    function fncAuth() {
+
+        var phone = $("#pnNum").val()
+
+        if (phone == null || phone.length != 11) {
+
+            alert("disable phone number");
+            return;
+        }
+        alert("send authenticate number");
+
+        $.ajax({
+            url: "/login/sendSMS?phone=" + phone,
+            method: "GET",
+            success:
+                function (resp) {
+                    console.log("넘어온 키 값 : "+resp);
+                    alert(resp);
+                    key = resp;
+                    alert(key);
+                }
+
+        });	 //ajax종료 */
+    };
+
+
+    function fncCheckAuth() {
+
+        authNum = $("#authNum").val();
+
+        if (authNum == key) {
+            alert("Success");
+            $("#signUp").removeAttr('disabled');
+        }
+
+        if (authNum != key) {
+            alert("Fail")
+        }
+
+    }
+</script>
