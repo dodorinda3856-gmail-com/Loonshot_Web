@@ -184,7 +184,7 @@ namespace LoonshotTest.Models.Login
                 {
                     string sql = @"
                         UPDATE PATIENT_LOGIN
-                        SET STATUS = 'F'
+                        SET DEL_STATUS = 'F'
                         WHERE PATIENT_LOGIN_ID = : patient_login_id
                     ";
 
