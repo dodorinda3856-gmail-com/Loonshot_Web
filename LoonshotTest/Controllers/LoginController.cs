@@ -204,6 +204,7 @@ namespace LoonshotTest.Controllers
                 input.ConvertPassword();
                 input.checkPhone();
                 input.Register();
+            
                 return Redirect("/login/login");
             }
             catch (Exception ex)
