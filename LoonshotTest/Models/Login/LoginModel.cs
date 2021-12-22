@@ -38,7 +38,34 @@ namespace LoonshotTest.Models.Login
             using(var db = new MySqlDapperHelper())
             {
                 this.patient_id = db.QuerySingle<int>(sql, this);
+                
             }
+            
+            //patient 테이블에 정보가 없는 경우 -> patient 테이블에 데이터 추가 후 patient_id를 생성하여 가져온다.
+            if(this.patient_id == 0)
+            {
+                string sql4 = "SELECT PATIENT_SEQ.NEXTVAL AS patient FROM DUAL";               
+                string sql3 = "SELECT PATIENT_SEQ.CURRVAL AS patient FROM DUAL";
+                string sql2 = @"
+                        INSERT INTO patient(patient_id, resident_regist_num, 
+                         phone_num, regist_date, patient_status_val, agree_of_alarm)
+                        VALUES(:patient_id, :resident_regist_num, :phone_num, CURRENT_TIMESTAMP,
+                        'T', 'T') ";
+                                   
+                using(var db = new MySqlDapperHelper())
+                {
+                    int k = 0;
+                    int j = 0;
+                    k = db.QuerySingle<int>(sql4, this);
+                    Debug.WriteLine("넥스트시퀀스:" + k);
+                    j = db.QuerySingle<int>(sql3, this);
+
+                    Debug.WriteLine("현재시퀀스:" + j);
+                    this.patient_id = j;
+                    db.Execute(sql2, this);
+                }
+                 
+            } 
         }
 
         public int Register()
@@ -83,6 +110,28 @@ namespace LoonshotTest.Models.Login
 
             if (loginModel == null)
             {
+
+                //최초 로그인의 경우..Patient테이블에 값을 추가해 준다...
+                string sql5 = "SELECT PATIENT_SEQ.NEXTVAL AS patient FROM DUAL";
+                string sql4 = "SELECT PATIENT_SEQ.CURRVAL AS patient FROM DUAL";
+                string sql3 = @"
+                        INSERT INTO patient(patient_id, resident_regist_num, 
+                         phone_num, regist_date, patient_status_val, agree_of_alarm)
+                        VALUES(:patient_id, :resident_regist_num, :phone_num, CURRENT_TIMESTAMP,
+                        'T', 'T') ";
+
+                using (var db = new MySqlDapperHelper())
+                {
+                    int y = 0;
+                    int j = 0;
+                    y = db.QuerySingle<int>(sql5, this);
+                    Debug.WriteLine("128번 라인의 넥스트시퀀스:" + y);
+                    j = db.QuerySingle<int>(sql4, this);
+                    Debug.WriteLine("현재시퀀스:" + j);
+                    this.patient_id = j;
+                    db.Execute(sql3, this);                  
+                }
+
                 string sql2 = @"
                       INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, patient_name, del_status)
                       VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :patient_name, 'T')";
@@ -105,23 +154,25 @@ namespace LoonshotTest.Models.Login
         public void SocialRegister()
         {
             LoginModel loginModel;
-            string sql2 = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+            string sql2 = "SELECT patient_id FROM patient_login WHERE patient_login_id = :patient_login_id";
 
             using (var db = new MySqlDapperHelper())
             {
                 loginModel = db.QuerySingle<LoginModel>(sql2, this);
             }
-
+            
             if(loginModel != null)
             {
                 this.patient_id = loginModel.patient_id;
+                Debug.WriteLine("167번 라인의 페이션트아이디+++++++++++++++++++++:"+this.patient_id);
             }
 
-            string sql = "UPDATE patient_login SET patient_id = :patient_id, phone_num = :phone_num, resident_regist_num = :resident_regist_num, patient_name = :patient_name WHERE patient_login_id = :patient_login_id";
-
+            string sql = "UPDATE patient_login SET phone_num = :phone_num, resident_regist_num = :resident_regist_num, patient_name = :patient_name WHERE patient_login_id = :patient_login_id";
+            string sql3 = "UPDATE patient SET resident_regist_num = :resident_regist_num, patient_name = :patient_name, phone_num = :phone_num WHERE patient_id = :patient_id";
             using (var db = new MySqlDapperHelper())
             {
                 db.Execute(sql, this);
+                db.Execute(sql3, this);
             }
         }
 
