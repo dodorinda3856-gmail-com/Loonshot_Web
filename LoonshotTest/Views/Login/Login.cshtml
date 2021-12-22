@@ -13,6 +13,7 @@
         console.log("start kakao API!!!!!");
         // 朝朝神 API key
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
+        
         Kakao.Auth.login({
             scope: 'account_email',  
             success: function (authObj) {
@@ -29,6 +30,7 @@
                         //console.log("持析 : "+response.kakao_account['birthday']);
                         var userId = response.id;
                         var kakaoemail = response.kakao_account['email'];
+                        alert(Kakao.Auth.getAccessToken());
                         //var nickname = response.nickname;
                         //var birth = response.birthday;
                         location.href = "/login/kakaoLogin?userId=" + userId + "&kakaoemail=" + kakaoemail;
@@ -36,6 +38,7 @@
                 }) //End API.request
             } //End authObj Function
         }) //End Auth.login
+        
     } //End Function
 
 
