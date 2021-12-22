@@ -9,30 +9,44 @@ using System.Threading.Tasks;
 using System.Data;
 using LoonshotTest.Models.Login;
 using LoonshotTest.Filters;
+using Microsoft.AspNetCore.SignalR;
+using LoonshotTest.Hubs;
+using LoonshotTest.Interface;
 
 namespace LoonshotTest.Controllers
 {
 
-    [CheckUser]
-    public class HomeController : Controller
+        [CheckUser]
+    public class HomeController : Controller 
     {
+
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-
         public IActionResult Index()
         {
-            Console.WriteLine("Index start=====================================================================================================");
-            LoginModel loginmodel = new LoginModel();
-            loginmodel.patient_login_id = User.Identity.Name;
-            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-
             return View();
         }
+
+        private IActionResult myVar;
+
+        public IActionResult MyProperty
+        {
+            get { return myVar; }
+            set { 
+                myVar = value;
+                View();
+
+            }
+        }
+
+
+
 
 
         public IActionResult PatientList()
