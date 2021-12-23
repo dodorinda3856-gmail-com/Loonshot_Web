@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+<!--
 <script>
 
     function KaKaoLogOut() {
@@ -7,9 +8,9 @@
             console.log(Kakao.Auth.getAccessToken());
         });
     }
-    
-</script>
 
+</script>
+-->
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -65,27 +66,27 @@
                             <a class="nav-link" href="/payment/payment">결제하기</a>
                         </li>
                         <li class="nav-item">
-                            
+
                             <a class="nav-link" href="/mypage/info">마이페이지</a>
                         </li>
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated) 
-                            { 
-                            <a class="nav-link" id="download">@User.Identity.Name 님 안녕하세요. <span class="caret"></span></a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link" id="download">@User.Identity.Name 님 안녕하세요. <span class="caret"></span></a>
                             }
-                            
+
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
                             @if (!User.Identity.IsAuthenticated)
-                             {
-                            <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
-                             }
-                            
+                            {
+                                <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
+                            }
+
                             @if (User.Identity.IsAuthenticated)
                             {
-                             <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
+                                <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
                             }
 
                         </li>
@@ -109,7 +110,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            Team LoonShot - 강도윤  김영헌  나현정  이성찬  최영욱 
+            Team LoonShot - 강도윤  김영헌  나현정  이성찬  최영욱
         </div>
     </footer>
 
