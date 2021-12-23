@@ -66,7 +66,7 @@ namespace LoonshotTest.Models.Login
             }
             return login;
         }
-<<<<<<< HEAD
+
 
         public int SocialCheck()
         {
@@ -127,8 +127,7 @@ namespace LoonshotTest.Models.Login
 
 
         
-=======
->>>>>>> ae17008c9617988f0fe1f80405f822931036ded1
+
 
         internal LoginModel GetLoginUser()
         {
