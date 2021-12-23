@@ -45,7 +45,7 @@
     }
 
     .content .card-box .card:nth-child(1) {
-        background-color : darkgoldenrod;
+        background-color : greenyellow;
     }
     .content .card-box .card:nth-child(2) {
         background-color: darkorchid;
@@ -54,7 +54,7 @@
         background-color: orange;
     }
     .content .card-box .card:nth-child(4) {
-        background-color: darksalmon;
+        background-color: red;
     }
 
 @media (max-width: 1024px) {

@@ -7,12 +7,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
+using LoonshotTest.Models.Login;
+using LoonshotTest.Filters;
+using Microsoft.AspNetCore.SignalR;
+using LoonshotTest.Hubs;
+using LoonshotTest.Interface;
 
 namespace LoonshotTest.Controllers
 {
-    public class HomeController : Controller
+
+        [CheckUser]
+    public class HomeController : Controller 
     {
+
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -23,6 +32,21 @@ namespace LoonshotTest.Controllers
         {
             return View();
         }
+
+        private IActionResult myVar;
+
+        public IActionResult MyProperty
+        {
+            get { return myVar; }
+            set { 
+                myVar = value;
+                View();
+
+            }
+        }
+
+
+
 
 
         public IActionResult PatientList()

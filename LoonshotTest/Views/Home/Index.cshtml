@@ -1,6 +1,11 @@
-﻿<head>
+﻿@model LoonshotTest.Models.WaitingModel;
+
+<head>
     <link rel="stylesheet" href="~/css/main.css" />
 </head>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+<!--오류코드 확인용 커밋-->
 
 <div class="content">
     <div class="card-box">
@@ -23,10 +28,67 @@
         </div>
         <div class="card">
             <a class="text-posi" asp-area="" asp-controller="" asp-action="">
-                <h1 class="card-title">대기보기</h1>
+                @*<h1 class="mywaiting">대기보기</h1>*@
+                <h1 class="card-title waitng">나의 대기 순번</h1>
             </a>
         </div>
 
     </div>
+<<<<<<< HEAD
   
 </div>
+=======
+
+ <!-- 카카오 친구추가 시작-->
+
+    <a id="channel-add-button" href="#" onclick="void addChannel();">
+        <img src="~/img/login/channel_add_small.png" />
+    </a>
+    <script type="text/javascript">
+        Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
+        Kakao.isInitialized();
+        function addChannel() {
+            Kakao.Channel.addChannel({
+                channelPublicId: '_iFDsb',
+            })
+        }
+    </script>
+
+    <!-- 톡상담 시작-->
+    <a id="channel-chat-button" href="#" onclick="void chatChannel();">
+        <img src="~/img/login/consult_small_yellow_pc.png" />
+    </a>
+    <script type="text/javascript">
+        function chatChannel() {
+            Kakao.Channel.chat({
+                channelPublicId: '_iFDsb',
+            })
+        }
+    </script>
+    <!-- 톡상담 끝-->
+</div>
+</div>
+
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+
+
+    // 소켓 통신 시작
+    $(function () {
+        var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
+
+
+        connection.start().then(function () {
+            setInterval(function () {
+
+                var waiting = connection.invoke("Send", 2);
+                waiting.then(a => $('.waitng').append().html("<h1>현재 대기 순위 </br>" +  a + "</h1>"));
+                
+            }, 2000);
+        })
+    });
+// 소켓 통신 종료
+</script>
+>>>>>>> 9553e09dd7c9331a4a7499ce3eb54f5766177456
