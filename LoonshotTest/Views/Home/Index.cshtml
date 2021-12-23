@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="~/css/main.css" />
 </head>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <div class="content">
     <div class="card-box">
@@ -29,7 +30,38 @@
                 <h1 class="card-title waitng">나의 대기 순번</h1>
             </a>
         </div>
+
     </div>
+
+ <!-- 카카오 친구추가 시작-->
+
+    <a id="channel-add-button" href="#" onclick="void addChannel();">
+        <img src="~/img/login/channel_add_small.png" />
+    </a>
+    <script type="text/javascript">
+        Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
+        Kakao.isInitialized();
+        function addChannel() {
+            Kakao.Channel.addChannel({
+                channelPublicId: '_iFDsb',
+            })
+        }
+    </script>
+
+    <!-- 톡상담 시작-->
+    <a id="channel-chat-button" href="#" onclick="void chatChannel();">
+        <img src="~/img/login/consult_small_yellow_pc.png" />
+    </a>
+    <script type="text/javascript">
+        function chatChannel() {
+            Kakao.Channel.chat({
+                channelPublicId: '_iFDsb',
+            })
+        }
+    </script>
+    <!-- 톡상담 끝-->
+</div>
+</div>
 
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
