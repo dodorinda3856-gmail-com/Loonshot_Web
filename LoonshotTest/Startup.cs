@@ -27,13 +27,9 @@ namespace LoonshotTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-<<<<<<< HEAD
 
-
-=======
             services.AddSignalR(); 
             
->>>>>>> 9553e09dd7c9331a4a7499ce3eb54f5766177456
             services.Configure<WebEncoderOptions>(options =>
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All); // 한글이 인코딩되는 문제 해결
