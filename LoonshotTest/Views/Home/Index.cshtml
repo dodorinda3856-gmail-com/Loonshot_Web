@@ -1,4 +1,6 @@
-﻿<head>
+﻿@model LoonshotTest.Models.WaitingModel;
+
+<head>
     <link rel="stylesheet" href="~/css/main.css" />
 </head>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -24,11 +26,14 @@
         </div>
         <div class="card">
             <a class="text-posi" asp-area="" asp-controller="" asp-action="">
-                <h1 class="card-title">대기보기</h1>
+                @*<h1 class="mywaiting">대기보기</h1>*@
+                <h1 class="card-title waitng">나의 대기 순번</h1>
             </a>
         </div>
+
     </div>
-    <!-- 카카오 친구추가 시작-->
+
+ <!-- 카카오 친구추가 시작-->
 
     <a id="channel-add-button" href="#" onclick="void addChannel();">
         <img src="~/img/login/channel_add_small.png" />
@@ -56,3 +61,27 @@
     </script>
     <!-- 톡상담 끝-->
 </div>
+</div>
+
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+<script>
+
+
+    // 소켓 통신 시작
+    $(function () {
+        var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
+
+
+        connection.start().then(function () {
+            setInterval(function () {
+
+                var waiting = connection.invoke("Send", 2);
+                waiting.then(a => $('.waitng').append().html("<h1>현재 대기 순위 </br>" +  a + "</h1>"));
+                
+            }, 2000);
+        })
+    });
+// 소켓 통신 종료
+</script>
