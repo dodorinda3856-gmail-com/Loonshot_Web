@@ -177,12 +177,6 @@ namespace LoonshotTest.Models.Login
         }
 
 
-<<<<<<< HEAD
-        
-=======
->>>>>>> 9553e09dd7c9331a4a7499ce3eb54f5766177456
-
-
         internal LoginModel GetLoginUser()
         {
             LoginModel loginModel;
