@@ -1,8 +1,10 @@
 @{ string msg = ViewData["msg"] as string; }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<!--
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-//
+
 <script>
 
     $("#custom-login-btn").on("click", function () {
@@ -13,9 +15,9 @@
         console.log("start kakao API!!!!!");
         // Ä«Ä«¿À API key
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
-        
+
         Kakao.Auth.login({
-            scope: 'account_email',  
+            scope: 'account_email',
             success: function (authObj) {
 
                 Kakao.API.request({
@@ -38,12 +40,14 @@
                 }) //End API.request
             } //End authObj Function
         }) //End Auth.login
-        
+
     } //End Function
 
-
-
 </script>
+-->
+
+
+
 
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
     <div class="auth-box row">
@@ -80,20 +84,20 @@
                     </div>
 
                     <!--social login-->
-                    <div class="social-login">
-                        <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
-                            <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
-                            <span class="icon-Kakao mr-3"></span>
-                        </a>
-                        <a class="kakao btn d-flex justify-content-center align-items-center" id="naverIdLogin" onclick="javascipt:NaverLogin()">
-                            <img src="~/img/login/naver_btn.png" width="200" name="naverLogin">
-                            <span class="icon-Naver mr-3"></span>
-                        </a>
-                        <a class="google btn d-flex justify-content-center align-items-center" name="googleLogin" id="googleLogin" onclick="javascript:googleSign(googleUser)">
-                            <img src="~/img/login/google_btn.png" width="200" name="googleLogin">
-                            <span class="icon-Google mr-3"></span>
-                        </a>
-                    </div>
+<div class="social-login">
+    <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
+        <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
+        <span class="icon-Kakao mr-3"></span>
+    </a>
+    <a class="kakao btn d-flex justify-content-center align-items-center" id="naverIdLogin" onclick="javascipt:NaverLogin()">
+        <img src="~/img/login/naver_btn.png" width="200" name="naverLogin">
+        <span class="icon-Naver mr-3"></span>
+    </a>
+    <a class="google btn d-flex justify-content-center align-items-center" name="googleLogin" id="googleLogin" onclick="javascript:googleSign(googleUser)">
+        <img src="~/img/login/google_btn.png" width="200" name="googleLogin">
+        <span class="icon-Google mr-3"></span>
+    </a>
+</div>
                 </div>
             </form>
         </div>
