@@ -3,9 +3,9 @@
 <head>
     <link rel="stylesheet" href="~/css/main.css" />
 </head>
-<!--
+
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
--->
+
 <!--아이덴티티 버전 변경-->
 
 <div class="content">
@@ -40,7 +40,7 @@
 </div>
 
 
-<!-- 카카오 친구추가 시작-
+<!-- 카카오 친구추가 시작 -->
 
 <a id="channel-add-button" href="#" onclick="void addChannel();">
     <img src="~/img/login/channel_add_small.png" />
@@ -54,19 +54,21 @@
         })
     }
 </script>
-->
-<!-- 톡상담 시작>
+
+<!-- 톡상담 시작> -->
 <a id="channel-chat-button" href="#" onclick="void chatChannel();">
     <img src="~/img/login/consult_small_yellow_pc.png" />
 </a>
 <script type="text/javascript">
+    Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
+    Kakao.isInitialized();
     function chatChannel() {
         Kakao.Channel.chat({
             channelPublicId: '_iFDsb',
         })
     }
 </script>
-    
+
 <!-- 톡상담 끝-->
 
 
