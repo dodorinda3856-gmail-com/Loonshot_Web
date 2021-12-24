@@ -67,6 +67,7 @@ namespace LoonshotTest.Controllers
 
         #region 로그인
         [HttpGet]
+        [Route("/login/login")]
         public IActionResult Login(string msg)
         {
             ViewData["msg"] = msg;
