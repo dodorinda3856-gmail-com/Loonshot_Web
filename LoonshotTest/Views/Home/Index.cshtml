@@ -5,6 +5,32 @@
 </head>
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+
+
+
+
+
+    function addChannel() {
+        
+        Kakao.Channel.addChannel({
+            channelPublicId: '_iFDsb',
+        
+        });
+        
+        //alert("버튼클릭");
+    }
+    function chatChannel() {
+           
+        Kakao.Channel.chat({
+            channelPublicId: '_iFDsb'
+        });
+        
+       // alert("버튼클릭2");
+    }
+</script>
+
+
 
 <!--아이덴티티 버전 변경-->
 
@@ -36,40 +62,19 @@
 
     </div>
 
+    <!-- 카카오 친구추가 시작 -->
+    <a id="channel-add-button" onclick="javascript:addChannel()">
+        <img src="~/img/login/channel_add_small.png" />
+    </a>
 
+
+    <a id="channel-chat-button" onclick="javascript:chatChannel()">
+        <img src="~/img/login/consult_small_yellow_pc.png" />
+    </a>
 </div>
 
 
-<!-- 카카오 친구추가 시작 -->
 
-<a id="channel-add-button" href="#" onclick="void addChannel();">
-    <img src="~/img/login/channel_add_small.png" />
-</a>
-<script type="text/javascript">
-    Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
-    Kakao.isInitialized();
-    function addChannel() {
-        Kakao.Channel.addChannel({
-            channelPublicId: '_iFDsb',
-        })
-    }
-</script>
-
-<!-- 톡상담 시작> -->
-<a id="channel-chat-button" href="#" onclick="void chatChannel();">
-    <img src="~/img/login/consult_small_yellow_pc.png" />
-</a>
-<script type="text/javascript">
-    Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
-    Kakao.isInitialized();
-    function chatChannel() {
-        Kakao.Channel.chat({
-            channelPublicId: '_iFDsb',
-        })
-    }
-</script>
-
-<!-- 톡상담 끝-->
 
 
 
@@ -81,6 +86,8 @@
 
     // 소켓 통신 시작
     $(function () {
+        Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
+        Kakao.isInitialized();
         var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
 
 
