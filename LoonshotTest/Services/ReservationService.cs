@@ -62,7 +62,7 @@ namespace LoonshotTest.Services
                     "FROM(SELECT* FROM RESERVATION WHERE RESERVATION_ID= (SELECT MAX(RESERVATION_ID) FROM (SELECT * FROM RESERVATION WHERE PATIENT_ID=:patientId))) R " +
                     "INNER JOIN MEDI_STAFF M ON R.MEDICAL_STAFF_ID = M.STAFF_ID INNER JOIN TIME T ON T.TIME_ID = R.TIME_ID " +
                     "INNER JOIN PATIENT P ON P.PATIENT_ID=R.PATIENT_ID";
-                return db.QueryFirst<ReservationViewModal>(getMax);
+                return db.QuerySingle<ReservationViewModal>(getMax, new { patientId});
             }
         }
 

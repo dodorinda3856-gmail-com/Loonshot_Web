@@ -1,4 +1,5 @@
-﻿using LoonshotTest.Services;
+﻿using LoonshotTest.Models.Login;
+using LoonshotTest.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,13 +27,16 @@ namespace LoonshotTest.Controllers
             List<DateTime> dateList = new List<DateTime>();
             int reservationDays = 7;
             var days = DateTime.Now.Date;
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             for (int i = 0; i < reservationDays; i++)
             {
                 dateList.Add(days.AddDays(i + 1));
             }
             ViewData["Days"] = dateList;
             ViewData["Doctor"] = doctor;
-            ViewBag.userId = 2;
+            ViewBag.userId = loginmodel.patient_id;
             return View(ReservationService.GetList(id));
         }
 
@@ -49,18 +53,23 @@ namespace LoonshotTest.Controllers
 
         // POST: BookingController/Create
         [HttpPost]
-        public ActionResult ChooseDate(
+        public void ChooseDate(
             int medical_staff_id,
             string reservation_date,
             string symptom,
             int time_Id)
         {
-            
-                var reservationInfo=ReservationService.AddReservation(2, medical_staff_id, reservation_date, symptom, time_Id);
 
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+            
+            var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, symptom, time_Id);
+            /*
             return RedirectToAction(nameof(Info), new { docName = reservationInfo.Staff_Name, date = reservationInfo.Reservation_Date,
                 hour = reservationInfo.Hour, symptom = reservationInfo.Symptom, patientName=reservationInfo.Patient_Name });
-    
+    */
+         
         }
 
     }

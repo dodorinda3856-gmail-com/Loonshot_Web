@@ -38,11 +38,11 @@ namespace LoonshotTest.Controllers
         public IActionResult PatientList()
         {
             int patientId = 3;
-            return View(Patient.GetList(patientId));
+            return View(PatientModel.GetList(patientId));
         }
 
 
-        public IActionResult PatientChange([FromForm]Patient model)
+        public IActionResult PatientChange([FromForm]PatientModel model)
         {
 
             model.Update();

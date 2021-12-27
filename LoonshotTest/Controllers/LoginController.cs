@@ -150,6 +150,7 @@ namespace LoonshotTest.Controllers
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.UserData);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
                 identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
+                identity.AddClaim(new Claim(ClaimTypes.Actor, Login.patient_id.ToString()));
                 identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
 
                 var principal = new ClaimsPrincipal(identity);
