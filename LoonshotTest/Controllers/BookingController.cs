@@ -63,7 +63,7 @@ namespace LoonshotTest.Controllers
             LoginModel loginmodel = new LoginModel();
             loginmodel.patient_login_id = User.Identity.Name;
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-            
+            Debug.WriteLine("reservationd date" + reservation_date);
             var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, symptom, time_Id);
             /*
             return RedirectToAction(nameof(Info), new { docName = reservationInfo.Staff_Name, date = reservationInfo.Reservation_Date,

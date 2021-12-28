@@ -24,7 +24,7 @@ namespace LoonshotTest.Controllers
             try
             {
                 string patient_login_id = User.Identity.Name;
-
+                
                 PaymentViewModel paymentView = new PaymentViewModel();
 
                 paymentView.patient_login_id = patient_login_id;

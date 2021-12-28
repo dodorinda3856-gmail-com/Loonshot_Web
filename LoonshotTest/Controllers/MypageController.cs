@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Authentication;
 using LoonshotTest.Controllers;
 using LoonshotTest.Filters;
 using LoonshotTest.Models.Login;
+using System.Web.Mvc;
+using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace LoonshotTest.Controllers
 {

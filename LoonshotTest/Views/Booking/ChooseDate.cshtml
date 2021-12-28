@@ -91,7 +91,7 @@
                         <p>@doctor.Staff_Name</p>
                         <input id="confirm-timetable" name="time_id" value="" style="display:none" />
                         <input  name="medical_staff_id" value=@doctor.Staff_Id style="display:none"/>
-                        <input id="confirm-reservation-time" name="reservation_date" value="" />
+                        <input id="confirm-reservation-time" name="reservation_date" value="" disabled/>
                         <div id="timetable-show">
 
                         </div>
@@ -160,7 +160,7 @@
                                         </div>`
                                     } else {
                                         scheduleCard += ` <div class="card text-white bg-success mb-3 reservation-card" style="max-width: 20rem;">
-                                        <div class="card-header" data-tableid=${timetable[i].time_Id}
+                                        <div class="card-header" data-tableid=${timetable[i].time_Id} data-hourmin=${timetable[i].hour}
                                         >${timetable[i].hour}</div>
                                         <div class="card-body">
                                         <h4 class="card-title">예약 가능</h4>
@@ -172,11 +172,11 @@
                             }
                             $(document).on("click", ".reservation-card", function (e) {
                                 $('.modal').css("display", "block");
-                                var date = $('input[type=radio][name=pickdate]:checked').val().slice(0,10);
-                                var time = $(this).children(".card-header").data("tableid")
+
+                                var time = $(this).children(".card-header").data("tableid");
+                                var timehour = $(this).children(".card-header").data("hourmin");
+                                var date = $('input[type=radio][name=pickdate]:checked').val().slice(0, 10) + `-${timehour}`;
                                 var timeshow = $(this).children(".card-header").text();
-                                console.log(date);
-                                console.log(timeshow);
                                 $("#timetable-show").text(timeshow);
                                 $("#confirm-timetable").val(time);
                                 $("#symptom-explain").val("");
