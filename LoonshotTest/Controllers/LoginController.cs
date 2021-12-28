@@ -24,7 +24,6 @@ namespace LoonshotTest.Controllers
         
         public static string social_Id = "";
 
-
         public LoginController()
         {
 
@@ -82,11 +81,12 @@ namespace LoonshotTest.Controllers
             Debug.WriteLine("+++++++++들어온값 : " + userId);
             Debug.WriteLine("+++++++++들어온값 : " + kakaoemail);
             
-            social_Id = userId;
+            social_Id = kakaoemail;
             LoginModel loginModel = new LoginModel();
             int j = 0;
 
-            loginModel.patient_login_id = userId;
+            loginModel.patient_login_id = kakaoemail;
+            loginModel.social_id = userId;
             loginModel.status = 'K';
              j = loginModel.SocialCheck();
 
@@ -96,7 +96,12 @@ namespace LoonshotTest.Controllers
             identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
             identity.AddClaim(new Claim(ClaimTypes.Email, kakaoemail));
             identity.AddClaim(new Claim(ClaimTypes.Name, kakaoemail));
+        
             identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
+
+            Debug.WriteLine("+++++++++들어온값클래임+++ : " + identity.FindFirst(ClaimTypes.NameIdentifier));
+
+            //identity.FindFirst(ClaimTypes.Email);
 
             var principal = new ClaimsPrincipal(identity);
 

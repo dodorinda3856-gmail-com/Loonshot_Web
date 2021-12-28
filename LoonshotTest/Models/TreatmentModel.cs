@@ -34,7 +34,7 @@ namespace LoonshotTest.Models
 
         public DateTime regist_Date { get; set; }
 
-        public char gender { get; set; }
+        public string gender { get; set; }
 
         public DateTime dob { get; set; }
 
@@ -45,7 +45,7 @@ namespace LoonshotTest.Models
            using(var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                SELECT p.RESIDENT_REGIST_NUM ,p.ADDRESS,p.PATIENT_NAME ,p.PHONE_NUM ,p.GENDER ,p.DOB ,p.AGREE_OF_ALARM 
+                SELECT p.RESIDENT_REGIST_NUM ,p.ADDRESS,p.PATIENT_NAME ,p.GENDER ,p.PHONE_NUM ,p.DOB ,p.AGREE_OF_ALARM 
                 FROM PATIENT p 
                 WHERE PATIENT_ID = :patient_Id AND PATIENT_STATUS_VAL = 'T'";
                 return db.QuerySingle<TreatMentModel>(sql, new { patient_id = patient_Id });
