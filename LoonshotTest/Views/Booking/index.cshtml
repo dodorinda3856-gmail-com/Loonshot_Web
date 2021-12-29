@@ -2,19 +2,7 @@
     @{
     }
 
-    <div>
-        @foreach (var staff in Model)
-        {
-        <ul>
-            <li> @Html.DisplayFor(modelItem => staff.Staff_Id)</li>
-            <li> @Html.DisplayFor(modelItem => staff.Medi_Subject)</li>
-            <li> @Html.DisplayFor(modelItem => staff.Staff_Name)</li>
-            <li> @Html.DisplayFor(modelItem => staff.Phone_Num)</li>
-
-        </ul>
-        }
-    </div>
-
+    
     <div class="row">
         @foreach(var staff in Model){
         <div style="max-width: 240px;" class="col-md-4 col-xs-6 border-primary mb-3">

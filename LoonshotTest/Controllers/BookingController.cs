@@ -53,10 +53,11 @@ namespace LoonshotTest.Controllers
 
         // POST: BookingController/Create
         [HttpPost]
-        public void ChooseDate(
+        public ActionResult ChooseDate(
             int medical_staff_id,
             string reservation_date,
             string symptom,
+            string treat_type,
             int time_Id)
         {
 
@@ -64,11 +65,11 @@ namespace LoonshotTest.Controllers
             loginmodel.patient_login_id = User.Identity.Name;
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             Debug.WriteLine("reservationd date" + reservation_date);
-            var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, symptom, time_Id);
-            /*
+            var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, treat_type, symptom, time_Id);
+            
             return RedirectToAction(nameof(Info), new { docName = reservationInfo.Staff_Name, date = reservationInfo.Reservation_Date,
                 hour = reservationInfo.Hour, symptom = reservationInfo.Symptom, patientName=reservationInfo.Patient_Name });
-    */
+    
          
         }
 
