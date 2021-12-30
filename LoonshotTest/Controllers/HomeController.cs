@@ -16,7 +16,7 @@ using LoonshotTest.Interface;
 namespace LoonshotTest.Controllers
 {
 
-        [CheckUser]
+    [CheckUser]
     public class HomeController : Controller 
     {
 
@@ -41,13 +41,8 @@ namespace LoonshotTest.Controllers
             set { 
                 myVar = value;
                 View();
-
             }
         }
-
-
-
-
 
         public IActionResult PatientList()
         {

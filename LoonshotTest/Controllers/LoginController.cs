@@ -102,7 +102,7 @@ namespace LoonshotTest.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
             {
-                IsPersistent = false,
+                IsPersistent = true,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                 AllowRefresh = true
             });
@@ -161,7 +161,7 @@ namespace LoonshotTest.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
                 {
-                    IsPersistent = false,
+                    IsPersistent = true,
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                     AllowRefresh = true
                 });

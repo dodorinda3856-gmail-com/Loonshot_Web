@@ -9,10 +9,10 @@ namespace LoonshotTest.Models
 {
     public class WaitingModel
     {
-        public static int rownum = 0;
-        
         public int wating_id { get; set; }
         public int patient_Id { get; set; }
+
+        public string patient_login_id { get; set; }
 
         public string requirements { get; set; }
 
@@ -20,12 +20,15 @@ namespace LoonshotTest.Models
             
         public string request_to_wait { get; set; }
 
-        public int Mywating(WaitingModel waiting)
+        public int wait_count { get; set; }
+
+        public string phone_num { get; set; }
+        public WaitingModel Mywating(WaitingModel waiting)
         {
            using(var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                    	SELECT wrn.r
+                    	SELECT wrn.r AS WAIT_COUNT , p.PHONE_NUM
 	                    FROM (
 	                    SELECT
 		                    ROWNUM r,
@@ -38,14 +41,14 @@ namespace LoonshotTest.Models
 		                    FROM
 			                    WAITING w
 		                    WHERE
-			                    w.RESERVE_STATUS_VAL = 'T'
+			                    w.WAIT_STATUS_VAL = 'T'
 			                    AND TO_CHAR(w.REQUEST_TO_WAIT , 'YYYY-MM-DD') BETWEEN :request_to_wait AND :request_to_wait
 		                    ORDER BY
 			                    w.REQUEST_TO_WAIT )
-			                    ) wrn LEFT JOIN PATIENT p ON
-		                    wrn.pa = p.PATIENT_ID WHERE p.PATIENT_ID  = : patient_id and p.PATIENT_STATUS_VAL = 'T'  
+			                    ) wrn LEFT JOIN PATIENT_LOGIN p ON
+		                    wrn.pa = p.PATIENT_ID WHERE p.PATIENT_LOGIN_ID  = : patient_login_id and p.DEL_STATUS = 'T'  
                 ";
-                return db.QuerySingle<int>(sql, this);
+                return db.QuerySingle<WaitingModel>(sql, this);
             }
         }
     }

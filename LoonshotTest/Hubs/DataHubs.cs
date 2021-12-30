@@ -7,27 +7,48 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using LoonshotTest.Interface;
 using LoonshotTest.Models;
+using CoolSms;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using LoonshotTest.Hubs;
+using System.Threading;
 
 namespace LoonshotTest.Hubs
+
 {
     public class DataHubs : Hub
     {
-        int user_id;
+        bool createdNew = false;
+        public int Send(string patient_id , string cookieCheck) {
 
-        public int Send(int patient_id) { 
-            user_id = patient_id;
-
-            return GetMyWaiting(user_id);
+            return GetMyWaiting(patient_id, cookieCheck);
         }
 
-        public int GetMyWaiting(int p_id) {
+        public int GetMyWaiting(string p_id , string cookie) {
             WaitingModel waitmodel = new WaitingModel();
-            waitmodel.patient_Id = p_id;
-            waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
-            int mywait = waitmodel.Mywating(waitmodel);
-            return (mywait);
+
+            try
+            {
+                waitmodel.patient_login_id = p_id;
+                waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
+                waitmodel = waitmodel.Mywating(waitmodel);
+
+
+                Mutex dup = new Mutex(true, "File Sync Manager", out createdNew);
+                if (createdNew)
+                {
+                    SendSMS.Run(waitmodel.phone_num);
+                }
+
+                return (waitmodel.wait_count);
+
+            }
+            catch (Exception ex)
+            {
+                return (0);
+            }
 
         }
     }
