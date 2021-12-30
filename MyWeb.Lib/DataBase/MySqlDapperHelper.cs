@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Dapper.SqlMapper;
 
 namespace MyWeb.Lib.DataBase
 {
@@ -11,7 +12,7 @@ namespace MyWeb.Lib.DataBase
         OracleConnection _conn;
         OracleTransaction _trans = null;
         
-
+      
         public MySqlDapperHelper()
         {
             _conn = new OracleConnection("User Id=loonshot;Password=loonshot123;Data Source=loonshot.cgxkzseoyswk.us-east-2.rds.amazonaws.com:1521/ORCL;");
@@ -23,6 +24,7 @@ namespace MyWeb.Lib.DataBase
                 _conn.Open();
 
             _trans = _conn.BeginTransaction();
+            
         }
 
         public void Commit()
@@ -42,15 +44,24 @@ namespace MyWeb.Lib.DataBase
              return Dapper.SqlMapper.Query<T>(_conn, sql, param, _trans).ToList();  
         }
 
+        public GridReader QueryMultiple(string sql, object param)
+        {
+            return Dapper.SqlMapper.QueryMultiple(_conn, sql, param, _trans);
+        }
+        public List<T> Query<T>(string sql)
+        {
+            return Dapper.SqlMapper.Query<T>(_conn, sql).ToList();
+        }
+        public T QueryFirst<T>(string sql)
+        {
+            return Dapper.SqlMapper.QueryFirst<T>(_conn, sql);
+        }
         public T QuerySingle<T>(string sql, object param)
         {
             return Dapper.SqlMapper.QuerySingleOrDefault<T>(_conn, sql, param, _trans);
         }
 
-        public List<T> Query<T>(string sql)
-        {
-            return Dapper.SqlMapper.Query<T>(_conn, sql).ToList();
-        }
+
 
         public int Execute(string sql, object param)
         {

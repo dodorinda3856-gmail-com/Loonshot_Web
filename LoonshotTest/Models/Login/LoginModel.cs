@@ -1,4 +1,4 @@
-﻿using MyWeb.Lib.DataBase;
+﻿    using MyWeb.Lib.DataBase;
 using System;
 using System.Diagnostics;
 
@@ -19,6 +19,8 @@ namespace LoonshotTest.Models.Login
         public string resident_regist_num { get; set; }
 
         public string patient_name { get; set; }
+
+        public string social_id { get; set; }
 
         public void ConvertPassword()
         {

@@ -30,7 +30,7 @@ namespace LoonshotTest.Models
 
         public static List<PatientModel> GetList(int patient_Id)
         {
-           using(var db = new MySqlDapperHelper())
+            using (var db = new MySqlDapperHelper())
             {
                 string sql = @"
                 SELECT * FROM PATIENT WHERE patient_id = :patient_id";
@@ -45,13 +45,13 @@ namespace LoonshotTest.Models
                         patient_name, phone_num, regist_date, gender, dob, patient_status_val, agree_of_alarm)
                         VALUES(:patient_id, :resident_regist_num, :address, :patient_name, :phone_num, CURRENT_TIMESTAMP,
                         :gender, TO_DATE('1971-03-31', 'YYYY-MM-DD'), :patient_status_val, :agree_of_alarm) ";
-        
-        
+
+
             using (var db = new MySqlDapperHelper())
             {
                 return db.Execute(sql, this);
             }
-        
+
         }
 
 
@@ -59,7 +59,7 @@ namespace LoonshotTest.Models
 
         public int Update()
         {
-            
+
             using (var db = new MySqlDapperHelper())
             {
                 db.BeginTransaction();
@@ -69,7 +69,7 @@ namespace LoonshotTest.Models
                     string sql = @"
                         UPDATE PATIENT SET patient_name = :patient_name
                         WHERE patient_id = :patient_id";
-                    int r = 0;  
+                    int r = 0;
                     r += db.Execute(sql, this);
                     r += db.Execute(sql, this);
                     r += db.Execute(sql, this);
@@ -78,13 +78,13 @@ namespace LoonshotTest.Models
 
                     return r;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     db.Rollback();
                     throw ex;
                 }
 
-                 
+
             }
         }
     }
