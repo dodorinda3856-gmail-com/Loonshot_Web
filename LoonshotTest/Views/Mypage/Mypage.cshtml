@@ -17,14 +17,14 @@
 
             <div class="btn-tap" onclick="contentshow('history-box')">
                 <div>
-                    <img src="~/img/AfterService/cat2.jpg"/>
+                    <img src="~/img/AfterService/cat2.jpg" />
                 </div>
                 <h4>진료이력</h4>
             </div>
 
             <div class="btn-tap" onclick="contentshow('as-box')">
                 <div>
-                    <img src="~/img/AfterService/cat3.jpg"/>
+                    <img src="~/img/AfterService/cat3.jpg" />
                 </div>
                 <h4>사후관리</h4>
             </div>
@@ -50,7 +50,7 @@
                     }
                 </div>
             </fieldset>
-            <div class="form-group">
+            <div class="form-group mr">
                 <label for="name-input" class="form-label mt-4">성 명</label>
                 <input type="text" name="patient_name" class="form-control" id="name-input" value="@Model.Item1.patient_name " disabled="disabled">
                 <button type="button" class="mody-btn">수정하기</button>
@@ -64,7 +64,7 @@
                 <button type="button" class="mody-btn">수정하기</button>
                 <button type="button" class="submit-btn hidden" data="address">적용하기</button>
             </div>
-            <div class="form-group">
+            <div class="form-group mr">
                 <label for="phone-input" class="form-label mt-4">핸드폰</label>
                 <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
                 <button type="button" class="mody-btn">수정하기</button>
@@ -78,7 +78,7 @@
 
 
 
-    <div class="content-box history-box" id="accordionExample">
+    <div class="content-box history-box hidden" id="accordionExample">
         @foreach (var item in Model.Item2)
         {
             <div class="accordion-item">
@@ -120,7 +120,7 @@
         }
     </div>
 
-    <div class="content-box as-box">
+    <div class="content-box as-box hidden">
         as
     </div>
 </div>
@@ -209,7 +209,7 @@
             ajax_data = $("#name-input").val();
             data_type = "N";
             if (!name_check.test(ajax_data)) {
-                alert("이름은 한글만 입력 가능합니다.");
+                shakeCard($(this).parent(".form-group"), "성명");
                 $("#name-input").val("");
                 return false;
             }
@@ -220,7 +220,7 @@
             data_type = "P";
             if (!phone_check.test(ajax_data)) {
                 $("#phone-input").val("");
-                alert("휴대폰 입력이 부적합니다.");
+                shakeCard($(this).parent(".form-group"), "휴대폰");
                 return false;
             }
 
@@ -229,9 +229,8 @@
             ajax_data = $("#roadAddress").val();
             data_type = "A";
             if (ajax_data.length < 3) {
-                alert("주소를 입력해 주세요.");
                 $("#roadAddress").val("");
-                @*$("#postcode").val("");*@
+                shakeCard($(this).parent(".form-group"), "주소");
                 return false;
             }
         }
@@ -259,6 +258,26 @@
         $(".content-box").hide();
         $(".content-box." + v).show();
     }
-    // Content 출력 기능 끝 
+    // Content 출력 기능 끝
+
+    // shake
+    function shakeCard(n, v) {
+
+        n.effect('shake', "", 500);
+        n.css({
+            "border": "1px solid red"
+        });
+
+        switch (v) { 
+            case "성명":
+                n.find(".not-input").text(v + "은 빈 값으로 입력 할 수 없습니다.").show();
+            case "주소":
+                n.find(".not-input").text(v + "은 빈 값으로 입력 할 수 없습니다.").show();
+            case "핸드폰":
+                n.find(".not-input").text(v + "은 숫자만 입력가능합니다.").show();
+        }
+
+
+    }
 
 </script>

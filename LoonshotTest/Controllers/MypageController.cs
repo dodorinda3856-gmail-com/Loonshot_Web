@@ -17,6 +17,7 @@ using LoonshotTest.Models.Login;
 using System.Web.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using System.Web;
 
 namespace LoonshotTest.Controllers
 {
@@ -34,13 +35,26 @@ namespace LoonshotTest.Controllers
 
         [Route("/mypage/info")]
         public IActionResult Mypage() {
-            LoginModel loginmodel = new LoginModel();
-            loginmodel.patient_login_id = User.Identity.Name;
-            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-            TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-            List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
 
-            return View(Tuple.Create(myinfo, treatList));
+            try
+            {
+                if (User.Identity.Name == null)
+                {
+                    throw new Exception("로그인이 필요한 서비스입니다.");
+                }
+
+
+                LoginModel loginmodel = new LoginModel();
+                loginmodel.patient_login_id = User.Identity.Name;
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+                TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
+                List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
+
+                return View(Tuple.Create(myinfo, treatList));
+            }
+            catch (Exception ex) {
+                return Redirect($"/login/login?msg={HttpUtility.UrlEncode(ex.Message)}");
+            }
         }
 
         [Route("/mypage/UserSecession")]
