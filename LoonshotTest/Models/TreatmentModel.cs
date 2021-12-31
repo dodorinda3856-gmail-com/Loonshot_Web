@@ -15,7 +15,6 @@ namespace LoonshotTest.Models
         public int disease_id { get; set; }
 
         public string disease_name { get; set; }
-
         public string procedure_name { get; set; }
             
         public string a_s { get; set; }

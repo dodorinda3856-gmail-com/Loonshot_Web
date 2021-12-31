@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LoonshotTest.Hubs
 {
-    public class SendSMS
+    public class SendLMS
     {
         public static void Run(string phone )
         {
@@ -13,8 +13,8 @@ namespace LoonshotTest.Hubs
 
             messages.Add(new MessagingLib.Message()
             {
-                to = "01041670372",
-                from = phone,
+                to = phone,
+                from =  "01029842483",
                 //imageId = imageId,
                 subject = "MMS 제목",
                 text = "이미지 아이디가 입력되면 MMS로 발송됩니다."
