@@ -38,7 +38,7 @@ namespace LoonshotTest.Models
 		                    FROM
 			                    WAITING w
 		                    WHERE
-			                    w.RESERVE_STATUS_VAL = 'T'
+			                    w.WAIT_STATUS_VAL = 'T'
 			                    AND TO_CHAR(w.REQUEST_TO_WAIT , 'YYYY-MM-DD') BETWEEN :request_to_wait AND :request_to_wait
 		                    ORDER BY
 			                    w.REQUEST_TO_WAIT )
