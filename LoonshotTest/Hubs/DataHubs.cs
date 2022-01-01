@@ -16,7 +16,6 @@ using LoonshotTest.Hubs;
 using System.Threading;
 
 namespace LoonshotTest.Hubs
-
 {
     public class DataHubs : Hub
     {

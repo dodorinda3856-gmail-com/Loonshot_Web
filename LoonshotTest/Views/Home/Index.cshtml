@@ -43,9 +43,9 @@
                 <h1 class="card-title">결제하기</h1>
             </a>
         </div>
-
+        <span>@User.Identity.Name</span>
         <div class="card">
-            <a class="text-posi" asp-area="" asp-controller="Mypage" asp-action="Mypage">
+            <a class="text-posi" asp-area="" asp-controller="" asp-action="">
                 <h1 class="card-title">마이페이지</h1>
             </a>
         </div>
@@ -80,7 +80,8 @@
     $(function () {
         var msgCheck = null;
         var p_id = $(".waitng").data("air");
-        $.cookie("cookiecheck", "T");
+
+        alert(p_id);
 
         if (typeof (p_id) != "undefined") {
 
@@ -89,12 +90,10 @@
                 Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
                 Kakao.isInitialized();
                 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
-                msgCheck = $.cookie("cookiecheck");
                 
                 connection.start().then(function () {
                     setInterval(function () {
                         var waiting = connection.invoke("Send", p_id, msgCheck);
-                        $.cookie("cookiecheck", "F");
                         waiting.then(a => $('.waitng').append().html("<h1>현재 대기 순위 </br>" + a + "</h1>"));
                     }, 2000);
                 })

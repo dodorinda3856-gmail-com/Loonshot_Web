@@ -74,8 +74,6 @@ namespace LoonshotTest
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // session
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
