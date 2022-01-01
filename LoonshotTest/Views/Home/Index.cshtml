@@ -84,13 +84,13 @@
 
         if (typeof (p_id) != "undefined") {
 
-        // 소켓 통신 시작
+            // 소켓 통신 시작
             $(function () {
                 Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
                 Kakao.isInitialized();
                 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
                 msgCheck = $.cookie("cookiecheck");
-                
+
                 connection.start().then(function () {
                     setInterval(function () {
                         var waiting = connection.invoke("Send", p_id, msgCheck);
