@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+
+
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -15,7 +18,7 @@
             <div class="container">
                 <a href="../" class="navbar-brand">이지피부과의원</a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse navbar-collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="true" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse navbar-collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -36,28 +39,33 @@
                             <a class="nav-link" href="/home/hospital">소개</a>
                         </li>
                         <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
+                            <!--
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="nav-link" id="download">@User.Identity.Name 님 안녕하세요.</a>
+    }
+    -->
+                            @if (Context.Session.GetString("userId") != null)
                             {
-                                <a class="nav-link" id="download">@User.Identity.Name 님 안녕하세요.</a>
+                                <a class="nav-link" id="download">@Context.Session.GetString("userId") 님 안녕하세요.</a>
                             }
-
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
-                            @if (!User.Identity.IsAuthenticated)
+                            @if (Context.Session.GetString("userId") == null)
                             {
                                 <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
                             }
 
-                            @if (User.Identity.IsAuthenticated)
+                            @if (Context.Session.GetString("userId") != null)
                             {
                                 <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
                             }
 
                         </li>
                         <li class="nav-item">
-                            @if (!User.Identity.IsAuthenticated)
+                            @if (Context.Session.GetString("userId") == null)
                             {
                                 <a rel="noopener" class="nav-link" href="/login/register"> 회원가입</a>
                             }

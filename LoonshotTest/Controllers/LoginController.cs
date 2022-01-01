@@ -107,7 +107,7 @@ namespace LoonshotTest.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
             {
-                IsPersistent = true,
+                IsPersistent = false,
                 ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                 AllowRefresh = true
             });
@@ -158,20 +158,21 @@ namespace LoonshotTest.Controllers
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.UserData);
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
                 identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
-                identity.AddClaim(new Claim(ClaimTypes.Actor, Login.patient_id.ToString()));
-                
                 identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
 
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
                 {
-                    IsPersistent = true,
+                    IsPersistent = false,
                     ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
                     AllowRefresh = true
                 });
-
-
+                HttpContext.Session.SetString("userId", Login.patient_login_id);
+                Debug.WriteLine("쎼쎤값********************"+HttpContext.Session.GetString("userId"));
+                Debug.WriteLine("********************프린시팔값:"+principal);
+                Debug.WriteLine("********************프린씨팔의 네임 값" + principal.Identity.Name);
+            
                 return Redirect("/");
             }
             catch(Exception ex)
@@ -226,9 +227,10 @@ namespace LoonshotTest.Controllers
         }
         #endregion 
 
-        [Authorize]
         public async Task<IActionResult> LogOut()
         {
+            Debug.WriteLine("들어왔니?");
+            HttpContext.Session.Clear();
             await HttpContext.SignOutAsync();
             return Redirect("/");
         }
