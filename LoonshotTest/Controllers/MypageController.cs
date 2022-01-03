@@ -34,7 +34,7 @@ namespace LoonshotTest.Controllers
         }
 
         [Route("/mypage/test")]
-        public IActionResult Diagnosis() {
+        public IActionResult Prescription() {
             return View();
         }
 
