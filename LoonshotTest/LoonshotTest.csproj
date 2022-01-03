@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Mypage\diagnosis.cshtml" />
-    <None Include="Views\Mypage\prescription.cshtml" />
+    <None Include="Views\Mypage\Diagnosis.cshtml" />
+    <None Include="Views\Mypage\Prescription.cshtml" />
   </ItemGroup>
 
 
