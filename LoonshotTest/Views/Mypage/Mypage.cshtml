@@ -5,170 +5,172 @@
 @Html.Partial("Diagnosis")
 @Html.Partial("Prescription")  
 
-<div class="user-profile">
+<div id="non-printArea">
+    <div class="user-profile">
 
-    <h2>@Model.Item1.patient_name </h2>
-    <div class="user-box">
-        <div class="mypage-tap">
-            <div class="btn-tap" onclick="contentshow('input-box')">
-                <div>
-                    <img src="/img/AfterService/cat1.jpg" />
-                </div>
-                <h4>내 정보</h4>
-            </div>
-
-            <div class="btn-tap" onclick="contentshow('history-box')">
-                <div>
-                    <img src="~/img/AfterService/cat2.jpg" />
-                </div>
-                <h4>진료이력</h4>
-            </div>
-
-            <div class="btn-tap" onclick="contentshow('as-box')">
-                <div>
-                    <img src="~/img/AfterService/cat3.jpg" />
-                </div>
-                <h4>사후관리</h4>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="content mypage">
-
-    <div class="content-box input-box">
-        <div class="content-line">
-            <h4>개인정보</h4>
-            <button type="button" class="btn btn-remove">회원 탈퇴</button>
-
-        </div>
-        <div class="form-check form-switch alarm-switch">
-            <label for="flexSwitchCheck" class="form-label ml-3">알람설정</label>
-
-            @if (Model.Item1.agree_Of_Alarm == 'T')
-            {
-                <input class="form-check-input ml-3" name="agree_of_alarm" type="checkbox" data="F" id="flexSwitchCheck" checked="">
-            }
-            else
-            {
-                <input class="form-check-input ml-3" type="checkbox" name="agree_of_alarm" data="T" id="flexSwitchCheck">
-            }
-        </div>
-        <div class="form-group mr">
-            <label for="name-input" class="form-label ">성 명</label>
-            <input type="text" name="patient_name" class="form-control" id="name-input" value="@Model.Item1.patient_name " disabled="disabled">
-            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
-        </div>
-        <div class="form-group">
-            <label for="address-input" class="form-label ">주소 </label>
-            <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
-            <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
-            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
-        </div>
-        <div class="form-group mr">
-            <label for="phone-input" class="form-label ">핸드폰</label>
-            <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
-            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
-        </div>
-    </div>
-
-
-    <div class="content-box history-box hidden">
-        <div class="content-line">
-            <h4>진료기록</h4>
-
-        </div>
-        @foreach (var item in Model.Item2)
-        {
-            <div class="card link-template-tabcard">
-                <div class="card-header  d-flex justify-content-between align-items-center">
-                    <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px"> @item.disease_name <span>@item.treat_date</span></h3>
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body p-0">
-                    <div class="tab-content">
-                        <div class="tab-pane p-4 info" role="tabpanel">
-                            <div id="tab-content">
-                                <div>
-                                    <p>
-                                        <strong>@item.treat_details</strong>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane active desc" role="tabpanel">
-                            <ul class="list-group list-group-flush ml-0 mb-2">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>병 명 : @item.disease_name</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>담당의 : @item.staff_name 선생님</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>치료방법 : @item.procedure_name</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>시 술 : @item.prescription</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    @if (item.treat_status_val == 'T')
-                                    {
-                                        <strong>진료완료</strong>
-                                    }
-                                    else
-                                    {
-                                        <strong>진료 전</strong>
-                                    }
-                                </li>
-
-                            </ul>
-                        </div>
+        <h2>@Model.Item1.patient_name </h2>
+        <div class="user-box">
+            <div class="mypage-tap">
+                <div class="btn-tap" onclick="contentshow('input-box')">
+                    <div>
+                        <img src="/img/AfterService/cat1.jpg" />
                     </div>
+                    <h4>내 정보</h4>
                 </div>
-                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                    <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
+
+                <div class="btn-tap" onclick="contentshow('history-box')">
+                    <div>
+                        <img src="~/img/AfterService/cat2.jpg" />
+                    </div>
+                    <h4>진료이력</h4>
+                </div>
+
+                <div class="btn-tap" onclick="contentshow('as-box')">
+                    <div>
+                        <img src="~/img/AfterService/cat3.jpg" />
+                    </div>
+                    <h4>사후관리</h4>
                 </div>
             </div>
-        }
-    </div>
-    <div class="content-box as-box hidden">
-        <div class="content-line">
-            <h4>사후관리</h4>
-
         </div>
-        <div class="as-wrapper">
-            @foreach (var item in Model.Item3)
-            {
-                @if (item.as_type == 'M')
+    </div>
+
+    <div class="content mypage">
+
+        <div class="content-box input-box">
+            <div class="content-line">
+                <h4>개인정보</h4>
+                <button type="button" class="btn btn-remove">회원 탈퇴</button>
+
+            </div>
+            <div class="form-check form-switch alarm-switch">
+                <label for="flexSwitchCheck" class="form-label ml-3">알람설정</label>
+
+                @if (Model.Item1.agree_Of_Alarm == 'T')
                 {
-                    <div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                    <input class="form-check-input ml-3" name="agree_of_alarm" type="checkbox" data="F" id="flexSwitchCheck" checked="">
                 }
                 else
                 {
-                    <div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                    <input class="form-check-input ml-3" type="checkbox" name="agree_of_alarm" data="T" id="flexSwitchCheck">
                 }
+            </div>
+            <div class="form-group mr">
+                <label for="name-input" class="form-label ">성 명</label>
+                <input type="text" name="patient_name" class="form-control" id="name-input" value="@Model.Item1.patient_name " disabled="disabled">
+                <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+            </div>
+            <div class="form-group">
+                <label for="address-input" class="form-label ">주소 </label>
+                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
+                <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
+                <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+            </div>
+            <div class="form-group mr">
+                <label for="phone-input" class="form-label ">핸드폰</label>
+                <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
+                <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+            </div>
+        </div>
 
-                <div class="as-info hidden ">
-                    <p class="as-@Model.Item3.IndexOf(item)">
-                        @item.a_s
-                    </p>
+
+        <div class="content-box history-box hidden">
+            <div class="content-line">
+                <h4>진료기록</h4>
+
+            </div>
+            @foreach (var item in Model.Item2)
+            {
+                <div class="card link-template-tabcard">
+                    <div class="card-header  d-flex justify-content-between align-items-center">
+                        <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px"> @item.disease_name <span>@item.treat_date</span></h3>
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane p-4 info" role="tabpanel">
+                                <div id="tab-content">
+                                    <div>
+                                        <p>
+                                            <strong>@item.treat_details</strong>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane active desc" role="tabpanel">
+                                <ul class="list-group list-group-flush ml-0 mb-2">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong>병 명 : @item.disease_name</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong>담당의 : @item.staff_name 선생님</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong>치료방법 : @item.procedure_name</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong>시 술 : @item.prescription</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        @if (item.treat_status_val == 'T')
+                                        {
+                                            <strong>진료완료</strong>
+                                        }
+                                        else
+                                        {
+                                            <strong>진료 전</strong>
+                                        }
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                        <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
+                    </div>
                 </div>
             }
         </div>
-        <div class="content-line as-detail">
-            <h4 class="border-bottom">@Model.Item3[0].procedure</h4>
-            <div class="as-detail-info">
-                <p>@Model.Item3[0].a_s</p>
+        <div class="content-box as-box hidden">
+            <div class="content-line">
+                <h4>사후관리</h4>
+
+            </div>
+            <div class="as-wrapper">
+                @foreach (var item in Model.Item3)
+                {
+                    @if (item.as_type == 'M')
+                    {
+                        <div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                    }
+                    else
+                    {
+                        <div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                    }
+
+                    <div class="as-info hidden ">
+                        <p class="as-@Model.Item3.IndexOf(item)">
+                            @item.a_s
+                        </p>
+                    </div>
+                }
+            </div>
+            <div class="content-line as-detail">
+                <h4 class="border-bottom">@Model.Item3[0].procedure</h4>
+                <div class="as-detail-info">
+                    <p>@Model.Item3[0].a_s</p>
+                </div>
             </div>
         </div>
     </div>
@@ -177,14 +179,14 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
 <script>
-
     $(".test").on("click", function () {
         $.ajax({
             url: '@Url.Action("Test", "Mypage")',
             type: "POST",
             dataType: 'json',
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-             success: function () {
+            success: function (d) {
+                console.log(d);
              },
              error: function (requerst, status, error) {
                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -305,10 +307,8 @@
             dataType: 'json',
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
              data: { SqlType: data_type, ajaxData: ajax_data },
-             success: function () {
-                 search.hide();
-                 search.parent(".form-group").find(".form-control").attr("disabled", true);
-                 search.prev().show();
+             success: function (data) {
+                 console.log(data);
              },
              error: function (requerst, status, error) {
                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -364,20 +364,62 @@
     // 처방전 및 진단서 출력 이벤트
     $('.btn-print').on("click", function () {
         let treat_id = $(this).data("air");
-
          $.ajax({
             url: '@Url.Action("UserPrescription", "Mypage")',
             type: "POST",
             dataType: 'json',
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
              data: { treat_id: treat_id },
-             success: function () {
-                
+             success: function (m) {
+                 let d =  new Date();
+                 $("#print_id").text(m.print_id);
+                 $("#print_name").text(m.name);
+                 $("#print_id_number").text(m.resident_num);
+                 $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
+                 printpage();
+                 @*printIt(document.getElementById('printArea').innerHTML);*@
+
              },
              error: function (requerst, status, error) {
                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
               }
         });
     });
+
+    // 프린트 기능
+    function printpage() {
+        console.log(printArea.innerHTML = document.all['printArea'].innerHTML);
+
+        window.onbeforeprint = bef;
+        window.onafterprint = aft;
+         window.print();
+    };
+
+    // 임시 주석
+    @*function printIt(printThis) {
+        var win = null;
+        win = window.open();
+        self.focus();
+        win.document.open();
+        win.document.write(printThis);
+        win.document.close();
+        win.print();
+        win.close();
+    }*@
+
+        function bef() {
+            if (document.all) {
+                contents.style.display = 'none';
+                printArea.innerHTML = document.all['printArea'].innerHTML;
+                console.log(printArea.innerHTML);
+            }
+        }
+
+    function aft() {
+        if (document.all) {
+            contents.style.display = 'block';
+            printArea.innerHTML = "";
+        }
+    }
 
 </script>

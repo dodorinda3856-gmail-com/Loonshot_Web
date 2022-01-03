@@ -5,6 +5,17 @@
     font-style: normal;
 }
 
+@media print {
+    #printArea {
+        background-color: yellow !important;
+    }
+}
+
+body {
+    -webkit-print-color-adjust: exact !important;
+}
+
+
 
 body {
     font-family: 'KOTRAHOPE' !important;

@@ -14,7 +14,7 @@
            </div>
        </div>
        <div class="print-body br-top-blue">
-           <table border="1" width="100%" table-layout: auto; width: 100%;>
+           <table border="1" style="background-color: red" width="100%" table-layout: auto; width: 100%;>
                <colgroup>
                    <col style="width:4%" />
                    <col style="width:4%" />
@@ -39,27 +39,27 @@
                </colgroup>
                <tr>
                    <td class="table-title" colspan="5">교부연월일 및 번호</td>
-                   <td colspan="6"> 2022년 1월 1일 - 제 13 호</td>
+                   <td colspan="6" id="print_id"></td>
                    <td rowspan="4" colspan="3" class="table-title">의료기관</td>
                    <td colspan="3" class="table-title">명 칭</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">이지피부과전문병원</td>
                </tr>
                <tr>
                    <td class="table-title" colspan="2" rowspan="3">환자</td>
                    <td class="table-title" colspan="3">성명</td>
-                   <td colspan="6">1</td>
+                   <td colspan="6" id="print_name"></td>
                    <td colspan="3" class="table-title">전화번호</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">02-038-3312</td>
                </tr>
                <tr>
                    <td class="table-title" colspan="3" rowspan="2">주민등록번호</td>
-                   <td colspan="6" rowspan="2">1</td>
+                   <td colspan="6" rowspan="2" id="print_id_number"></td>
                    <td colspan="3" class="table-title">팩스번호</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">02-038-3312</td>
                </tr>
                <tr>
                    <td colspan="3" class="table-title">e-mail 주소</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">서울특별시 중구 신당동 청화빌딩</td>
                </tr>
                <tr>
                    <td class="table-title" rowspan="2" colspan="2">질병분류번호</td>
@@ -69,9 +69,9 @@
                    <td>1</td>
                    <td>1</td>
                    <td rowspan="2" colspan="3" class="table-title">의료처방자 서명</td>
-                   <td colspan="5" rowspan="2">서명 또는 날인</td>
+                   <td colspan="5" rowspan="2">최 영 욱</td>
                    <td colspan="2" class="table-title">면허종별</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">피부과</td>
                </tr>
                <tr>
                    <td>1</td>
@@ -80,7 +80,7 @@
                    <td>1</td>
                    <td>1</td>
                    <td colspan="2" class="table-title">면허번호</td>
-                   <td colspan="3">1</td>
+                   <td colspan="3">1031-39284</td>
                </tr>
                <tr>
                    <td rowspan="1" colspan="10" class="table-title">처방 의약품의 명칭</td>
@@ -98,35 +98,13 @@
                </tr>
                <tr>
                    <td colspan="3" class="table-title">사용기간</td>
-                   <td colspan="7" class="table-title">교부일 부터 ( 1) 일간</td>
+                   <td colspan="7" class="table-title">교부일 부터 ( 3 ) 일간</td>
                    <td colspan="10" class="table-title">사용기간 내에 약국에 제출하여야 합니다.</td>
                </tr>
            </table>
        </div>   
     </div>
 </body>
-</html>
 
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script>
-    @*$(document).ready(function () {
-        window.onbeforeprint = bef;
-        window.onafterprint = aft;
-        window.print();
-    });*@
-
-    function bef() {
-        if (document.all) {
-            contents.style.display = 'none';
-            printArea.innerHTML = document.all['printArea'].innerHTML;
-        }
-    }
-
-    function aft() {
-        if (document.all) {
-            contents.style.display = 'block';
-            printArea.innerHTML = "";
-        }
-    }
-</script>

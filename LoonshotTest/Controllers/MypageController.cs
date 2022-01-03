@@ -77,23 +77,25 @@ namespace LoonshotTest.Controllers
             return Redirect("/");
         }
 
-        //[HttpPost]
-        //public JsonResult UserPrescription(int treat_id) {
-        //    TreatMentModel treatModel = new TreatMentModel ();
-        //    treatModel.Treat_id = treat_id;
-
-
-        //    string message = "succces";
-        //    if (alarmStat.UserAlarm(alarmStat) != 1)
-        //    {
-        //        message = "Error";
-        //    }
-
-
-        //    return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
-
-
-        //}
+        [HttpPost]
+        public JsonResult UserPrescription(int treat_id)
+        {
+            TreatMentModel treatModel = new TreatMentModel();
+            treatModel.Treat_id = treat_id;
+            treatModel = treatModel.Prescription(treat_id);
+            string message = "succces";
+            if (treatModel.patient_name.Equals("") && treatModel.patient_name == null)
+            {
+                message = "Error";
+            }
+            return Json(new
+            {
+                name = treatModel.patient_name,
+                resident_num = treatModel.resident_Regist_Num,
+                produce = treatModel.names,
+                print_id = treatModel.print_id
+            });
+        }
 
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
@@ -133,7 +135,6 @@ namespace LoonshotTest.Controllers
             {
                 message = "error";
             }
-
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
 
         }

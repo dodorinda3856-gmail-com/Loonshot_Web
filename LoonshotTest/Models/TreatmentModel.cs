@@ -16,9 +16,9 @@ namespace LoonshotTest.Models
 
         public string disease_name { get; set; }
         public string procedure_name { get; set; }
-            
+
         public string a_s { get; set; }
-        public string treat_details{ get; set; }
+        public string treat_details { get; set; }
 
         public string prescription { get; set; }
 
@@ -43,9 +43,11 @@ namespace LoonshotTest.Models
 
         public char treat_status_val { get; set; }
 
+        public int print_id { get; set; }
+        public string names { get; set; }
         public static TreatMentModel GetMyinfo(int patient_Id)
         {
-           using(var db = new MySqlDapperHelper())
+            using (var db = new MySqlDapperHelper())
             {
                 string sql = @"
                 SELECT p.RESIDENT_REGIST_NUM ,p.ADDRESS,p.PATIENT_NAME ,p.GENDER ,p.PHONE_NUM ,p.DOB ,p.AGREE_OF_ALARM 
@@ -55,10 +57,12 @@ namespace LoonshotTest.Models
             }
         }
 
-        public static List<TreatMentModel> TreatmentList(int patient_Id) {
-            using (var db = new MySqlDapperHelper()) {
+        public static List<TreatMentModel> TreatmentList(int patient_Id)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
                 string sql = @"
-                    SELECT t.TREAT_STATUS__VAL , (SELECT ms.STAFF_NAME FROM MEDI_STAFF ms WHERE ms.STAFF_ID = t.STAFF_ID) AS STAFF_NAME , t.TREAT_DETAILS , t.PRESCRIPTION ,t.TREAT_DATE , nod.DISEASE_NAME , mp.PROCEDURE_NAME, mp.A_S 
+                    SELECT t.TREAT_ID, t.TREAT_STATUS__VAL , (SELECT ms.STAFF_NAME FROM MEDI_STAFF ms WHERE ms.STAFF_ID = t.STAFF_ID) AS STAFF_NAME , t.TREAT_DETAILS , t.PRESCRIPTION ,t.TREAT_DATE , nod.DISEASE_NAME , mp.PROCEDURE_NAME, mp.A_S 
                     FROM TREATMENT t LEFT JOIN NAME_OF_DISEASE nod ON t.DISEASE_ID = nod.DISEASE_ID 
                     LEFT JOIN MEDI_PROCEDURE mp ON mp.MEDI_PROCEDURE_ID = nod.MEDI_PROCEDURE_ID 
                     WHERE t.PATIENT_ID = : patient_Id
@@ -126,8 +130,28 @@ namespace LoonshotTest.Models
         }
 
 
-        public int MyinfoUpdate(TreatMentModel param, string SqlType) {
-            using (var db = new MySqlDapperHelper()) {
+        public TreatMentModel Prescription(int treat_id)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                string sql = @"
+                       SELECT print_seq.nextval AS PRINT_ID, p.PATIENT_NAME , p.RESIDENT_REGIST_NUM , (SELECT LISTAGG(t1.PROCEDURE_NAME , ',') WITHIN GROUP(ORDER BY t1.PROCEDURE_NAME)
+                                                                            FROM (((SELECT mp.PROCEDURE_NAME 
+                                                                                    FROM (SELECT  nod.MEDI_PROCEDURE_ID 
+							                                                                FROM (SELECT DISEASE_ID 
+									                                                                FROM TREAT_DISEASE td
+									                                                                WHERE TREATMENT_ID = :treat_id) t LEFT JOIN NAME_OF_DISEASE nod ON nod.DISEASE_ID = t.DISEASE_ID) t LEFT JOIN  MEDI_PROCEDURE mp ON t.MEDI_PROCEDURE_ID = mp.MEDI_PROCEDURE_ID ))) t1)  AS names
+                        FROM TREATMENT t LEFT JOIN PATIENT p ON t.PATIENT_ID = p.PATIENT_ID 
+                        WHERE t.TREAT_ID  = :treat_id";
+                return db.QuerySingle<TreatMentModel>(sql, new { treat_id = treat_id });
+            }
+        }
+
+
+        public int MyinfoUpdate(TreatMentModel param, string SqlType)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
                 db.BeginTransaction();
                 try
                 {
@@ -137,7 +161,7 @@ namespace LoonshotTest.Models
                     else if (SqlType == "P") { choice = "PHONE_NUM = :phone_num,"; }
                     else if (SqlType == "A") { choice = "ADDRESS = :address,"; }
                     string sql = @"
-                        UPDATE PATIENT SET "+ choice + "UPDATE_DATE = CURRENT_TIMESTAMP WHERE patient_id = :patient_id";
+                        UPDATE PATIENT SET " + choice + "UPDATE_DATE = CURRENT_TIMESTAMP WHERE patient_id = :patient_id";
                     int r = 1;
                     r += db.Execute(sql, this);
                     r += db.Execute(sql, this);
