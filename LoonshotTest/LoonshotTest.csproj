@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Mypage\diagnosis.cshtml" />
     <Content Remove="Views\Mypage\prescription.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Mypage\diagnosis.cshtml" />
     <None Include="Views\Mypage\prescription.cshtml" />
   </ItemGroup>
 

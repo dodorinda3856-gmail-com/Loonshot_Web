@@ -33,6 +33,12 @@ namespace LoonshotTest.Controllers
             
         }
 
+        [Route("/mypage/diagnosis")]
+        public IActionResult diagnosis()
+        {
+            return View();
+        }
+
         [Route("/mypage/test")]
         public IActionResult Prescription() {
             return View();
@@ -136,13 +142,6 @@ namespace LoonshotTest.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-
-        [Route("/mypage/diagnosis")]
-        public IActionResult diagnosis()
-        {
-            return View();
         }
     }
 }
