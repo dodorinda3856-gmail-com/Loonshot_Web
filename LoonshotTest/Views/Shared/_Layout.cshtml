@@ -89,5 +89,20 @@
     <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
     @*<script src="~/lib/jquery/dist/jquery-ui.min.js"></script>*@
     @RenderSection("Scripts", required: false)
+    <script>
+        $(".navbar-toggler").on("click", function () {
+            let chk = $(this).hasClass("active");
+
+            if (!chk) {
+                $(this).addClass("active");
+                $("#navbarResponsive").show();
+            } else {
+                $(this).removeClass("active");
+                $("#navbarResponsive").hide();
+            }
+
+        });
+
+    </script>
 </body>
 </html>
