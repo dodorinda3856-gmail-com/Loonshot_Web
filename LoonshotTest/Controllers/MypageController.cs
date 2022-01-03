@@ -137,5 +137,12 @@ namespace LoonshotTest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        [Route("/mypage/diagnosis")]
+        public IActionResult diagnosis()
+        {
+            return View();
+        }
     }
 }

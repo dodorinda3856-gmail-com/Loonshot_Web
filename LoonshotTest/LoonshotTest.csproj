@@ -6,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\lib\jquery\dist\jquery.cookie.js" />
+    <Content Remove="Views\Mypage\diagnosis.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Mypage\diagnosis.cshtml" />
   </ItemGroup>
 
 

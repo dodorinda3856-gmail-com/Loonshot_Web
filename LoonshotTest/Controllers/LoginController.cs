@@ -104,7 +104,7 @@ namespace LoonshotTest.Controllers
             //identity.FindFirst(ClaimTypes.Email);
 
             var principal = new ClaimsPrincipal(identity);
-
+            HttpContext.Session.SetString("userId", kakaoemail);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
             {
                 IsPersistent = false,
