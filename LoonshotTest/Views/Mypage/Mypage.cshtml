@@ -2,10 +2,10 @@
 <head>
     <link rel="stylesheet" href="~/css/mypage.css" />
 </head>
+@Html.Partial("Diagnosis")
 
 
 <div class="user-profile">
-
 
     <h2>@Model.Item1.patient_name </h2>
     <div class="user-box">
@@ -37,202 +37,168 @@
 <div class="content mypage">
 
     <div class="content-box input-box">
+        <div class="content-line">
+            <h4>개인정보</h4>
+            <button type="button" class="btn btn-remove">회원 탈퇴</button>
+
+        </div>
         <div class="form-check form-switch alarm-switch">
+            <label for="flexSwitchCheck" class="form-label ml-3">알람설정</label>
+
             @if (Model.Item1.agree_Of_Alarm == 'T')
             {
-                <input class="form-check-input" name="agree_of_alarm" type="checkbox" data="F" id="flexSwitchCheckChecked" checked="">
+                <input class="form-check-input ml-3" name="agree_of_alarm" type="checkbox" data="F" id="flexSwitchCheck" checked="">
             }
             else
             {
-                <input class="form-check-input" type="checkbox" name="agree_of_alarm" data="T" id="flexSwitchCheckDefault">
+                <input class="form-check-input ml-3" type="checkbox" name="agree_of_alarm" data="T" id="flexSwitchCheck">
             }
         </div>
-        <div class="card">
-            <h2>
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-coffee" href="#icon-coffee" />
-                </svg>Regular
-            </h2>
-            <label class="input">
-                <input class="input__field" type="text" placeholder=" " />
-                <span class="input__label">Some Fancy Label</span>
-            </label>
-            <div class="button-group">
-                <button>Send</button>
-                <button type="reset">Reset</button>
-            </div>
-        </div>
-
         <div class="form-group mr">
-            <label for="name-input" class="form-label mt-4">성 명</label>
+            <label for="name-input" class="form-label ">성 명</label>
             <input type="text" name="patient_name" class="form-control" id="name-input" value="@Model.Item1.patient_name " disabled="disabled">
-            <button type="button" class="mody-btn">수정하기</button>
-            <button type="button" class="submit-btn hidden" data="name">적용하기</button>
+            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
         </div>
-
         <div class="form-group">
-            <label for="address-input" class="form-label mt-4">주소 </label>
-            @*<input type="text" id="postcode" name="address1" class="form-control " placeholder="우편번호" readonly>*@
-            <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn"><br>
+            <label for="address-input" class="form-label ">주소 </label>
+            <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
             <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
-            <button type="button" class="mody-btn">수정하기</button>
-            <button type="button" class="submit-btn hidden" data="address">적용하기</button>
+            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
         </div>
         <div class="form-group mr">
-            <label for="phone-input" class="form-label mt-4">핸드폰</label>
+            <label for="phone-input" class="form-label ">핸드폰</label>
             <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
-            <button type="button" class="mody-btn">수정하기</button>
-            <button type="button" class="submit-btn hidden" data="phone">적용하기</button>
-        </div>
-        <div class="form-group">
-            <button type="button" class="btn-remove">회원 탈퇴</button>
+            <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
+            <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
         </div>
     </div>
+
+
     <div class="content-box history-box hidden">
-        <div class="card link-template-tabcard" style="width:600px;margin: 0px auto;">
-            <div class="card-img-top">
-                <img style="max-width:100%;" src="http://rndimg.com/ImageStore/OilPaintingBlue/800x400_OilPaintingBlue_9c0746faec414151968639a12471670a.jpg" alt="Multipurpose">
-            </div>
-            <div class="card-header  d-flex justify-content-between align-items-center">
-                <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-size: 14px;margin-top: 10px">Package Title</h3>
-                <ul class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" data-target="#desc" href="#desc">Description</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" data-target="#info" href="#info">Package Info</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="card-body p-0">
-                <div class="tab-content">
-                    <div class="tab-pane p-4 active" id="desc" role="tabpanel">
-                        <div id="tab-content">
-                            <div id="desc">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="info" role="tabpanel">
-                        <ul class="list-group list-group-flush ml-0 mb-2">
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:version]">
-                                Version
-                                <span class="badge">1.7.0</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:download_count]">
-                                Download
-                                <span class="badge">10237</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:file_size]">
-                                File Size
-                                <span class="badge">19.09 KB</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:file_count]">
-                                File Count
-                                <span class="badge">1</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:create_date]">
-                                Create Date
-                                <span class="badge">December 24, 2013</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center [hide_empty:update_date]">
-                                Last Updated
-                                <span class="badge">December 16, 2019</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                <b></b>
-                <a href="https://www.wpdownloadmanager.com/" target=_blank class="wpdm-download-link wpdm-download-locked btn btn-info " data-package="30">Download</a>
-            </div>
+        <div class="content-line">
+            <h4>진료기록</h4>
+
         </div>
-        
         @foreach (var item in Model.Item2)
         {
-            <div class="treat-box">
-                <h2 class="treat-day">
-                    @item.disease_name
-                </h2>
-                <p>@item.treat_date</p>
-                <div class="treat-detail-box">
-                    <div class="treat-info">
-                        <p><strong>@item.disease_name</strong></p>
-                        <p>담당의 : @item.staff_name 선생님</p>
-                        <p>진료내용 : @item.treat_details 선생님</p>
-                        <p>진료 완료</p>
+            <div class="card link-template-tabcard">
+                <div class="card-header  d-flex justify-content-between align-items-center">
+                    <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px"> @item.disease_name <span>@item.treat_date</span></h3>
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <div class="tab-pane p-4 info" role="tabpanel">
+                            <div id="tab-content">
+                                <div>
+                                    <p>
+                                        <strong>@item.treat_details</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane active desc" role="tabpanel">
+                            <ul class="list-group list-group-flush ml-0 mb-2">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>병 명 : @item.disease_name</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>담당의 : @item.staff_name 선생님</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>치료방법 : @item.procedure_name</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>시 술 : @item.prescription</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @if (item.treat_status_val == 'T')
+                                    {
+                                        <strong>진료완료</strong>
+                                    }
+                                    else
+                                    {
+                                        <strong>진료 전</strong>
+                                    }
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="treat-btn-area">
-                    <button type="button">진단서 출력</button>
+                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                    <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
                 </div>
             </div>
         }
     </div>
     <div class="content-box as-box hidden">
-        <div class="container">
-            <div class="row">
-                <section id="pinBoot">
-                    <article class="white-panel">
-                        <h4><a href="#">Title 1</a></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                    </article>
-                </section>
-                <hr>
+        <div class="content-line">
+            <h4>사후관리</h4>
+
+        </div>
+        <div class="as-wrapper">
+            @foreach (var item in Model.Item3)
+            {
+                @if (item.as_type == 'M')
+                {
+                    <div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                }
+                else
+                {
+                    <div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                }
+
+                <div class="as-info hidden ">
+                    <p class="as-@Model.Item3.IndexOf(item)">
+                        @item.a_s
+                    </p>
+                </div>
+            }
+        </div>
+        <div class="content-line as-detail">
+            <h4 class="border-bottom">@Model.Item3[0].procedure</h4>
+            <div class="as-detail-info">
+                <p>@Model.Item3[0].a_s</p>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <section id="pinBoot">
-                    <article class="white-panel">
-                        <h4><a href="#">Title 1</a></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
-                    </article>
-                </section>
-                <hr>
-            </div>
-        </div>
-        @foreach (var item in Model.Item3)
-        {
-            <div class="as-wrapper disease">
-                <h2>@item.disease_name</h2>
-                <div>
-                    <p>@item.d_as</p>
-                    <p>음식</p>
-                    <p>좋은 것 아닌 것</p>
-                </div>
-            </div>
-            <div class="as-wrapper procedure">
-                <h2>@item.procedure_name</h2>
-                <div>
-                    <p>@item.m_as</p>
-                    <p>음식</p>
-                    <p>좋은 것 아닌 것</p>
-                </div>
-            </div>
-        }
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-@*<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>*@
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
 <script>
+
+    $(".test").on("click", function () {
+        $.ajax({
+            url: '@Url.Action("Test", "Mypage")',
+            type: "POST",
+            dataType: 'json',
+             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+             success: function () {
+             },
+             error: function (requerst, status, error) {
+               console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+              }
+        });
+    });
+
     // 이름, 핸드폰 번호 정규 표현식 시작
     name_check = /^[ㄱ-ㅎ|가-힣]{2,20}$/;
     phone_check = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
     // 정규 표현식 끝
 
     // 유저 알람 처리 시작
-    $(".form-check-input").on("click", function () {
+    $("input[name=agree_of_alarm]").on("click", function () {
         var alarm_check = $(this).prop("checked");
         alert(alarm_check);
         $.ajax({
@@ -290,12 +256,11 @@
     })
     // 탈퇴 끝
 
-
     // 개인정보 수정 시작
     $(".mody-btn").on("click", function () {
         $(this).parent(".form-group").find(".form-control").attr("disabled", false);
         $(this).hide();
-        @*$(this).next(".submit-btn").show();*@
+        $(this).next(".submit-btn").show();
         $(this).parent(".form-group").find(".hidden").show();
     })
 
@@ -375,16 +340,44 @@
             case "핸드폰":
                 n.find(".not-input").text(v + "은 숫자만 입력가능합니다.").show();
         }
-
-        @*$('input').on('focusin', function () {
-            $(this).parent().find('label').addClass('active');
-        });
-
-        $('input').on('focusout', function () {
-            if (!this.value) {
-                $(this).parent().find('label').removeClass('active');
-            }
-        });*@
     }
+    // 화면 이벤트 처리
+    $('.nav-link').on("click", function () {
+        var active = $(this).data("air");
+        var scale = $(this).parents(".card");
+        scale.find(".tab-pane").removeClass("active");
+        scale.find("." + active).addClass("active");
+    })
+
+    var name = null;
+    var info = null;
+    var index = null;
+    $('.as-wrapper .name').on("click", function () {
+        name = $(this).text();
+        index = $(".name").index(this);
+        info = $(".as-" + index).text();
+        $('.as-detail h4').text(name);
+        $('.as-detail .as-detail-info').text(info);
+    })
+    // 화면 이벤트 처리 끝
+
+    // 처방전 및 진단서 출력 이벤트
+    $('.btn-print').on("click", function () {
+        let treat_id = $(this).data("air");
+
+         $.ajax({
+            url: '@Url.Action("UserPrescription", "Mypage")',
+            type: "POST",
+            dataType: 'json',
+             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+             data: { treat_id: treat_id },
+             success: function () {
+                
+             },
+             error: function (requerst, status, error) {
+               console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+              }
+        });
+    });
 
 </script>

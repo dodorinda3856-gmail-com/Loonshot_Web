@@ -1,8 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http
-
-
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,7 +19,6 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-
                 <!--아코디언안에 들어갈것-->
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav">
@@ -39,36 +35,30 @@
                             <a class="nav-link" href="/home/hospital">소개</a>
                         </li>
                         <li class="nav-item">
-                            <!--
-    @if (User.Identity.IsAuthenticated)
-    {
-        <a class="nav-link" id="download">@User.Identity.Name 님 안녕하세요.</a>
-    }
-    -->
                             @if (Context.Session.GetString("userId") != null)
                             {
-                                <a class="nav-link" id="download">@Context.Session.GetString("userId") 님 안녕하세요.</a>
+                                <a class="navlink" id="download">@Context.Session.GetString("userId") 님 안녕하세요.</a>
                             }
                         </li>
                     </ul>
                     <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
                             @if (Context.Session.GetString("userId") == null)
-                            {
-                                <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
-                            }
+                                {
+                                    <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
+                                }
 
                             @if (Context.Session.GetString("userId") != null)
-                            {
-                                <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
-                            }
+                                {
+                                    <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
+                                }
 
                         </li>
                         <li class="nav-item">
                             @if (Context.Session.GetString("userId") == null)
-                            {
-                                <a rel="noopener" class="nav-link" href="/login/register"> 회원가입</a>
-                            }
+                                {
+                                    <a rel="noopener" class="nav-link" href="/login/register"> 회원가입</a>
+                                }
 
                         </li>
                     </ul>

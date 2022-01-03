@@ -5,14 +5,10 @@
     font-style: normal;
 }
 
-@media (max-width: 2000px) {
-    .container{
-        max-width: 100% !important;
-        padding : 0 !important;
-    }
-}
+
 body {
-    font-family: 'KOTRAHOPE'!important;
+    font-family: 'KOTRAHOPE' !important;
+    background: #f2f2f2;
 }
 .content {
     position: relative;
@@ -34,7 +30,7 @@ body {
     text-align: center;
     font-weight: bold;
     font-size: 3rem;
-    padding: 3rem;
+    padding: 1rem;
     margin: 0;
     border-top: 1px solid #000000;
     border-bottom: 1px solid #000000;
@@ -69,17 +65,14 @@ body {
             padding-bottom: 49%;
         }
 
-.alarm-switch {
-    position: relative !important;
-    margin-left: 0 !important;
-}
-
 .form-check {
     padding-left: 0 !important;
 }
 
 .form-check-input {
+    position: relative !important;
     margin-left: 0 !important;
+    float: none !important;
 }
 
 .user-profile .user-box .mypage-tap div img {
@@ -102,24 +95,54 @@ body {
     margin : 0 auto
 }
 
-.content.mypage .input-box{
-    overflow:hidden;
+.content.mypage .content-line{
+    border-bottom : 1px solid rgba(0,0,0,0.23);
+    position:relative;
+    padding: 1rem;
+    clear:both;
+    margin-bottom: 1rem;
+}
+
+.content.mypage .content-line h4{
+    display:inline;
 }
 
 
-.mypage .input-box .form-group.mr {
-       margin-right: 1rem !important;
-}
+
+    .content.mypage .content-line .btn-remove {
+        border: 1px solid rgba(0,0,0,0.25);
+        float:right
+    }
+    .content.mypage .input-box {
+        overflow: hidden;
+    }
+    .content.mypage .package-title {
+        font-size: 2rem;
+        font-weight:bold;
+        color:black;
+    }
+    .content.mypage .package-title span{
+        font-size: 1rem;
+        color: rgba(0,0,0,0.25)
+    }
+
+    .content.mypage .link-template-tabcard {
+        margin: 1.5rem 0;
+        border-radius: 1rem;
+    }
+
+    .mypage .input-box .form-group.mr {
+        margin-right: 1rem !important;
+    }
 
 
 .mypage .input-box .form-group {
     width: calc(99% / 2 - .6rem);
     margin: 1rem 0;
     display: inline-block;
-    padding: 0.5rem 1rem;
+    padding: 2rem 1rem;
     background-color: #A8C6FF;
     float: left;
-
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); 
     border-radius: 2px;
     position: relative;
@@ -134,9 +157,10 @@ body {
     }
 
     .mypage .input-box .form-group label {
-        font-weight: bold;
         font-size: 1.5rem;
         text-align: center;
+        display: block;
+        color:grey;
     }
 
 .mypage .input-box .form-group input[type=text] {
@@ -147,7 +171,64 @@ body {
     padding : 6px 0;
     font-weight: bold;
     font-size : 1.1rem;
+    width: 65%;
+    display: inline-block;
+    
 }
+.mypage .input-box .form-group .btn {
+    border-radius: 20px;
+    border: 1px solid #fff;
+    font-weight: bold;
+    float:right
+}
+
+.content.mypage .as-box .as-wrapper {
+    overflow:hidden;
+}
+
+.content.mypage .as-box .as-wrapper .name {
+    display: inline-block;
+    padding: 1rem;
+    border: 1px solid;
+    width: 15%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1rem;
+    float: left;
+    color: #f2f2f2;
+}
+
+    .content.mypage .as-box .as-wrapper .type-d {
+        border: 1px solid #f3f3f3;
+        background-color: #deab41;
+        border-radius: 25px;
+    }
+    .content.mypage .as-box .as-wrapper .type-m {
+        border: 1px solid #f3f3f3;
+        background-color: #40b8c8;
+        border-radius: 25px;
+    }
+
+.content.mypage .as-box .as-detail {
+    background-color: white;
+    padding: 1rem;
+    border-radius: .9rem;
+    margin-top: 1.5rem;
+}
+
+    .content.mypage .as-box .as-detail h4 {
+        font-weight: bold;
+        font-size: 2.2rem;
+        border-bottom: 1px dotted #000000;
+        text-align: center;
+        margin-bottom: 1rem;
+        display:block
+    }
+
+    .content.mypage .as-box .as-detail .as-detail-info {
+        font-size: 1.8rem;
+    }
 
 
 
@@ -156,16 +237,6 @@ body {
 }
 
 
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
-
-body {
-    background: #f2f2f2;
-    font-family: 'Poppins', sans-serif;
-}
-
-h3 {
-    font-family: 'Poppins', sans-serif;
-}
 
 .social-box .box {
     background: #FFF;
@@ -197,53 +268,3 @@ h3 {
 }
 
 
-/*as */
-
-/*
-Ref:
-Thanks to:
-http://www.jqueryscript.net/layout/Simple-jQuery-Plugin-To-Create-Pinterest-Style-Grid-Layout-Pinterest-Grid.html
-*/
-
-body {
-    background-color: #eee;
-}
-
-#pinBoot {
-    position: relative;
-    max-width: 100%;
-    width: 100%;
-}
-
-img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-}
-
-.white-panel {
-    position: absolute;
-    background: white;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-}
-    /*
-stylize any heading tags withing white-panel below
-*/
-
-    .white-panel h1 {
-        font-size: 1em;
-    }
-
-        .white-panel h1 a {
-            color: #A92733;
-        }
-
-    .white-panel:hover {
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-        margin-top: -5px;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        transition: all 0.3s ease-in-out;
-    }

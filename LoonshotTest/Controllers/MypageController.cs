@@ -33,9 +33,13 @@ namespace LoonshotTest.Controllers
             
         }
 
+        [Route("/mypage/test")]
+        public IActionResult Diagnosis() {
+            return View();
+        }
+
         [Route("/mypage/info")]
         public IActionResult Mypage() {
-
             try
             {
                 //if (User.Identity.Name == null)
@@ -66,6 +70,24 @@ namespace LoonshotTest.Controllers
 
             return Redirect("/");
         }
+
+        //[HttpPost]
+        //public JsonResult UserPrescription(int treat_id) {
+        //    TreatMentModel treatModel = new TreatMentModel ();
+        //    treatModel.Treat_id = treat_id;
+
+
+        //    string message = "succces";
+        //    if (alarmStat.UserAlarm(alarmStat) != 1)
+        //    {
+        //        message = "Error";
+        //    }
+
+
+        //    return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
+
+
+        //}
 
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {

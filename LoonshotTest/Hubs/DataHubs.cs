@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using LoonshotTest.Models;
 using CoolSms;
-using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LoonshotTest.Hubs;
@@ -25,11 +24,12 @@ namespace LoonshotTest.Hubs
             return GetMyWaiting(patient_id, cookieCheck);
         }
 
+        [HttpGet]
         public int GetMyWaiting(string p_id , string cookie) {
             WaitingModel waitmodel = new WaitingModel();
-
             try
             {
+
                 waitmodel.patient_login_id = p_id;
                 waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
                 waitmodel = waitmodel.Mywating(waitmodel);
