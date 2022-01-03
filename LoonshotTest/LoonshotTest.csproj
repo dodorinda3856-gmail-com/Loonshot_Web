@@ -5,6 +5,14 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Mypage\diagnosis.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Mypage\diagnosis.cshtml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
