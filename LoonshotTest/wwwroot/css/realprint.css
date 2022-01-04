@@ -1,8 +1,4 @@
 ﻿@media only print {
-    body {
-        background: red;
-    }
-
     .table-title {
         -webkit-print-color-adjust: exact !important;
     }

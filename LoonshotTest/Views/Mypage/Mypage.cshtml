@@ -10,15 +10,6 @@
 
 <div id="non-printArea">
     <div class="user-profile">
-        <div id="PrintMe">
-            <p>
-                I'm trying to print the text inside the div on android chrome<br>
-                This works on windows 10 chrome <br>
-                but on android chrome, it prints, but shows the whole page<br>
-                with header and print button.
-            </p>
-        </div>
-        <button id="print" onclick="printDiv('PrintMe')"> Print </button>
         <h2>@Model.Item1.patient_name </h2>
         <div class="user-box">
             <div class="mypage-tap">
@@ -389,7 +380,9 @@
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
 
-                 PrintElem(printArea);
+                 console.log("btn");
+                 printDiv('printArea');
+                 
 
              },
              error: function (requerst, status, error) {
@@ -400,15 +393,35 @@
 
     // 프린트 기능
     function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
+        var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
+
+        var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
+        printWindow.document.write(printContents);
+        printWindow.document.close();
+        printWindow.focus();
+        setTimeout(function () {
+            printWindow.print();
+            printWindow.close();
+        }, 500);
+      
+        return false;
+
+
+        @*var originalContents = document.body.innerHTML;
+
+        
         document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = originalContents;
+        console.log(printContents);
+
+        setTimeout(function () {
+            window.print();
+            document.body.innerHTML = originalContents;
+        }, 500);*@
+
     }
 
 
-    function PrintElem(elem) {
+    @*function PrintElem(elem) {
         Popup($(elem).html());
     }
     function Popup(data) {
@@ -441,8 +454,8 @@
                 mywindow.print();
                 mywindow.close();
             }, 500);
-        @*}*@
-            return true;
         }
-    }
+            return true;
+        }*@
+   
 </script>
