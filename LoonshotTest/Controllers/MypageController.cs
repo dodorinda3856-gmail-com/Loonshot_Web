@@ -33,17 +33,17 @@ namespace LoonshotTest.Controllers
             
         }
 
-        [Route("/mypage/diagnosis")]
-        public IActionResult Diagnosis()
-        {
-            return View();
-        }
+        //[Route("/mypage/diagnosis")]
+        //public IActionResult Diagnosis()
+        //{
+        //    return View();
+        //}
 
-        [Route("/mypage/test")]
-        public IActionResult Prescription()
-        {
-            return View();
-        }
+        //[Route("/mypage/test")]
+        //public IActionResult Prescription()
+        //{
+        //    return View();
+        //}
 
 
         [Route("/mypage/info")]
