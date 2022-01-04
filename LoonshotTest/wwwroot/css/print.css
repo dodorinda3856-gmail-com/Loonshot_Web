@@ -18,3 +18,28 @@ table {
     background-color: #8ce9df;
     font-weight:bold;
 }
+
+@media print {
+
+    body {
+        background-color: red;
+    }
+
+    table {
+        border: 1px solid black;
+        text-align: center;
+        font-size: 15px;
+        background-color: red;
+    }
+
+    tr, td {
+        border: 1px solid black;
+        padding: .5rem;
+    }
+
+    .table-title {
+        background-color: #8ce9df;
+        font-weight: bold;
+    }
+    
+}

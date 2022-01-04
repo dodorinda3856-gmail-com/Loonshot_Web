@@ -3,7 +3,7 @@
 </head>
 <body>
     <div class="hidden" id="printArea">
-       <div class="print-header">
+       @*<div class="print-header">
            <div class="right-box w-50">
                <span class="font-size-l">처방전</span>
            </div>
@@ -12,9 +12,9 @@
                <p>작성자 </p>
                <p>날짜 </p>
            </div>
-       </div>
+       </div>*@
        <div class="print-body br-top-blue">
-           <table border="1" style="background-color: red" width="100%" table-layout: auto; width: 100%;>
+           <table border="1" style=" border: 1px solid black; text-align: center; font-size: 15px;" width="100%" table-layout: auto; width: 100%;>
                <colgroup>
                    <col style="width:4%" />
                    <col style="width:4%" />
@@ -38,23 +38,23 @@
                    <col style="width:4%" />
                </colgroup>
                <tr>
-                   <td class="table-title" colspan="5">교부연월일 및 번호</td>
+                   <td class="table-title" style=" background-color: #8ce9df; font-weight: bold;" colspan="5">교부연월일 및 번호</td>
                    <td colspan="6" id="print_id"></td>
-                   <td rowspan="4" colspan="3" class="table-title">의료기관</td>
-                   <td colspan="3" class="table-title">명 칭</td>
+                   <td rowspan="4" colspan="3" style=" background-color: #8ce9df; font-weight: bold;" class="table-title">의료기관</td>
+                   <td colspan="3" style=" background-color: #8ce9df; font-weight: bold;" class="table-title">명 칭</td>
                    <td colspan="3">이지피부과전문병원</td>
                </tr>
                <tr>
-                   <td class="table-title" colspan="2" rowspan="3">환자</td>
-                   <td class="table-title" colspan="3">성명</td>
+                   <td class="table-title" style=" background-color: #8ce9df; font-weight: bold;" colspan="2" rowspan="3">환자</td>
+                   <td class="table-title" style=" background-color: #8ce9df; font-weight: bold;" colspan="3">성명</td>
                    <td colspan="6" id="print_name"></td>
-                   <td colspan="3" class="table-title">전화번호</td>
+                   <td colspan="3" style=" background-color: #8ce9df; font-weight: bold;" class="table-title">전화번호</td>
                    <td colspan="3">02-038-3312</td>
                </tr>
                <tr>
-                   <td class="table-title" colspan="3" rowspan="2">주민등록번호</td>
+                   <td class="table-title" style=" background-color: #8ce9df; font-weight: bold;" colspan="3" rowspan="2">주민등록번호</td>
                    <td colspan="6" rowspan="2" id="print_id_number"></td>
-                   <td colspan="3" class="table-title">팩스번호</td>
+                   <td colspan="3" style=" background-color: #8ce9df; font-weight: bold;" class="table-title">팩스번호</td>
                    <td colspan="3">02-038-3312</td>
                </tr>
                <tr>

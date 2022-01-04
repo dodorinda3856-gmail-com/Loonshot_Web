@@ -1,0 +1,27 @@
+﻿@media only print {
+    body {
+        background: red;
+    }
+
+    .table-title {
+        -webkit-print-color-adjust: exact !important;
+    }
+
+    table {
+        border: 1px solid black;
+        text-align: center;
+        font-size: 15px;
+        background-color: red;
+    }
+
+    tr, td {
+        border: 1px solid black;
+        padding: .5rem;
+    }
+
+    .table-title {
+        background-color: #8ce9df;
+        font-weight: bold;
+    }
+    
+}
