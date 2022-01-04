@@ -180,6 +180,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
 <script>
     $(".test").on("click", function () {
         $.ajax({
@@ -393,31 +394,33 @@
 
     // 프린트 기능
     function printDiv(divName) {
-        var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        if (!isAndroid) {
+            alert("web")
+            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
 
-        @*var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
-        printWindow.document.write(printContents);
-        printWindow.document.close();
-        printWindow.focus();
-        setTimeout(function () {
+            var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
+            printWindow.document.write(printContents);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(function () {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        } else {
+            alert("app")
+            var divContents = $("#" + divName).html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body></html>');
+            console.log(printWindow.html);
+            printWindow.document.close();
             printWindow.print();
-            printWindow.close();
-        }, 500);
-      
-        return false;*@
-
-
-        var originalContents = document.body.innerHTML;
-
-        
-        document.body.innerHTML = printContents;
-        console.log(printContents);
-
-        setTimeout(function () {
-            window.print();
-            document.body.innerHTML = originalContents;
-        }, 500);
-
+        }
+        return false;
     }
 
 

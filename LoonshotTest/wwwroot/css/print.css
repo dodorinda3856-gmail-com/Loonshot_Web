@@ -19,10 +19,9 @@ table {
     font-weight:bold;
 }
 
-@media print {
-
-    body {
-        background-color: red;
+@media only print {
+    .table-title {
+        -webkit-print-color-adjust: exact !important;
     }
 
     table {
@@ -41,5 +40,4 @@ table {
         background-color: #8ce9df;
         font-weight: bold;
     }
-    
 }
