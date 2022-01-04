@@ -399,7 +399,6 @@
         var ua = navigator.userAgent.toLowerCase();
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
 
-        alert(isAndroid);
         if (isAndroid) {
             // https://developers.google.com/cloud-print/docs/gadget
             var gadget = new cloudprint.Gadget();
@@ -417,7 +416,7 @@
                 mywindow.focus(); // necessary for IE >= 10
                 mywindow.print();
                 mywindow.close();
-            }, 5000);
+            }, 500);
         }
         return true;
     }
