@@ -397,8 +397,7 @@
         var ua = navigator.userAgent.toLowerCase();
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
         if (!isAndroid) {
-            alert("web")
-            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
+            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>처방전</title>' + document.getElementById(divName).innerHTML;
 
             var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
             printWindow.document.write(printContents);
@@ -409,7 +408,6 @@
                 printWindow.close();
             }, 500);
         } else {
-            alert("app")
             var divContents = $("#" + divName).html();
             var printWindow = window.open('', '', 'height=400,width=800');
             printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
@@ -422,43 +420,5 @@
         }
         return false;
     }
-
-
-    @*function PrintElem(elem) {
-        Popup($(elem).html());
-    }
-    function Popup(data) {
-        var ua = navigator.userAgent.toLowerCase();
-        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
-        console.log(ua, isAndroid);
-
-        if (isAndroid) {
-
-            var sUrl = "www.google.com";
-            var ctrlString = "Hello world";
-            var wind = window.open(sUrl, "PrintWindow", ctrlString);
-            wind.document.write("<html><head><meta name=\"viewport\" content =\"width=device-width\" /><style>html, body, p {font-size: 20px; width: 100 %; display:block; margin: 2px; padding: 1px; }</style > </head > <body><p>Hello world.</p></body></html > ");
-        var tempTitle = document.title;
-        wind.document.title = sUrl;
-        wind.print();
-        wind.document.title = tempTitle;
-        wind.close();
-        } else {
-            var mywindow = window.open('', 'my div', 'height=400,width=600');
-            mywindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>');
-            mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
-            mywindow.document.write(data);
-            mywindow.document.write('</body></html>');
-            mywindow.document.close(); // IE >= 10에 필요
-            mywindow.focus(); // necessary for IE >= 10
-
-
-            setTimeout(function () {
-                mywindow.print();
-                mywindow.close();
-            }, 500);
-        }
-            return true;
-        }*@
    
 </script>
