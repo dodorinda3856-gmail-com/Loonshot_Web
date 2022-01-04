@@ -40,9 +40,11 @@ namespace LoonshotTest.Controllers
         }
 
         [Route("/mypage/test")]
-        public IActionResult Prescription() {
+        public IActionResult Prescription()
+        {
             return View();
         }
+
 
         [Route("/mypage/info")]
         public IActionResult Mypage() {
