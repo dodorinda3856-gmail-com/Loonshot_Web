@@ -10,7 +10,15 @@
 
 <div id="non-printArea">
     <div class="user-profile">
-
+        <div id="PrintMe">
+            <p>
+                I'm trying to print the text inside the div on android chrome<br>
+                This works on windows 10 chrome <br>
+                but on android chrome, it prints, but shows the whole page<br>
+                with header and print button.
+            </p>
+        </div>
+        <button id="print" onclick="printDiv('PrintMe')"> Print </button>
         <h2>@Model.Item1.patient_name </h2>
         <div class="user-box">
             <div class="mypage-tap">
@@ -391,6 +399,14 @@
     });
 
     // 프린트 기능
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+
 
     function PrintElem(elem) {
         Popup($(elem).html());
