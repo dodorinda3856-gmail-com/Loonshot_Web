@@ -396,17 +396,29 @@
         Popup($(elem).html());
     }
     function Popup(data) {
-        var mywindow = window.open('', 'my div', 'height=400,width=600');
-        mywindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>');
-        mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
-        mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
-        mywindow.document.close(); // IE >= 10에 필요
-        setTimeout(function () {
-            mywindow.focus(); // necessary for IE >= 10
-            mywindow.print();
-            mywindow.close();
-        }, 5000);
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+
+        alert(isAndroid);
+        if (isAndroid) {
+            // https://developers.google.com/cloud-print/docs/gadget
+            var gadget = new cloudprint.Gadget();
+            gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
+            gadget.openPrintDialog();
+        } else {
+            var mywindow = window.open('', 'my div', 'height=400,width=600');
+            mywindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>');
+            mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
+            mywindow.document.write(data);
+            mywindow.document.write('</body></html>');
+            mywindow.document.close(); // IE >= 10에 필요
+
+            setTimeout(function () {
+                mywindow.focus(); // necessary for IE >= 10
+                mywindow.print();
+                mywindow.close();
+            }, 5000);
+        }
         return true;
     }
 </script>
