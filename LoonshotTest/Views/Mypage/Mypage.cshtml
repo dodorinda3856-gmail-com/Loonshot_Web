@@ -396,28 +396,37 @@
         Popup($(elem).html());
     }
     function Popup(data) {
-        @*var ua = navigator.userAgent.toLowerCase();
+        var ua = navigator.userAgent.toLowerCase();
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        console.log(ua, isAndroid);
 
         if (isAndroid) {
-            // https://developers.google.com/cloud-print/docs/gadget
-            var gadget = new cloudprint.Gadget();
-            gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
-            gadget.openPrintDialog();
-        } else {*@
+
+            var sUrl = "www.google.com";
+            var ctrlString = "Hello world";
+            var wind = window.open(sUrl, "PrintWindow", ctrlString);
+            wind.document.write("<html><head><meta name=\"viewport\" content =\"width=device-width\" /><style>html, body, p {font-size: 20px; width: 100 %; display:block; margin: 2px; padding: 1px; }</style > </head > <body><p>Hello world.</p></body></html > ");
+        var tempTitle = document.title;
+        wind.document.title = sUrl;
+        wind.print();
+        wind.document.title = tempTitle;
+        wind.close();
+        } else {
             var mywindow = window.open('', 'my div', 'height=400,width=600');
             mywindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>');
             mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
             mywindow.document.write(data);
             mywindow.document.write('</body></html>');
             mywindow.document.close(); // IE >= 10에 필요
+            mywindow.focus(); // necessary for IE >= 10
+
 
             setTimeout(function () {
-                mywindow.focus(); // necessary for IE >= 10
                 mywindow.print();
                 mywindow.close();
             }, 500);
         @*}*@
-        return true;
+            return true;
+        }
     }
 </script>
