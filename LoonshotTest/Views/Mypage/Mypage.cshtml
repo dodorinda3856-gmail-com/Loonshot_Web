@@ -395,7 +395,7 @@
     function printDiv(divName) {
         var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
 
-        var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
+        @*var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
         printWindow.document.write(printContents);
         printWindow.document.close();
         printWindow.focus();
@@ -404,10 +404,10 @@
             printWindow.close();
         }, 500);
       
-        return false;
+        return false;*@
 
 
-        @*var originalContents = document.body.innerHTML;
+        var originalContents = document.body.innerHTML;
 
         
         document.body.innerHTML = printContents;
@@ -416,7 +416,7 @@
         setTimeout(function () {
             window.print();
             document.body.innerHTML = originalContents;
-        }, 500);*@
+        }, 500);
 
     }
 
