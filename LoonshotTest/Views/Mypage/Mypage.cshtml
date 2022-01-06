@@ -379,11 +379,10 @@
                  let d =  new Date();
                  $("#print_id").text(m.print_id);
                  $("#print_name").text(m.name);
-
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
 
-                 PrintElem(printArea);
+                 printDiv("printArea");
 
              },
              error: function (requerst, status, error) {
@@ -393,22 +392,32 @@
     });
 
     // 프린트 기능
-     function PrintElem(elem) {
-        Popup($(elem).html());
-    }
-    function Popup(data) {
-        var mywindow = window.open('', 'my div', 'height=400,width=600');
-        printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
-        mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
-        mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
-        mywindow.document.close(); // IE >= 10에 필요
-        mywindow.focus(); // necessary for IE >= 10
-        setTimeout(function () {
-            mywindow.print();
-            mywindow.close();
-        }, 1000);
-        return true;
+    function printDiv(divName) {
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+        if (!isAndroid) {
+            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
+
+            var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
+            printWindow.document.write(printContents);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(function () {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        } else {
+            var divContents = $("#" + divName).html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body></html>');
+            console.log(printWindow.html);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        return false;
     }
 
 </script>

@@ -70,9 +70,7 @@ namespace LoonshotTest
             loggerFactory.AddLog4Net("log4net.config");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseSession();
