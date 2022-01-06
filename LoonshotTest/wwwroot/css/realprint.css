@@ -1,25 +1,4 @@
-﻿body {
-    padding: 0 !important;
-    margin : 0 !important; 
-}
-
-table {
-    border: 1px solid black;
-    text-align: center;
-    font-size: 15px;
-}
-
-    tr , td {
-        border: 1px solid black;
-        padding: .5rem;
-    }
-
-.table-title {
-    background-color: #8ce9df;
-    font-weight:bold;
-}
-
-@media only print {
+﻿@media only print {
     .table-title {
         -webkit-print-color-adjust: exact !important;
     }
@@ -40,4 +19,5 @@ table {
         background-color: #8ce9df;
         font-weight: bold;
     }
+    
 }

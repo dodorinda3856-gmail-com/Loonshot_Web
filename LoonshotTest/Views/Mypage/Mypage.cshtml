@@ -1,6 +1,7 @@
 ﻿@model Tuple<LoonshotTest.Models.TreatMentModel, List<LoonshotTest.Models.TreatMentModel>, List<LoonshotTest.Models.ASModel>>
 <head>
     <link rel="stylesheet" href="~/css/mypage.css" />
+    <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">
 </head>
 
 @*부분 화면 테스트*@
@@ -9,7 +10,6 @@
 
 <div id="non-printArea">
     <div class="user-profile">
-
         <h2>@Model.Item1.patient_name </h2>
         <div class="user-box">
             <div class="mypage-tap">
@@ -180,6 +180,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
 <script>
     // 핸드폰 번호로만 11자리 입력
     var chkPhone = /^[0-9]{11}$/
@@ -392,8 +393,7 @@
     });
 
     // 프린트 기능
-    
-    function PrintElem(elem) {
+     function PrintElem(elem) {
         Popup($(elem).html());
     }
     function Popup(data) {
@@ -410,4 +410,5 @@
         }, 1000);
         return true;
     }
+
 </script>
