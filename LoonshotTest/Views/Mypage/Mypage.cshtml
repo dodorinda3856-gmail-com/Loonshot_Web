@@ -398,7 +398,7 @@
     }
     function Popup(data) {
         var mywindow = window.open('', 'my div', 'height=400,width=600');
-        mywindow.document.write('<html><head>  <link rel="stylesheet" href="C:/Users\user/Documents/카카오톡 받은 파일/Loonshot_Web/LoonshotTest/wwwroot\css\print.css" /> <title>my div</title>');
+        printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
         mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
         mywindow.document.write(data);
         mywindow.document.write('</body></html>');
