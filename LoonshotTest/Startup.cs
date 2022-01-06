@@ -9,6 +9,7 @@ using Microsoft.Extensions.WebEncoders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using LoonshotTest.Hubs;
@@ -54,7 +55,7 @@ namespace LoonshotTest
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -66,6 +67,7 @@ namespace LoonshotTest
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            loggerFactory.AddLog4Net("log4net.config");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

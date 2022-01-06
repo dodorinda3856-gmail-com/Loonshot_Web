@@ -5,6 +5,7 @@
 
 @*부분 화면 테스트*@
 @Html.Partial("Diagnosis")
+@Html.Partial("Prescription")
 
 <div id="non-printArea">
     <div class="user-profile">
@@ -38,7 +39,7 @@
 
     <div class="content mypage">
 
-        <div class="content-box input-box">
+        <div class="content-box input-box" >
             <div class="content-line">
                 <h4>개인정보</h4>
                 <button type="button" class="btn btn-remove">회원 탈퇴</button>
@@ -180,6 +181,13 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
 <script>
+    // 핸드폰 번호로만 11자리 입력
+    var chkPhone = /^[0-9]{11}$/
+    // 주민번호 번호만으로 13자리 입력
+    var chkRegist = /^[0-9]{13}$/
+    // 사용자 이름 한글만입력 가능 2~4자리로 입력
+    var chkName = /^[가-힣]{2,4}$/
+
     $(".test").on("click", function () {
         $.ajax({
             url: '@Url.Action("Test", "Mypage")',
@@ -195,10 +203,6 @@
         });
     });
 
-    // 이름, 핸드폰 번호 정규 표현식 시작
-    name_check = /^[ㄱ-ㅎ|가-힣]{2,20}$/;
-    phone_check = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-    // 정규 표현식 끝
 
     // 유저 알람 처리 시작
     $("input[name=agree_of_alarm]").on("click", function () {
@@ -275,7 +279,7 @@
         if (ajax_check == "name") {
             ajax_data = $("#name-input").val();
             data_type = "N";
-            if (!name_check.test(ajax_data)) {
+            if (!chkName.test(ajax_data)) {
                 shakeCard($(this).parent(".form-group"), "성명");
                 $("#name-input").val("");
                 return false;
@@ -285,7 +289,7 @@
         else if (ajax_check == "phone") {
             ajax_data = $("#phone-input").val();
             data_type = "P";
-            if (!phone_check.test(ajax_data)) {
+            if (!chkPhone.test(ajax_data)) {
                 $("#phone-input").val("");
                 shakeCard($(this).parent(".form-group"), "휴대폰");
                 return false;
@@ -327,7 +331,6 @@
 
     // shake
     function shakeCard(n, v) {
-
         n.effect('shake', "", 500);
         n.css({
             "border": "1px solid red"
@@ -375,10 +378,11 @@
                  let d =  new Date();
                  $("#print_id").text(m.print_id);
                  $("#print_name").text(m.name);
+
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
-                 printpage();
-                 @*printIt(document.getElementById('printArea').innerHTML);*@
+
+                 PrintElem(printArea);
 
              },
              error: function (requerst, status, error) {
@@ -388,39 +392,22 @@
     });
 
     // 프린트 기능
-    function printpage() {
-        console.log(printArea.innerHTML = document.all['printArea'].innerHTML);
-
-        window.onbeforeprint = bef;
-        window.onafterprint = aft;
-         window.print();
-    };
-
-    // 임시 주석
-    @*function printIt(printThis) {
-        var win = null;
-        win = window.open();
-        self.focus();
-        win.document.open();
-        win.document.write(printThis);
-        win.document.close();
-        win.print();
-        win.close();
-    }*@
-
-        function bef() {
-            if (document.all) {
-                contents.style.display = 'none';
-                printArea.innerHTML = document.all['printArea'].innerHTML;
-                console.log(printArea.innerHTML);
-            }
-        }
-
-    function aft() {
-        if (document.all) {
-            contents.style.display = 'block';
-            printArea.innerHTML = "";
-        }
+    
+    function PrintElem(elem) {
+        Popup($(elem).html());
     }
-
+    function Popup(data) {
+        var mywindow = window.open('', 'my div', 'height=400,width=600');
+        mywindow.document.write('<html><head>  <link rel="stylesheet" href="C:/Users\user/Documents/카카오톡 받은 파일/Loonshot_Web/LoonshotTest/wwwroot\css\print.css" /> <title>my div</title>');
+        mywindow.document.write('</head><body style="padding: 0; margin: 0;" >');
+        mywindow.document.write(data);
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // IE >= 10에 필요
+        mywindow.focus(); // necessary for IE >= 10
+        setTimeout(function () {
+            mywindow.print();
+            mywindow.close();
+        }, 1000);
+        return true;
+    }
 </script>

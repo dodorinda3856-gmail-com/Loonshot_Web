@@ -16,12 +16,10 @@ using LoonshotTest.Interface;
 namespace LoonshotTest.Controllers
 {
 
-    [CheckUser]
     public class HomeController : Controller 
     {
 
         private readonly ILogger<HomeController> _logger;
-
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -30,6 +28,7 @@ namespace LoonshotTest.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogError("test");
             return View();
         }
 
