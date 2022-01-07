@@ -18,8 +18,10 @@
 
         Kakao.Auth.login({
             scope: 'account_email',
-            success: function (authObj) {
-
+            success: function (authObj)
+            {
+                Kakao.Auth.setAccessToken(authObj.access_token);
+                //alert(Kakao.Auth.getAccessToken());
                 Kakao.API.request({
                     url: '/v2/user/me',
                     success: function (response) {
@@ -35,7 +37,7 @@
                         //alert(Kakao.Auth.getAccessToken());
                         //var nickname = response.nickname;
                         //var birth = response.birthday;
-                        location.href = "/login/kakaoLogin?userId=" + userId + "&kakaoemail=" + kakaoemail;
+                        location.href = "/login/kakaoLogin?userId=" + userId + "&kakaoemail=" + kakaoemail + "&token=" + Kakao.Auth.getAccessToken();
                     } //End response function
                 }) //End API.request
             } //End authObj Function

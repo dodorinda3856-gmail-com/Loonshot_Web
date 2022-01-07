@@ -1,26 +1,28 @@
 ﻿@model IEnumerable<MediStaff>
-    @{
-    }
-
-    
+ 
+    <link rel="stylesheet" href="~/css/bookingindex.css">
+    <div style="max-width: 240px; margin-top: 100px">
+        <a  asp-controller="booking" asp-action="mybooking">
+            <button type="button" class="btn btn-primary">
+                내 예약 보기
+            </button>
+        </a>
+    </div>
     <div class="row">
-        @foreach(var staff in Model){
-        <div style="max-width: 240px;" class="col-md-4 col-xs-6 border-primary mb-3">
-            <h3 class="card-header">@staff.Staff_Name</h3>
+        @foreach(var staff in Model.Select((value, index) => (value, index))){
+
+        <div style="max-width: 240px; margin-top: 100px" class="col-md-4 col-xs-6 border-primary mb-3">
+            <h3 class="card-header">@staff.value.Staff_Name</h3>
             <div class="card-body">
-                <h5 class="card-title">@staff.Medi_Subject 전문</h5>
-            </div>
-           <img src="https://myteledoc.app/wp-content/uploads/2020/09/happy-young-female-doctor-smiling-and-looking-at-c-WDEKYYG.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <div class="card-body">
-                <a  asp-controller="Booking" asp-action="ChooseDate" asp-route-id="@staff.Staff_Id" class="card-link">예약</a>
+                <h5 class="card-title">@staff.value.Medi_Subject 전문</h5>
+            </div>  
+            <div>
+                <img src="~/img/AfterService/doctor@(staff.index+1).jpg" style="width: 215px;height: 320px; object-fit: cover;"class="card-img-top" alt="...">
+                <a class="booking-selectdoc-btn"  asp-controller="Booking" asp-action="ChooseDate" asp-route-id="@staff.value.Staff_Id" class="card-link">
+                    <div>
+                        예약
+                    </div>
+                </a>
             </div>
         </div>
         }

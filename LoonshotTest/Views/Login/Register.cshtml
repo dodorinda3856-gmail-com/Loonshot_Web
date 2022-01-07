@@ -1,9 +1,16 @@
+
+
 @{
     string msg = ViewData["msg"] as string;
+    //string msg = "";
 }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
 
+
+
+</script>
 
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
     <div class="auth-box row">
@@ -12,51 +19,60 @@
         <div class="col-lg-5 col-md-7 bg-white">
             <div class="p-3">
                 <h2 class="mt-3 text-center">Sign Up for Free</h2>
+                <!--
                 @if (string.IsNullOrWhiteSpace(msg) == false)
                 {
                     <div id ="notify" class="alert alert-danger">@msg</div>
                 }
+                -->
+                <div id="notify" class="alert alert-danger"></div>
                 <form id="form1" method="post" action="/login/register" class="mt-4">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="patient_login_id" class="form-control" type="text" placeholder="insert your id" onkeyup="checkId(this.value);">
+                                <input id="login_id" name="patient_login_id" class="form-control" type="text" placeholder="insert your id">
+                                <!--<input name="patient_login_id" class="form-control" type="text" placeholder="insert your id" onkeyup="checkId(this.value);">-->
                                 <br />
                             </div>
                         </div>
 
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="patient_login_pw" class="form-control" type="password" placeholder="insert your password" onkeyup="checkPw(this.value);">
+                                <input id="login_pw" name="patient_login_pw" class="form-control" type="password" placeholder="insert your password">
+                                <!--<input name="patient_login_pw" class="form-control" type="password" placeholder="insert your password" onkeyup="checkPw(this.value);">-->
                                 <br />
                             </div>
                         </div>
 
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password" onkeyup="checkPw(this.value);">
+                                <input id="login_pw2" name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password">
                             </div>
                             <br />
 
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input id="regiden_regist" name="resident_regist_num" class="form-control" type="text" placeholder="insert your regist_num">
+                                    <br />
+                                </div>
+                                <!--<input name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password" onkeyup="checkPw(this.value);">-->
+
+                            </div>
+
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="resident_regist_num" class="form-control" type="text" placeholder="insert your regist_num" onkeyup="checkRegist(this.value);">
+                                <input id="pnNum" name="phone_num" class="form-control" type="text" placeholder="your phone number">
                                 <br />
+                                <input id="authNum" name="Authentication number" class="form-control" type="text" placeholder="Authentication number">
                             </div>
-                        </div>
-                            <div class="form-group">
-                                <input id="pnNum" name="phone_num" class="form-control" type="text" placeholder="your phone number" onkeyup="checkPhone(this.value);">
-                                <br />
-                                <input id ="authNum" name="Authentication number" class="form-control" type="text" placeholder="Authentication number">
-                            </div>
-                            
+
                             <br />
                             <div class="col-lg-12 text-center">
                                 <button type="button" class="btn btn-secondary" onClick="fncAuth()" disabled>Send Code</button>
                                 <button type="button" class="btn btn-success" onClick="fncCheckAuth()" disabled>Certify</button>
                                 <!-- <button id="signUp" type="submit" class="btn btn-primary" disabled>Sign Up</button> -->
 
-                                <button id="signUp" type="submit" class="btn btn-primary" >Sign Up</button>
+                                <button id="signUp" type="submit" class="btn btn-primary">Sign Up</button>
                             </div>
                             <div class="col-lg-12 text-center mt-5">
                                 Already have an account? <a href="/login/login" class="text-danger">Sign In</a>
@@ -71,7 +87,85 @@
 
 
 <script>
+    var arr = [];
 
+    $("#login_id").change(function () {
+        console.log($(this).val());
+        $.ajax({
+            url: "/login/idCheck",
+            method: "POST",
+            data: {
+                id: $(this).val()
+            },
+            success:
+                function (resp) {
+                    console.log("넘어온 메세지 : " + resp);
+                    $("#notify").text(resp);
+                }
+        });	 //ajax종료
+    }); // 아이디 체크 종료
+
+
+    $("#login_pw").change(function () {
+        console.log($(this).val());
+        $.ajax({
+            url: "/login/pwCheck",
+            method: "POST",
+            data: {
+                pw: $(this).val()
+            },
+            success:
+                function (resp) {
+                    console.log("넘어온 메세지 : " + resp);
+                    $("#notify").text(resp);
+                }
+        });	 //ajax종료
+    })//비번 체크 종료
+
+    $("#login_pw2").change(function () {
+        var status = "";
+        console.log($(this).val());
+        if ($(this).val() != $("#login_pw").val()) {
+            status = "F";
+        } else {
+            status = "T";
+        }
+        $.ajax({
+            url: "/login/pwCheck2",
+            method: "POST",
+            data: {
+                status: status
+            },
+            success:
+                function (resp) {
+                    console.log("넘어온 메세지 : " + resp);
+                    $("#notify").text(resp);
+          }
+        });	 //ajax종료
+    })//비번1 비번2 동일여부 체크 종료
+
+    $("#regiden_regist").change(function () {
+
+        $.ajax({
+            url: "/login/rsCheck",
+            method: "POST",
+            data: {
+                rs: $(this).val()
+            },
+            success:
+                function (resp) {
+                    console.log("넘어온 메세지 : " + resp);
+                    $("#notify").text(resp);
+                }
+        });	 //ajax종료
+
+
+    })//주민번호 유효성 체크 종료
+
+
+
+
+    /*
     var key = "";
     var authNum = "";
     var chkPhone = /^[0-9]{11}$/
@@ -135,7 +229,7 @@
             method: "GET",
             success:
                 function (resp) {
-                    console.log("넘어온 키 값 : "+resp);
+                    console.log("넘어온 키 값 : " + resp);
                     alert(resp);
                     key = resp;
                     alert(key);

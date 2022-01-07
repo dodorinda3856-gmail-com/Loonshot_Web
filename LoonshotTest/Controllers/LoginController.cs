@@ -16,13 +16,15 @@ using Microsoft.AspNetCore.Authorization;
 using CoolSms;
 using System.Text;
 using Microsoft.AspNetCore.Http;
+using System.Text.RegularExpressions;
 
 namespace LoonshotTest.Controllers
 {
     public class LoginController : Controller
     {
         
-        public static string social_Id = "";
+        public static string social_Id = "";       
+
 
         public LoginController()
         {
@@ -75,12 +77,12 @@ namespace LoonshotTest.Controllers
 
         [HttpGet]
         [Route("/login/kakaologin")]
-        public async Task <IActionResult> KakaoLogin(string userId, string kakaoemail)
+        public async Task <IActionResult> KakaoLogin(string userId, string kakaoemail, string token)
         {
             
             Debug.WriteLine("+++++++++들어온값 : " + userId);
             Debug.WriteLine("+++++++++들어온값 : " + kakaoemail);
-            
+            Debug.WriteLine("+++++++++들어온토큰값 : " + token);
             social_Id = kakaoemail;
             LoginModel loginModel = new LoginModel();
             int j = 0;
@@ -92,26 +94,28 @@ namespace LoonshotTest.Controllers
 
 
             //로그인작업
-            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-            identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
-            identity.AddClaim(new Claim(ClaimTypes.Email, kakaoemail));
-            identity.AddClaim(new Claim(ClaimTypes.Name, kakaoemail));
+            //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+            //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
+            //identity.AddClaim(new Claim(ClaimTypes.Email, kakaoemail));
+            //identity.AddClaim(new Claim(ClaimTypes.Name, kakaoemail));
         
-            identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
+            //identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
 
-            Debug.WriteLine("+++++++++들어온값클래임+++ : " + identity.FindFirst(ClaimTypes.NameIdentifier));
+            //Debug.WriteLine("+++++++++들어온값클래임+++ : " + identity.FindFirst(ClaimTypes.NameIdentifier));
 
             //identity.FindFirst(ClaimTypes.Email);
 
-            var principal = new ClaimsPrincipal(identity);
+            //var principal = new ClaimsPrincipal(identity);
             HttpContext.Session.SetString("userId", kakaoemail);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-            {
-                IsPersistent = false,
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                AllowRefresh = true
-            });
-            if(j == 1)
+            HttpContext.Session.SetString("kakao", "T");
+            HttpContext.Session.SetString("token", token);
+            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+            //{
+            //    IsPersistent = false,
+            //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+            //    AllowRefresh = true
+            //});
+            if (j == 1)
             {
                 //return Response.Redirect(string.Format("/login/AddRegister"));
                 //byte[] utf8Bytes = Encoding.UTF8.GetBytes("/login/AddRegister");
@@ -155,23 +159,23 @@ namespace LoonshotTest.Controllers
                 var Login = input.GetLoginUser();
 
                 //로그인작업
-                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.UserData);
-                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
-                identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
-                identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
+                //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.UserData);
+                //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
+                //identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
+                //identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
 
-                var principal = new ClaimsPrincipal(identity);
+                //var principal = new ClaimsPrincipal(identity);
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-                {
-                    IsPersistent = false,
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                    AllowRefresh = true
-                });
+                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
+                //{
+                //    IsPersistent = false,
+                //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                //    AllowRefresh = true
+                //});
                 HttpContext.Session.SetString("userId", Login.patient_login_id);
-                Debug.WriteLine("쎼쎤값********************"+HttpContext.Session.GetString("userId"));
-                Debug.WriteLine("********************프린시팔값:"+principal);
-                Debug.WriteLine("********************프린씨팔의 네임 값" + principal.Identity.Name);
+                //Debug.WriteLine("쎼쎤값********************"+HttpContext.Session.GetString("userId"));
+                //Debug.WriteLine("********************프린시팔값:"+principal);
+                //Debug.WriteLine("********************프린씨팔의 네임 값" + principal.Identity.Name);
             
                 return Redirect("/");
             }
@@ -189,6 +193,88 @@ namespace LoonshotTest.Controllers
             ViewData["msg"] = msg;
             return View();
         }
+
+        [HttpPost]
+        [Route("/login/idCheck")]
+        public ActionResult idCheck(string id)
+        
+        {
+            LoginModel loginModel = new LoginModel();
+            loginModel.patient_login_id = id;
+          if(id.Length < 5 || id.Length > 15)
+            {
+                return Content("아이디는 5자리 이상 15자리 이하만 가능합니다.");
+            }
+          else
+            {
+                try
+                {
+                    loginModel.UserCheck(id);
+                }
+                catch (Exception ex)
+                {
+                    return Content(ex.Message);
+                }
+                
+                return Content("사용가능한 아이디입니다.");
+            }
+        }
+
+        [HttpPost]
+        [Route("login/pwCheck")]
+        public ActionResult pwCheck(string pw)
+        {
+            Regex rxPassword = new Regex(@"^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{9,}$",
+                        RegexOptions.IgnorePatternWhitespace);
+
+            if (!rxPassword.IsMatch(pw))
+            {
+                Debug.WriteLine("비밀번호가 안맞아");
+                return Content("비밀번호는 8자리 이상의 영문, 숫자, 특수문자가 포함되어야 합니다.");
+            }
+            else
+            {
+                return Content("사용 가능한 패스워드입니다.");
+            }
+        }
+
+
+        [HttpPost]
+        [Route("login/pwCheck2")]
+        public ActionResult pwCheck2(string status)
+        {
+            if(status == "F")
+            {
+                return Content("패스워드가 동일하지 않습니다.");
+            }
+            else
+            {
+                return Content("패스워드가 일치합니다.");
+            }
+            
+        }
+
+
+        [HttpPost]
+        [Route("login/rsCheck")]
+        public ActionResult rsCheck(string rs)
+        {
+            Regex rxRs = new Regex(@"[0-9]",
+                        RegexOptions.IgnorePatternWhitespace);
+
+            
+            if(rxRs.IsMatch(rs) && rs.Length == 13)
+            {
+                return Content("유효한 주민등록번호 입니다.");
+            }
+            else
+            {
+                return Content("주민등록번호가 유효하지 않습니다.");
+            }
+        }
+
+
+
 
         [HttpPost]
         [Route("/login/register")]
@@ -223,15 +309,18 @@ namespace LoonshotTest.Controllers
             catch (Exception ex)
             {
                 return Redirect($"/login/register?msg={HttpUtility.UrlEncode(ex.Message)}");
+                //return Redirect("/login/register");
             }
         }
         #endregion 
 
         public async Task<IActionResult> LogOut()
         {
+            Debug.WriteLine("******************토큰값:"+ HttpContext.Session.GetString("token"));
+            
             Debug.WriteLine("들어왔니?");
             HttpContext.Session.Clear();
-            await HttpContext.SignOutAsync();
+            //await HttpContext.SignOutAsync();
             return Redirect("/");
         }
 
