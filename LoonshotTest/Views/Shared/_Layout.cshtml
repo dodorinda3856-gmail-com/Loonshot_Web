@@ -50,7 +50,15 @@
 
                             @if (Context.Session.GetString("userId") != null)
                             {
-                                <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
+                                @if (Context.Session.GetString("kakao") == "T")
+                                {
+                                    <a id="kakaoLogout" class="nav-link" href="#"><i class="fa fa-github"></i> 로그아웃</a>
+                                }
+                                else
+                                {
+                                    <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
+                                }
+
                             }
 
                         </li>
@@ -82,6 +90,7 @@
             Team LoonShot - 강도윤  김영헌  나현정  이성찬  최영욱
         </div>
     </footer>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery/dist/jquery-ui.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -100,6 +109,22 @@
                 $("#navbarResponsive").hide();
             }
         });
+
+
+        $("#kakaoLogout").click(function () {
+
+            if (!Kakao.Auth.getAccessToken()) {
+                alert('Not Kakao logged in.');
+                return;
+            }
+
+            Kakao.Auth.logout(function () {
+                location.href = "/login/logout";
+            });
+        });
+
+            
+        
 
     </script>
 </body>

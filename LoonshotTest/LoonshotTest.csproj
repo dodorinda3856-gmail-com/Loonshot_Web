@@ -6,11 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Error\Error.cshtml" />
+    <Content Remove="Views\Error\index.cshtml" />
     <Content Remove="Views\Mypage\diagnosis.cshtml" />
     <Content Remove="Views\Mypage\prescription.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Error\Error.cshtml" />
+    <None Include="Views\Error\index.cshtml" />
     <None Include="Views\Shared\Diagnosis.cshtml" />
     <None Include="Views\Shared\Prescription.cshtml" />
   </ItemGroup>
