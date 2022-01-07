@@ -182,6 +182,13 @@
 <script src="~/lib/jquery-validation/dist/jquery-ui.min.js"></script>
 @*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>*@
 <script>
+    // 핸드폰 번호로만 11자리 입력
+    var chkPhone = /^[0-9]{11}$/
+    // 주민번호 번호만으로 13자리 입력
+    var chkRegist = /^[0-9]{13}$/
+    // 사용자 이름 한글만입력 가능 2~4자리로 입력
+    var chkName = /^[가-힣]{2,4}$/
+
     $(".test").on("click", function () {
         $.ajax({
             url: '@Url.Action("Test", "Mypage")',
@@ -197,10 +204,6 @@
         });
     });
 
-    // 이름, 핸드폰 번호 정규 표현식 시작
-    name_check = /^[ㄱ-ㅎ|가-힣]{2,20}$/;
-    phone_check = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-    // 정규 표현식 끝
 
     // 유저 알람 처리 시작
     $("input[name=agree_of_alarm]").on("click", function () {
@@ -277,7 +280,7 @@
         if (ajax_check == "name") {
             ajax_data = $("#name-input").val();
             data_type = "N";
-            if (!name_check.test(ajax_data)) {
+            if (!chkName.test(ajax_data)) {
                 shakeCard($(this).parent(".form-group"), "성명");
                 $("#name-input").val("");
                 return false;
@@ -287,7 +290,7 @@
         else if (ajax_check == "phone") {
             ajax_data = $("#phone-input").val();
             data_type = "P";
-            if (!phone_check.test(ajax_data)) {
+            if (!chkPhone.test(ajax_data)) {
                 $("#phone-input").val("");
                 shakeCard($(this).parent(".form-group"), "휴대폰");
                 return false;
@@ -329,7 +332,6 @@
 
     // shake
     function shakeCard(n, v) {
-
         n.effect('shake', "", 500);
         n.css({
             "border": "1px solid red"
@@ -377,13 +379,10 @@
                  let d =  new Date();
                  $("#print_id").text(m.print_id);
                  $("#print_name").text(m.name);
-
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
 
-                 console.log("btn");
-                 printDiv('printArea');
-                 
+                 printDiv("printArea");
 
              },
              error: function (requerst, status, error) {
@@ -397,7 +396,7 @@
         var ua = navigator.userAgent.toLowerCase();
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
         if (!isAndroid) {
-            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>처방전</title>' + document.getElementById(divName).innerHTML;
+            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
 
             var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
             printWindow.document.write(printContents);
@@ -420,5 +419,5 @@
         }
         return false;
     }
-   
+
 </script>
