@@ -16,20 +16,20 @@ using LoonshotTest.Interface;
 namespace LoonshotTest.Controllers
 {
 
-    [CheckUser]
-    public class HomeController : Controller 
+    public class HomeController : Controller
     {
 
         private readonly ILogger<HomeController> _logger;
 
-
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
         }
 
         public IActionResult Index()
         {
+            _logger.LogError("test");
             return View();
         }
 
@@ -38,7 +38,8 @@ namespace LoonshotTest.Controllers
         public IActionResult MyProperty
         {
             get { return myVar; }
-            set { 
+            set
+            {
                 myVar = value;
                 View();
             }
@@ -51,7 +52,7 @@ namespace LoonshotTest.Controllers
         }
 
 
-        public IActionResult PatientChange([FromForm]PatientModel model)
+        public IActionResult PatientChange([FromForm] PatientModel model)
         {
 
             model.Update();
@@ -75,7 +76,7 @@ namespace LoonshotTest.Controllers
 
         public IActionResult PatientInsert([FromForm] PatientModel model)
         {
-            
+
             model.Insert();
 
             return Redirect("/home/PatientList");

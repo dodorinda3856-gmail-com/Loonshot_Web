@@ -18,8 +18,10 @@
 
         Kakao.Auth.login({
             scope: 'account_email',
-            success: function (authObj) {
-
+            success: function (authObj)
+            {
+                Kakao.Auth.setAccessToken(authObj.access_token);
+                //alert(Kakao.Auth.getAccessToken());
                 Kakao.API.request({
                     url: '/v2/user/me',
                     success: function (response) {
@@ -35,7 +37,7 @@
                         //alert(Kakao.Auth.getAccessToken());
                         //var nickname = response.nickname;
                         //var birth = response.birthday;
-                        location.href = "/login/kakaoLogin?userId=" + userId + "&kakaoemail=" + kakaoemail;
+                        location.href = "/login/kakaoLogin?userId=" + userId + "&kakaoemail=" + kakaoemail + "&token=" + Kakao.Auth.getAccessToken();
                     } //End response function
                 }) //End API.request
             } //End authObj Function
@@ -66,13 +68,13 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input class="form-control" name="patient_login_id" type="text"
+                            <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
                                    placeholder="enter your id"><br />
                         </div>
                     </div>
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <input class="form-control" name="patient_login_pw" type="password"
+                            <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
                                    placeholder="enter your password"><br />
                         </div>
                     </div>
@@ -104,3 +106,23 @@
         </div>
     </div>
 </div>
+
+<script>
+    // 로컬 아이디 영어만입력 가능 5~15자리로 입력
+    var chkId = /^[a-zA-z]{5,15}$/
+    // 로컬 비밀번호 숫자,문자,특수문자입력 최소 8자리이상으로 입력
+    var chkPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$$!%*#?&])[A-Za-z\d$$!%*#?&]{8,}$/
+
+    function checkId(v) {
+        if (!chkId.test(v)) {
+            console.log("error input");
+        }
+    }
+    function checkPw(v) {
+        if (!chkPw.test(v)) {
+            console.log("error input");
+        }
+    }
+
+
+</script>

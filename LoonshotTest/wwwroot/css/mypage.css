@@ -10,12 +10,16 @@
         background-color: yellow !important;
     }
 }
+@media (min-width: 2000px) {
+    .container {
+        padding: 0 !important;
+        max-width: 100% !important;
+    }
+}
 
 body {
     -webkit-print-color-adjust: exact !important;
 }
-
-
 
 body {
     font-family: 'KOTRAHOPE' !important;

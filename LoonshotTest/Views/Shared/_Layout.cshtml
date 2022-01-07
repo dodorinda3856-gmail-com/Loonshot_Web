@@ -45,21 +45,29 @@
                     <ul class="navbar-nav ms-md-auto">
                         <li class="nav-item">
                             @if (Context.Session.GetString("userId") == null)
-                                {
-                                    <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
-                                }
+                            {
+                                <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
+                            }
 
                             @if (Context.Session.GetString("userId") != null)
+                            {
+                                @if (Context.Session.GetString("kakao") == "T")
+                                {
+                                    <a id="kakaoLogout" class="nav-link" href="#"><i class="fa fa-github"></i> 로그아웃</a>
+                                }
+                                else
                                 {
                                     <a rel="noopener" class="nav-link" href="/login/logout"><i class="fa fa-github"></i> 로그아웃</a>
                                 }
 
+                            }
+
                         </li>
                         <li class="nav-item">
                             @if (Context.Session.GetString("userId") == null)
-                                {
-                                    <a rel="noopener" class="nav-link" href="/login/register"> 회원가입</a>
-                                }
+                            {
+                                <a rel="noopener" class="nav-link" href="/login/register"> 회원가입</a>
+                            }
 
                         </li>
                     </ul>
@@ -83,14 +91,16 @@
             Team LoonShot - 강도윤  김영헌  나현정  이성찬  최영욱
         </div>
     </footer>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="~/lib/jquery/dist/jquery.js"></script>
-
     <script src="~/lib/jquery/dist/jquery-ui.min.js"></script>
-
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.cookie.js"></script>
     <script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+    @*<script src="~/lib/jquery/dist/jquery-ui.min.js"></script>*@
+    @*<script src="~/lib/jquery/dist/jquery-ui.min.js"></script>*@
+    @*<script src="~/lib/jquery/dist/jquery-ui.min.js"></script>*@
     @RenderSection("Scripts", required: false)
     <script>
         $(".navbar-toggler").on("click", function () {
@@ -103,8 +113,23 @@
                 $(this).removeClass("active");
                 $("#navbarResponsive").hide();
             }
-
         });
+
+
+        $("#kakaoLogout").click(function () {
+
+            if (!Kakao.Auth.getAccessToken()) {
+                alert('Not Kakao logged in.');
+                return;
+            }
+
+            Kakao.Auth.logout(function () {
+                location.href = "/login/logout";
+            });
+        });
+
+            
+        
 
     </script>
 </body>
