@@ -89,9 +89,8 @@ namespace LoonshotTest.Controllers
             string treat_type,
             int time_Id)
         {
-
             LoginModel loginmodel = new LoginModel();
-            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             Debug.WriteLine("reservationd date" + reservation_date);
             var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, treat_type, symptom, time_Id);
