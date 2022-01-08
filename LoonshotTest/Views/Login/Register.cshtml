@@ -12,7 +12,7 @@
 
 </script>
 
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
+<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:60px;">
     <div class="auth-box row">
         <div class="col-lg-7 col-md-5 modal-bg-img">
         </div>
@@ -91,18 +91,21 @@
 
     $("#login_id").change(function () {
         console.log($(this).val());
-        $.ajax({
-            url: "/login/idCheck",
-            method: "POST",
-            data: {
-                id: $(this).val()
-            },
-            success:
-                function (resp) {
-                    console.log("넘어온 메세지 : " + resp);
-                    $("#notify").text(resp);
-                }
-        });	 //ajax종료
+        if ($(this).val() != null) {
+            $.ajax({
+                url: "/login/idCheck",
+                method: "POST",
+                data: {
+                    id: $(this).val()
+                },
+                success:
+                    function (resp) {
+                        console.log("넘어온 메세지 : " + resp);
+                        $("#notify").text(resp);
+                    }
+            });	 //ajax종료
+        }; //if문 종료
+        
     }); // 아이디 체크 종료
 
 
