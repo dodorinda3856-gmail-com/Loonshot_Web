@@ -17,6 +17,7 @@ using LoonshotTest.Models.Login;
 using System.Web.Mvc;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using Microsoft.AspNetCore.Http;
 using System.Web;
 
 namespace LoonshotTest.Controllers
@@ -24,42 +25,29 @@ namespace LoonshotTest.Controllers
     [CheckUser]
     public class MypageController : Controller
     {
-
+        
         private readonly ILogger<MypageController> _logger;
 
         public MypageController(ILogger<MypageController> logger)
         {
             _logger = logger;
-            
         }
-
-        //[Route("/mypage/diagnosis")]
-        //public IActionResult Diagnosis()
-        //{
-        //    return View();
-        //}
-
-        //[Route("/mypage/test")]
-        //public IActionResult Prescription()
-        //{
-        //    return View();
-        //}
-
+        private void LoginCheck( ) {
+            if (HttpContext.Session.GetString("userId").Equals("") && HttpContext.Session.GetString("userId") == null)
+            {
+                throw new Exception("로그인이 필요한 서비스입니다.");
+            }
+        }
 
         [Route("/mypage/info")]
         public IActionResult Mypage() {
+            LoginCheck();
             try
             {
-                //if (User.Identity.Name == null)
-                //{
-                //    throw new Exception("로그인이 필요한 서비스입니다.");
-                //}
-
+                
                 LoginModel loginmodel = new LoginModel();
-                //loginmodel.patient_login_id = User.Identity.Name;
-                //loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-
-                loginmodel.patient_id = 2; 
+                loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
                 List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
                 List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
@@ -72,11 +60,16 @@ namespace LoonshotTest.Controllers
 
         [Route("/mypage/UserSecession")]
         public IActionResult MypageUserRemove() {
-            LoginModel loginmodel = new LoginModel();
-            loginmodel.UserBolt(User.Identity.Name);
-            HttpContext.SignOutAsync();
-
-            return Redirect("/");
+            try
+            {
+                LoginModel loginmodel = new LoginModel();
+                loginmodel.UserBolt(HttpContext.Session.GetString("userId"));
+                HttpContext.SignOutAsync();
+                return Redirect("/");
+            }
+            catch (Exception ex) {
+                return Redirect("/Error/500");
+            }
         }
 
         [HttpPost]
@@ -84,34 +77,54 @@ namespace LoonshotTest.Controllers
         {
             TreatMentModel treatModel = new TreatMentModel();
             treatModel.Treat_id = treat_id;
-            treatModel = treatModel.Prescription(treat_id);
             string message = "succces";
-            if (treatModel.patient_name.Equals("") && treatModel.patient_name == null)
+            try
             {
-                message = "Error";
+                treatModel = treatModel.Prescription(treat_id);
+                return Json(new
+                {
+                    name = treatModel.patient_name,
+                    resident_num = treatModel.resident_Regist_Num,
+                    produce = treatModel.names,
+                    print_id = treatModel.print_id,
+                    disease_code = treatModel.disease_code,
+                    message = message
+                });
             }
-            return Json(new
-            {
-                name = treatModel.patient_name,
-                resident_num = treatModel.resident_Regist_Num,
-                produce = treatModel.names,
-                print_id = treatModel.print_id
-            });
+            catch (Exception ex) {
+                message = "Error";
+                return Json(new
+                {
+                    name = treatModel.patient_name,
+                    resident_num = treatModel.resident_Regist_Num,
+                    produce = treatModel.names,
+                    print_id = treatModel.print_id,
+                    disease_code = treatModel.disease_code,
+                    message = message
+                });
+            } 
+           
         }
 
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
-            LoginModel loginmodel = new LoginModel(); 
-            loginmodel.patient_login_id = User.Identity.Name;
-            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+            LoginModel loginmodel = new LoginModel();
             TreatMentModel alarmStat = new TreatMentModel();
-            alarmStat.patient_Id = loginmodel.patient_id;
-            alarmStat.agree_Of_Alarm = (AGREE_OF_ALARM == "true" ? 'T' : 'F');
             string message = "succces";
-            if (alarmStat.UserAlarm(alarmStat) != 1) {
-                message = "Error";
+            try
+            {
+                loginmodel.patient_login_id = HttpContext.Session.GetString("userId"); ;
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+                alarmStat.patient_Id = loginmodel.patient_id;
+                alarmStat.agree_Of_Alarm = (AGREE_OF_ALARM == "true" ? 'T' : 'F');
+                if (alarmStat.UserAlarm(alarmStat) != 1)
+                {
+                    message = "500";
+                }
             }
-
+            catch (Exception ex){
+                message = "500";
+            }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
         }
 
@@ -119,32 +132,28 @@ namespace LoonshotTest.Controllers
         public JsonResult UpdateUser(string SqlType, string ajaxData)
         {
             LoginModel loginmodel = new LoginModel();
-            loginmodel.patient_login_id = User.Identity.Name;
-            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-
+            loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             TreatMentModel userinfo = new TreatMentModel();
             string sql_choice = SqlType;
-
-            if (sql_choice == "N")
-            { userinfo.patient_name = ajaxData; }
-            else if (sql_choice == "P") { userinfo.phone_Num = ajaxData; }
-            else if (sql_choice == "A") { userinfo.address = ajaxData; }
-            userinfo.patient_Id = loginmodel.patient_id;
-
             string message = "succces";
 
-            if (userinfo.MyinfoUpdate(userinfo, SqlType) == 1)
-            {
-                message = "error";
+            try
+            { 
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+                if (sql_choice == "N")
+                { userinfo.patient_name = ajaxData; }
+                else if (sql_choice == "P") { userinfo.phone_Num = ajaxData; }
+                else if (sql_choice == "A") { userinfo.address = ajaxData; }
+                userinfo.patient_Id = loginmodel.patient_id;
+                if (userinfo.MyinfoUpdate(userinfo, SqlType) == 1)
+                {
+                    message = "500";
+                }
+            }
+            catch (Exception ex) {
+                message = "500";
             }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
-
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

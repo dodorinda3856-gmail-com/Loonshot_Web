@@ -1,5 +1,20 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+@font-face {
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+html body {
+    font-family: Nanum Gothic Coding !important;
+}
+
+html body .navbar {
+    background-color: #467DE3 !important;
+    font-weight: bold;
+}
 
 a.navbar-brand {
   white-space: normal;
