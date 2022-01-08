@@ -22,7 +22,6 @@ using System.Web;
 
 namespace LoonshotTest.Controllers
 {
-    [CheckUser]
     public class MypageController : Controller
     {
         
@@ -41,10 +40,9 @@ namespace LoonshotTest.Controllers
 
         [Route("/mypage/info")]
         public IActionResult Mypage() {
-            LoginCheck();
             try
             {
-                
+                LoginCheck();
                 LoginModel loginmodel = new LoginModel();
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
@@ -54,7 +52,7 @@ namespace LoonshotTest.Controllers
                 return View(Tuple.Create(myinfo, treatList, asList));
             }
             catch (Exception ex) {
-                return Redirect($"/login/login?msg={HttpUtility.UrlEncode(ex.Message)}");
+                return Redirect($"/login/login?msg=로그인이 필요한 서비스 입니다.");
             }
         }
 
@@ -68,7 +66,7 @@ namespace LoonshotTest.Controllers
                 return Redirect("/");
             }
             catch (Exception ex) {
-                return Redirect("/Error/500");
+                return Redirect("/ERROR/500");
             }
         }
 

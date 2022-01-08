@@ -85,14 +85,14 @@
                 <h4>진료기록</h4>
 
             </div>
-            @if (Model.Item2 == null)
+            @if (Model.Item2.Count == 0)
             {
                 <div class="no-item">
-                    <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                    @*<h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>*@
                     <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                 </div>
             }
-            else
+            @if (Model.Item2.Count > 0 )  
             {
                 @foreach (var item in Model.Item2)
                 {
@@ -161,16 +161,16 @@
                 <h4>사후관리</h4>
 
             </div>
-            @if (Model.Item3 == null)
+            @if (Model.Item3.Count == 0)
             {
                 <div class="no-item">
                     <div class="no-item">
-                        <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                        @*<h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>*@
                         <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                     </div>
                 </div>
             }
-            else
+            @if( Model.Item3.Count > 0)
             {
                 <div class="as-wrapper">
                     @foreach (var item in Model.Item3)
