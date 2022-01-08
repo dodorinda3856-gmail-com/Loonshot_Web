@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Http
+
+
+@model List<MyReservationRecord>
+<link rel="stylesheet" href="~/css/mybooking.css" />
+<div style="margin-top:100px" ;>
+    <ul>
+        @if (Model.Count == 0)
+        {
+            <div class="card text-center">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">예약 내용 없음</h5>
+                </div>
+            </div>
+        }else {
+
+        @foreach (var reservation in Model)
+        {
+            <li class="reservation-list-wrapper">
+                <div class="card text-center">
+                    <div class="card-header">
+                        @reservation.Reservation_Date.ToString(string.Format("MM월 dd일 HH시 mm분"))
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@reservation.Staff_Name</h5>
+                        <p class="card-text">@reservation.Medi_Subject 전문</p>
+                        <button class="confirm-cancel" data-booking-id=@reservation.Reservation_Id>취소</button>
+                    </div>
+                </div>
+
+            </li>
+        }
+        }
+    </ul>
+
+</div>
+
+@section Scripts{
+    <script>
+
+    $(document).on("click", ".confirm-cancel", function (e) {
+        var confirmDelete=confirm("삭제하시겠습니까?");
+        if (confirmDelete) {
+            window.location.href = '@Url.Action("Delete", "Booking")' +"/" +$(this).data('booking-id');
+        }
+    });
+    </script>
+}

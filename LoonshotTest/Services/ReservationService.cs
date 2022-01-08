@@ -20,6 +20,28 @@ namespace LoonshotTest.Services
                 return db.Query<Reservation>(sql);
             }
         }
+
+        public static void DeleteMyReservation(int patientId, int reservationId)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                string sql = "DELETE FROM RESERVATION WHERE PATIENT_ID=:patientId AND RESERVATION_ID=:reservationId";
+                db.Execute(sql,new { patientId, reservationId });
+            }
+        }
+
+        public static List<MyReservationRecord> GetMyReservation(int userId)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                string sql = "SELECT * FROM RESERVATION R JOIN MEDI_STAFF M ON " +
+                    "R.MEDICAL_STAFF_ID=M.STAFF_ID WHERE R.RESERVATION_DATE >= TO_DATE('" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "', " +
+                "'YYYY/MM/DD HH24:MI:SS') AND R.PATIENT_ID=:userId";
+;
+                return db.Query<MyReservationRecord>(sql, new { userId });
+            }
+        }
+
         public static List<Time> GetTimeTableList()
         {
             using (var db = new MySqlDapperHelper())

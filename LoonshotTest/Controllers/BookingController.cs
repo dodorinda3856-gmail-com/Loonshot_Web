@@ -28,8 +28,11 @@ namespace LoonshotTest.Controllers
             int reservationDays = 7;
             var days = DateTime.Now.Date;
             LoginModel loginmodel = new LoginModel();
-            loginmodel.patient_login_id = User.Identity.Name;
+            loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+
+
+
             for (int i = 0; i < reservationDays; i++)
             {
                 dateList.Add(days.AddDays(i + 1));
@@ -48,6 +51,32 @@ namespace LoonshotTest.Controllers
             ViewBag.symptom = symptom;
             ViewBag.patientName = patientName;
             return View();
+        }
+
+        public ActionResult Delete(int id)
+        {
+            ViewBag.Id = id;
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+
+            ReservationService.DeleteMyReservation(loginmodel.patient_id, id);
+            return RedirectToAction(nameof(MyBooking));
+        }
+
+        public ActionResult MyBooking()
+        {
+            DateTime today = DateTime.Now.Date;
+            LoginModel loginmodel = new LoginModel();
+            loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
+            loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+            
+            var reservationRecord = ReservationService.GetMyReservation(loginmodel.patient_id);
+
+
+            
+
+            return View(reservationRecord);
         }
 
 
