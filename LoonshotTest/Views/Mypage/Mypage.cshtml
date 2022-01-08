@@ -1,4 +1,5 @@
 ﻿@model Tuple<LoonshotTest.Models.TreatMentModel, List<LoonshotTest.Models.TreatMentModel>, List<LoonshotTest.Models.ASModel>>
+@using Microsoft.AspNetCore.Http
 <head>
     <link rel="stylesheet" href="~/css/mypage.css" />
     <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">
@@ -39,7 +40,7 @@
 
     <div class="content mypage">
 
-        <div class="content-box input-box" >
+        <div class="content-box input-box">
             <div class="content-line">
                 <h4>개인정보</h4>
                 <button type="button" class="btn btn-remove">회원 탈퇴</button>
@@ -84,64 +85,75 @@
                 <h4>진료기록</h4>
 
             </div>
-            @foreach (var item in Model.Item2)
+            @if (Model.Item2 == null)
             {
-                <div class="card link-template-tabcard">
-                    <div class="card-header  d-flex justify-content-between align-items-center">
-                        <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px"> @item.disease_name <span>@item.treat_date</span></h3>
-                        <ul class="nav nav-tabs card-header-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="tab-content">
-                            <div class="tab-pane p-4 info" role="tabpanel">
-                                <div id="tab-content">
-                                    <div>
-                                        <p>
-                                            <strong>@item.treat_details</strong>
-                                        </p>
+                <div class="no-item">
+                    <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                    <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
+                </div>
+            }
+            else
+            {
+                @foreach (var item in Model.Item2)
+                {
+                    <div class="card link-template-tabcard">
+                        <div class="card-header  d-flex justify-content-between align-items-center">
+                            <h3 class="package-title" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px"> @item.disease_name <span>@item.treat_date</span></h3>
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="tab-content">
+                                <div class="tab-pane p-4 info" role="tabpanel">
+                                    <div id="tab-content">
+                                        <div>
+                                            <p>
+                                                <strong>@item.treat_details</strong>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane active desc" role="tabpanel">
-                                <ul class="list-group list-group-flush ml-0 mb-2">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <strong>병 명 : @item.disease_name</strong>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <strong>담당의 : @item.staff_name 선생님</strong>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <strong>치료방법 : @item.procedure_name</strong>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <strong>시 술 : @item.prescription</strong>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        @if (item.treat_status_val == 'T')
-                                        {
-                                            <strong>진료완료</strong>
-                                        }
-                                        else
-                                        {
-                                            <strong>진료 전</strong>
-                                        }
-                                    </li>
+                                <div class="tab-pane active desc" role="tabpanel">
+                                    <ul class="list-group list-group-flush ml-0 mb-2">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>병 명 : @item.disease_name</strong>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>담당의 : @item.staff_name 선생님</strong>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>치료방법 : @item.procedure_name</strong>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <strong>시 술 : @item.prescription</strong>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            @if (item.treat_status_val == 'T')
+                                            {
+                                                <strong>진료완료</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong>진료 전</strong>
+                                            }
+                                        </li>
 
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
+                        <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                            <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
+                            <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
+                        </div>
                     </div>
-                    <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                        <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="@item.Treat_id">처방전 출력</a>
-                    </div>
-                </div>
+                }
             }
         </div>
         <div class="content-box as-box hidden">
@@ -149,31 +161,43 @@
                 <h4>사후관리</h4>
 
             </div>
-            <div class="as-wrapper">
-                @foreach (var item in Model.Item3)
-                {
-                    @if (item.as_type == 'M')
-                    {
-                        <div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
-                    }
-                    else
-                    {
-                        <div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
-                    }
-
-                    <div class="as-info hidden ">
-                        <p class="as-@Model.Item3.IndexOf(item)">
-                            @item.a_s
-                        </p>
+            @if (Model.Item3 == null)
+            {
+                <div class="no-item">
+                    <div class="no-item">
+                        <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                        <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                     </div>
-                }
-            </div>
-            <div class="content-line as-detail">
-                <h4 class="border-bottom">@Model.Item3[0].procedure</h4>
-                <div class="as-detail-info">
-                    <p>@Model.Item3[0].a_s</p>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="as-wrapper">
+                    @foreach (var item in Model.Item3)
+                    {
+                        @if (item.as_type == 'M')
+                        {
+                            <div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                        }
+                        else
+                        {
+                            <div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>
+                        }
+
+                        <div class="as-info hidden ">
+                            <p class="as-@Model.Item3.IndexOf(item)">
+                                @item.a_s
+                            </p>
+                        </div>
+                    }
+                </div>
+                <div class="content-line as-detail">
+                    <h4 class="border-bottom">@Model.Item3[0].procedure</h4>
+                    <div class="as-detail-info">
+                        <p>@Model.Item3[0].a_s</p>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
@@ -381,7 +405,7 @@
                  $("#print_name").text(m.name);
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
-
+                 $("#disease_code").text(m.disease_code);
                  printDiv("printArea");
 
              },
@@ -390,7 +414,7 @@
               }
         });
     });
-
+    // 처방전 및 진단서 이벤트 종료
     // 프린트 기능
     function printDiv(divName) {
         var ua = navigator.userAgent.toLowerCase();

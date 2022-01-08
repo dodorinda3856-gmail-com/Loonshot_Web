@@ -6,22 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Error\Error.cshtml" />
-    <Content Remove="Views\Error\index.cshtml" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <Compile Remove="Properties\TestAssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\Mypage\diagnosis.cshtml" />
     <Content Remove="Views\Mypage\prescription.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Error\Error.cshtml" />
-    <None Include="Views\Error\index.cshtml" />
+    <Content Include="Properties\TestAssemblyInfo.cs" />
+    <Content Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Shared\Diagnosis.cshtml" />
     <None Include="Views\Shared\Prescription.cshtml" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="AWS.Logger.Log4net" Version="3.2.1" />
+    <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="CoolSms" Version="1.1.1" />
 
@@ -29,7 +35,12 @@
 	  <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.2" />
 	  <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.20" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="3.21.41" />
   </ItemGroup>
 
   <ItemGroup>
