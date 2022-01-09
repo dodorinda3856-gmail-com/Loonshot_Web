@@ -1,5 +1,4 @@
-﻿
-@media print {
+﻿@media print {
     #printArea {
         background-color: yellow !important;
     }
@@ -18,13 +17,20 @@ body {
 body {
     background: #f2f2f2;
 }
+
+.container {
+    min-width: 100%!important;
+    padding: 0 !important;
+}
+
 .content {
     position: relative;
     margin: 0 auto;
     padding-bottom: 80px;
     box-sizing: border-box;
     top: 3.25rem;
-    
+    background-color: white;
+    padding: 1rem;
 }
 
 .content-wrapper {
@@ -51,26 +57,21 @@ body {
         text-align: center
     }
 
-    .user-profile .user-box .mypage-tap {
-        max-width: 80%;
-        margin: 0 auto;
-    }
-
     .user-profile .user-box .mypage-tap .btn-tap {
         margin: 1.5rem  auto auto 0;
         display: inline-block;
-        width: calc(99% / 3 - .5rem);
+        width: calc(99.9999% / 3 - 1.5rem);
     }
 
         .user-profile .user-box .mypage-tap .btn-tap div {
             position: relative;
-            max-width: 50%;
+            max-width: 60%;
             border-radius: 100%;
             background-color : #f3f3f3;
             overflow: hidden;
             margin: 0 auto;
             cursor: pointer;
-            padding-bottom: 49%;
+            padding-bottom: 59%;
         }
 
 .form-check {
@@ -84,16 +85,19 @@ body {
 }
 
 .user-profile .user-box .mypage-tap div img {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 90%;
     object-fit: cover;
     display: block;
     position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
 }
 
     .user-profile .user-box .mypage-tap h4 {
         text-align: center;
-        font-size : 2rem;
+        font-size : calc(1rem + 1vw);
         margin-top : 1.5rem;
         font-weight:bold
     }
@@ -106,13 +110,15 @@ body {
 .content.mypage .content-line{
     border-bottom : 1px solid rgba(0,0,0,0.23);
     position:relative;
-    padding: 1rem;
+    padding: 1rem 0; 
     clear:both;
     margin-bottom: 1rem;
 }
 
 .content.mypage .content-line h4{
     display:inline;
+    font-weight: bold;
+
 }
 
 
@@ -148,7 +154,7 @@ body {
     width: calc(99% / 2 - .6rem);
     margin: 1rem 0;
     display: inline-block;
-    padding: 2rem 1rem;
+    padding: 1rem 1rem;
     background-color: #A8C6FF;
     float: left;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); 
@@ -159,13 +165,16 @@ body {
     align-items: center;
 }
 
+.mypage .input-box .form-group.check-group{
+    border: 1px solid red;
+}
 
     .mypage .input-box .form-group:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     }
 
     .mypage .input-box .form-group label {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         text-align: center;
         display: block;
         color:grey;
@@ -179,7 +188,6 @@ body {
     padding : 6px 0;
     font-weight: bold;
     font-size : 1.1rem;
-    width: 65%;
     display: inline-block;
     
 }
@@ -187,7 +195,7 @@ body {
     border-radius: 20px;
     border: 1px solid #fff;
     font-weight: bold;
-    float:right
+    margin-top: 1rem;
 }
 
 .content.mypage .as-box .as-wrapper {
@@ -270,6 +278,29 @@ body {
         color: #4183D7;
         font-size: 16px;
     }
+.no-item img {
+    width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .mypage .input-box .form-group {
+        width: 100% !important;
+    }
+        .mypage .input-box .form-group .btn {
+            width: 100% !important;
+        }
+}
+
+@media (max-width: 425px) {
+    .mypage .input-box .form-group{
+        width: 100% !important;
+    }
+
+    .mypage .input-box .form-group .btn {
+        width: 100%!important;
+    }
+}
 
 .fa {
     color: #4183D7;

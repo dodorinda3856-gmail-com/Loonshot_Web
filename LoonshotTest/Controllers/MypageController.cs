@@ -47,7 +47,7 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-                List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id);
+                List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, 1);
                 List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
                 return View(Tuple.Create(myinfo, treatList, asList));
             }
@@ -152,6 +152,46 @@ namespace LoonshotTest.Controllers
                 message = "500";
             }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
+        }
+        [HttpPost]
+        public Microsoft.AspNetCore.Mvc.ActionResult GetHistory(int rcnt)
+        {
+            try
+            {
+                //LoginCheck();
+                LoginModel loginmodel = new LoginModel();
+                loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+                List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, rcnt);
+                return Json(new
+                {
+                    list = treatList
+                });
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        [HttpPost]
+        public Microsoft.AspNetCore.Mvc.ActionResult GetAS(int rcnt)
+        {
+            try
+            {
+                //LoginCheck();
+                LoginModel loginmodel = new LoginModel();
+                loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
+                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
+                List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
+                return Json(new
+                {
+                    list = asList
+                });
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
     }
 }
