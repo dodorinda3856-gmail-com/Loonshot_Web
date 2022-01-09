@@ -1,15 +1,6 @@
 ﻿.booking-selectdoc-btn {
-    display: flex;
-    width: 100%;
-    color: lightgray;
     font-weight: bold;
-    justify-content: center;
-    align-items: center;
     text-decoration: none;
-    flex-direction: column;
-}
-.booking-selectdoc-btn:hover{
-    color: white;
+    color: black;
 }
 
-.
