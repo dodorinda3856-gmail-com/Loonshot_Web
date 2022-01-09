@@ -14,7 +14,7 @@ namespace LoonshotTest.Hubs
             messages.Add(new MessagingLib.Message()
             {
                 to = phone,
-                from =  "01029842483",
+                from = "01028642902",
                 //imageId = imageId,
                 subject = "MMS 제목",
                 text = "이미지 아이디가 입력되면 MMS로 발송됩니다."

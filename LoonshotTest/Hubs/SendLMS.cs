@@ -11,7 +11,7 @@ static class SendLMS
         MessagingLib.Messages messages = new MessagingLib.Messages();
         messages.Add(new MessagingLib.Message()
         {
-            to = "01000000001",
+            to = "01028642902",
             from = phone,
             text = "한글 45자, 영자 90자 이상 입력되면 자동으로 LMS타입의 문자메시자가 발송됩니다. 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         });
