@@ -29,14 +29,12 @@ namespace LoonshotTest.Hubs
             WaitingModel waitmodel = new WaitingModel();
             try
             {
-
                 waitmodel.patient_login_id = p_id;
                 waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
                 waitmodel = waitmodel.Mywating(waitmodel);
 
-
                 Mutex dup = new Mutex(true, "File Sync Manager", out createdNew);
-                if (createdNew)
+                if (createdNew && waitmodel.wait_count == 3)
                 {
                     //SendLMS.Run(waitmodel.phone_num);
                 }

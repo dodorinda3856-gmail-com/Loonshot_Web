@@ -1,4 +1,5 @@
 ﻿@model LoonshotTest.Models.WaitingModel;
+@using Microsoft.AspNetCore.Http
 
 <head>
     <link rel="stylesheet" href="~/css/main.css" />
@@ -9,54 +10,103 @@
 <div class="content">
     <div class="card-box">
         <div class="card">
-            <a class="text-posi" asp-area="" asp-controller="Booking" asp-action="Index">
-                <h1 class="card-title">접수하기</h1>
+            <a class="text-posi left-box" asp-area="" asp-controller="Booking" asp-action="Index">
+                <div class="card-title">
+                    <h1 class="m-title">접수하기</h1>
+                    <div>
+
+                    <img src="~/img/Main/bell.png"  alt="접수하기"/>
+                        </div>
+                </div>
+                <div class="card-detail">
+                    <div>
+                        <h1>접수하기</h1>
+                        <p>
+                            언제 어디서든 진료 예약을 할 수 있습니다.
+                            PC / 모바일 어느 환경에서든 원하는 시간을 찾아 예약을 해보세요!
+                        </p>
+                    </div>
+                </div>
             </a>
         </div>
 
         <div class="card">
-            <a class="text-posi" asp-area="" asp-controller="Payment" asp-action="Payment">
-                <h1 class="card-title">결제하기</h1>
+            <a class="text-posi right-box" asp-area="" asp-controller="Payment" asp-action="Payment">
+                <div class="card-title">
+                    <h1 class="m-title">결제하기</h1>
+                    <div>
+                        <img src="~/img/Main/pay.png" alt="결제하기" />
+                    </div>
+                </div>
+                <div class="card-detail">
+                    <div>
+                        <h1>결제하기</h1>
+                        <p>
+                            기다림 없이 결제를 할 수 있습니다.
+                            내가 받은 진료에 대한 결제를 한 손 에서 수행할 수 있습니다.
+                        </p>
+                    </div>
+                </div>
             </a>
         </div>
         <div class="card">
-            <a class="text-posi" asp-area="" asp-controller="Mypage" asp-action="info">
-                <h1 class="card-title">마이페이지</h1>
-            </a>
+            <a class="text-posi left-box" asp-area="" asp-controller="Mypage" asp-action="info">
+                <div class="card-title">
+                    <h1 class="m-title">마이페이지</h1>
+                    <div>
+                        <img src="~/img/Main/my.png" alt="마이페이지" />
+                    </div>
+                </div>
+                <div class="card-detail">
+                    <div>
+                        <h1>마이페이지</h1>
+                        <p>
+                            내 진료, 사후 관리를 확인 하며 보다 원활한 관리를 지원합니다.
+                        </p>
+                        </div>
+                    </div>
+</a>
         </div>
-        @if (User.Identity.IsAuthenticated)
+        @if (Context.Session.GetString("userId") != null)
         {
             <div class="card">
-                <a class="text-posi" asp-area="" asp-controller="" asp-action="">
-                    @*<h1 class="mywaiting">대기보기</h1>*@
-                    <h1 class="card-title waitng" data-air="@User.Identity.Name">나의 대기 순번</h1>
+                <a class="text-posi right-box" asp-area="" asp-controller="" asp-action="">
+                    <div class="card-title main-box" data-air="@Context.Session.GetString("userId")">
+                        <h1 class="m-title">나의 대기 순번</h1>
+                        <div>
+                            <img src="~/img/Main/seq.png" alt="대기순번" />
+                        </div>
+                    </div>
+                    <div class="card-detail ">
+                        <div>
+                            <h1>나의 대기 순번</h1>
+                            <p>
+                                바쁜 일상 자신의 대기를 실시간으로 확인하고, 보다 여유로움을 느낄 수 있습니다.
+                            </p>
+                        </div>
+                    </div>
                 </a>
             </div>
         }
     </div>
 
-        <!-- 카카오 친구추가 시작 -->
-        <a id="channel-add-button" onclick="javascript:addChannel()">
-            <img src="~/img/login/channel_add_small.png" />
-        </a>
+    <!-- 카카오 친구추가 시작 -->
+    <a id="channel-add-button" onclick="javascript:addChannel()">
+        <img src="~/img/login/channel_add_small.png" />
+    </a>
 
 
-        <a id="channel-chat-button" onclick="javascript:chatChannel()">
-            <img src="~/img/login/consult_small_yellow_pc.png" />
-        </a>
+    <a id="channel-chat-button" onclick="javascript:chatChannel()">
+        <img src="~/img/login/consult_small_yellow_pc.png" />
+    </a>
 
-        <a href="tel:01041670372"><img style="border-radius: 50%; width: 50px; height: 50px; " src="~/img/login/call.jpg" /></a>
+    <a href="tel:01041670372"><img style="border-radius: 50%; width: 50px; height: 50px; " src="~/img/login/call.jpg" /></a>
 
 </div>
-
-
-<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
-
+<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script>
-
     $(function () {
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
         Kakao.isInitialized();
@@ -79,22 +129,13 @@
 
         // alert("버튼클릭2");
     }
-</script>
-
-
-
-
-
-
-<script>
-
     $(function () {
         var msgCheck = null;
         var p_id = $(".waitng").data("air");
         if (typeof (p_id) != "undefined") {
 
             // 소켓 통신 시작
-            $(function () {          
+            $(function () {
                 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
 
                 connection.start().then(function () {

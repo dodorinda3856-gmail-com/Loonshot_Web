@@ -2,8 +2,8 @@
     position: relative;
     top: 5.25rem;
     margin: 0 auto;
-    width: 90%;
     padding-bottom: 80px;
+    background-color: white !important;
 }
 
     .content .card-box {
@@ -11,89 +11,124 @@
         justify-content: center;
         align-items: center;
         display: flex;
-        
-    }
-    .content .card-box .card {
-        display: inline-flex !important;
-        width: calc(50% - 1.2rem) !important;
-        flex-grow: 1;
-        height : 300px;
-        margin-bottom : 3rem;
-        border-radius : 2%;
-        text-align:center;
-        position: relative;
     }
 
-    .content .card-box .text-posi {
-        display: block;
-        position: relative;
-        width: 100%;
-        height : 100%;
-    }
+        .content .card-box .text-posi .card-title {
+            width: 74.9%;
+            color: white;
+            height: 100%;
+            font-weight: bold;
+            font-size: calc(1rem + 2vw) !important;
+            padding-top: 1rem;
+            font-weight: bold !important;
+            margin: 0 !important;
+        }
 
-    .content .card-box .card .card-title {
-        display: inline-block;
-        position: relative;
-        top: 50%;
-        transform:translateY(-50%);
-        font-size: 45px;
-       
-    }
+            .content .card-box .text-posi .card-title h1 {
+                font-weight: bold !important;
+            }
 
-    .content .card-box .card:nth-child(odd){
-        margin-right: 2.4rem
-    }
+            .content .card-box .text-posi .card-title div {
+                position: relative;
+                width: 65%;
+                overflow: hidden;
+                margin: 0 auto;
+                cursor: pointer;
+                padding-bottom: 21%;
+            }
 
-    .content .card-box .card:nth-child(1) {
-        background-color : greenyellow;
-    }
-    .content .card-box .card:nth-child(2) {
-        background-color: darkorchid;
-    }
-    .content .card-box .card:nth-child(3) {
-        background-color: orange;
-    }
-    .content .card-box .card:nth-child(4) {
-        background-color: red;
-    }
+                .content .card-box .text-posi .card-title div img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    display: block;
+                    position: absolute;
+                }
+
+        .content .card-box .text-posi .card-detail {
+            width: 24.9%;
+            color: black;
+            height: 100%;
+            position: relative;
+            font-family: 'Nanum Myeongjo', serif;
+            top: 4rem;
+        }
+
+            .content .card-box .text-posi .card-detail > div {
+                display: inline-block;
+                width: 100%;
+                color: black;
+            }
+
+        .content .card-box .text-posi.right-box > div {
+            float: right;
+        }
+
+        .content .card-box .text-posi.left-box > div {
+            float: left;
+        }
+
+        .content .card-box .card {
+            display: inline-flex !important;
+            width: 100%;
+            flex-grow: 1;
+            text-align: center;
+            position: relative;
+        }
+
+.contet .card-box .card h1 {
+    font-weight: bold !important;
+}
+
+.content .card-box .text-posi {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.content .card-box .card:nth-child(1) .card-title {
+    background-color: greenyellow;
+}
+
+.content .card-box .card:nth-child(2) .card-title {
+    background-color: darkorchid;
+}
+
+.content .card-box .card:nth-child(3) .card-title {
+    background-color: orange;
+}
+
+.content .card-box .card:nth-child(4) .card-title {
+    background-color: red;
+}
 
 @media (max-width: 1024px) {
     .content .card-box .card {
-        width: 100% !important;
-        height: 300px;
-        margin-bottom : 3rem;
+        width: 50% 
     }
-    .content .card-box .card .card-body .card-title {
-            font-size: 39px;
+    .content .card-box .text-posi .card-title {
+        width: 100%;
     }
 
-    .content .card-box .card:nth-child(odd) {
-        margin-right: 0 !important;
+    .content .card-box .text-posi .card-detail {
+        display: none !important;
     }
 }
-
-@media(max-width: 768px) {
-    .content .card-box .card {
-        height : 200px;
-    }
-    .content .card-box .card .card-body .card-title {
-        font-size: 30px;
-    }
-}
-
 
 a {
     color: #f8f9fa !important;
     text-decoration: none;
 }
 
-a:link {
-   text-decoration: none !important;
-}
+    a:link {
+        text-decoration: none !important;
+    }
 
-a:visited {
-    text-decoration: none !important;
-}
-a:hover {
-    text-decoration: none !important;
-}
+    a:visited {
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        text-decoration: none !important;
+    }
