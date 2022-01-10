@@ -36,7 +36,7 @@ namespace LoonshotTest.Hubs
                 Mutex dup = new Mutex(true, "File Sync Manager", out createdNew);
                 if (createdNew && waitmodel.wait_count == 3)
                 {
-                    //SendLMS.Run(waitmodel.phone_num);
+                    SendLMS.Run(waitmodel.phone_num);
                 }
 
                 return (waitmodel.wait_count);
