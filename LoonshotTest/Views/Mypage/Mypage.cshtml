@@ -66,18 +66,17 @@
             <div class="form-group">
                 <label for="address-input" class="form-label ">주소 </label>
                 <p></p>
-                <input type="button"
-                       ="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
+                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden btn submit-btn">
                 <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
                 <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+                <button type="button" class="btn submit-btn hidden" data="address"><i class="fas fa-check"></i> 적용하기</button>
             </div>
             <div class="form-group mr">
                 <label for="phone-input" class="form-label ">핸드폰</label>
                 <p></p>
                 <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
                 <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+                <button type="button" class="btn submit-btn hidden" data="phone"><i class="fas fa-check"></i> 적용하기</button>
             </div>
         </div>
 
@@ -251,25 +250,6 @@
             }
         }
     }
-
-
-    // 기본정보 출력 종료
-    @*$(".test").on("click", function () {
-        $.ajax({
-            url: '@Url.Action("Test", "Mypage")',
-            type: "POST",
-            dataType: 'json',
-             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function (d) {
-                console.log(d);
-             },
-             error: function (requerst, status, error) {
-               console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
-              }
-        });
-    });*@
-
-
     // 유저 알람 처리 시작
     $("input[name=agree_of_alarm]").on("click", function () {
         var alarm_check = $(this).prop("checked");

@@ -22,7 +22,6 @@ body {
 .content {
     position: relative;
     margin: 0 auto;
-    padding-bottom: 80px;
     box-sizing: border-box;
     top: 3.25rem;
     background-color: white;
@@ -100,7 +99,7 @@ body {
 
 .content.mypage {
     max-width: 85%;
-    margin : 0 auto
+    margin : 0 auto 6rem auto;
 }
 
 .content.mypage .content-line{
@@ -164,6 +163,10 @@ body {
 .mypage .input-box .form-group.check-group{
     border: 1px solid red;
 }
+    .mypage .input-box .form-group.check-group p{
+        color: firebrick;
+        font-weight:700;
+    }
 
     .mypage .input-box .form-group:hover {
         box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
