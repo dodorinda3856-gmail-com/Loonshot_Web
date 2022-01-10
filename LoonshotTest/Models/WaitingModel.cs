@@ -30,15 +30,17 @@ namespace LoonshotTest.Models
            using(var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                    	SELECT wrn.r AS WAIT_COUNT , p.PHONE_NUM, p.ALARM_STATUS , patient_login_id
+                    	SELECT wrn.r AS WAIT_COUNT , p.PHONE_NUM , p.patient_id, st AS ALARM_STATUS
 	                    FROM (
 	                    SELECT
 		                    ROWNUM r,
-		                    pa
+		                    pa,
+							st
 	                    FROM
 		                    (
 		                    SELECT
 			                    w.REQUEST_TO_WAIT r,
+								w.ALARM_STATUS st,
 			                    w.PATIENT_ID pa
 		                    FROM
 			                    WAITING w
@@ -53,41 +55,17 @@ namespace LoonshotTest.Models
                 return db.QuerySingle<WaitingModel>(sql, this);
             }
         }
-		public WaitingModel AlarmOff(string patient_id)
+		public WaitingModel AlarmOff(WaitingModel waiting)
 		{
 			using (var db = new MySqlDapperHelper())
 			{
 				string sql = @"
-                    	UPDATE PATIENT_LOGIN
+                    	UPDATE WAITING
 						SET ALARM_STATUS = 'F'
-						WHERE patient_login_id = : patient_id
+						WHERE WAIT_STATUS_VAL = 'T' AND patient_id = : patient_id
                 ";
-				return db.QuerySingle<WaitingModel>(sql, this);
+				return db.QuerySingle<WaitingModel>(sql, new { patient_id = waiting.patient_Id});
 			}
 		}
-        public void AlarmOff(WaitingModel param)
-        {
-            using (var db = new MySqlDapperHelper())
-            {
-                db.BeginTransaction();
-                try
-                {
-                    string sql = @"
-                        UPDATE PATIENT_LOGIN
-						SET ALARM_STATUS = 'F'
-						WHERE patient_login_id = : patient_login_id
-                    ";
-
-                    db.Execute(sql, this);
-                    db.Commit();
-                }
-                catch (Exception ex)
-                {
-                    db.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
-    }
+	}
 }

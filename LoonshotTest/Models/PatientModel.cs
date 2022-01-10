@@ -10,6 +10,7 @@ namespace LoonshotTest.Models
     {
         public int patient_Id { get; set; }
 
+        public string patient_login_id { get; set; }
         public string patient_name { get; set; }
 
         public string resident_Regist_Num { get; set; }
@@ -53,10 +54,6 @@ namespace LoonshotTest.Models
             }
 
         }
-
-
-
-
         public int Update()
         {
 

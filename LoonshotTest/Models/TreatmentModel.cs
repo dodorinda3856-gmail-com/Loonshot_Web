@@ -13,7 +13,6 @@ namespace LoonshotTest.Models
         public int patient_Id { get; set; }
         public int staff_id { get; set; }
         public int disease_id { get; set; }
-
         public string disease_name { get; set; }
         public string procedure_name { get; set; }
 
@@ -104,36 +103,6 @@ namespace LoonshotTest.Models
                 }
             }
         }
-
-        public int UserAlarm(TreatMentModel param)
-        {
-            using (var db = new MySqlDapperHelper())
-            {
-                db.BeginTransaction();
-                try
-                {
-                    string sql = @"
-                        UPDATE PATIENT 
-                        SET AGREE_OF_ALARM = :agree_Of_Alarm
-                        WHERE PATIENT_ID = :patient_id
-                    ";
-
-                    int r = 1;
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-                    r += db.Execute(sql, this);
-
-                    db.Commit();
-                    return r;
-                }
-                catch (Exception ex)
-                {
-                    db.Rollback();
-                    throw ex;
-                }
-            }
-        }
-
 
         public TreatMentModel Prescription(int treat_id)
         {
