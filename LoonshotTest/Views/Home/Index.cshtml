@@ -15,8 +15,8 @@
                     <h1 class="m-title">접수하기</h1>
                     <div>
 
-                    <img src="~/img/Main/bell.png"  alt="접수하기"/>
-                        </div>
+                        <img src="~/img/Main/bell.png" alt="접수하기" />
+                    </div>
                 </div>
                 <div class="card-detail">
                     <div>
@@ -63,16 +63,17 @@
                         <p>
                             내 진료, 사후 관리를 확인 하며 보다 원활한 관리를 지원합니다.
                         </p>
-                        </div>
                     </div>
-</a>
+                </div>
+            </a>
         </div>
         @if (Context.Session.GetString("userId") != null)
         {
             <div class="card">
+                <span class="hidden waitng" data-air="@Context.Session.GetString("userId")"></span>
                 <a class="text-posi right-box" asp-area="" asp-controller="" asp-action="">
                     <div class="card-title main-box" data-air="@Context.Session.GetString("userId")">
-                        <h1 class="m-title">나의 대기 순번</h1>
+                        <h1 class="m-title my-wating">나의 대기 순번</h1>
                         <div>
                             <img src="~/img/Main/seq.png" alt="대기순번" />
                         </div>
@@ -103,9 +104,9 @@
     <a href="tel:01041670372"><img style="border-radius: 50%; width: 50px; height: 50px; " src="~/img/login/call.jpg" /></a>
 
 </div>
+<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script src="/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 <script>
     $(function () {
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
@@ -132,16 +133,18 @@
     $(function () {
         var msgCheck = null;
         var p_id = $(".waitng").data("air");
+        console.log(p_id);
         if (typeof (p_id) != "undefined") {
 
             // 소켓 통신 시작
             $(function () {
                 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
+                console.log(p_id + "2");
 
                 connection.start().then(function () {
                     setInterval(function () {
                         var waiting = connection.invoke("Send", p_id, msgCheck);
-                        waiting.then(a => $('.waitng').append().html("<h1>현재 대기 순위 </br>" + a + "</h1>"));
+                        waiting.then(a => $(".my-wating").text("남은 인원 :" + a + "명"));
                     }, 2000);
                 })
             });

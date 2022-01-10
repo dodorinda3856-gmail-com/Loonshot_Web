@@ -26,6 +26,7 @@
 
             .content .card-box .text-posi .card-title h1 {
                 font-weight: bold !important;
+                font-size: calc(1rem + 1.3vw) !important;
             }
 
             .content .card-box .text-posi .card-title div {
@@ -51,7 +52,7 @@
             height: 100%;
             position: relative;
             font-family: 'Nanum Myeongjo', serif;
-            top: 4rem;
+            top: 2rem;
         }
 
             .content .card-box .text-posi .card-detail > div {
