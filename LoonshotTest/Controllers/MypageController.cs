@@ -103,7 +103,6 @@ namespace LoonshotTest.Controllers
             } 
            
         }
-
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
             LoginModel loginmodel = new LoginModel();
@@ -125,7 +124,6 @@ namespace LoonshotTest.Controllers
             }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
         }
-
         [HttpPost]
         public JsonResult UpdateUser(string SqlType, string ajaxData)
         {

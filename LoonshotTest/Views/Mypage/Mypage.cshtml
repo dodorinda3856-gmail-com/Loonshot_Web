@@ -82,7 +82,7 @@
 
 
         <div class="content-box history-box hidden">
-            <div class="content-line">
+            <div class="content-line history-content">
                 <h4>진료기록</h4>
 
             </div>
@@ -91,55 +91,7 @@
                 <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
             </div>
-            <div id="html-form" class="card link-template-tabcard">
-                @*<div class="card-header  d-flex justify-content-between align-items-center">
-                    <h3 class="package-title disease_name" style="max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px">  <span class="treat_data"></span></h3>
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" data-air="desc">진료정보</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " data-toggle="tab" data-air="info">상세정보</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body p-0">
-                    <div class="tab-content">
-                        <div class="tab-pane p-4 info" role="tabpanel">
-                            <div id="tab-content">
-                                <div>
-                                    <p>
-                                        <strong class="treat_detail"></strong>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane active desc" role="tabpanel">
-                            <ul class="list-group list-group-flush ml-0 mb-2">
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong class="disease_name2">병 명 : </strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong class="staff_name">담당의 :  선생님</strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong class="pro_name">치료방법 : </strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong class="prescription">시 술 : </strong>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong>진료완료</strong>
-                                    <strong>진료 전</strong>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
-                    <a class="wpdm-download-link wpdm-download-locked btn btn-info btn-print" data-air="">처방전 출력</a>
-                </div>*@
-            </div>
+            
         </div>
         <div class="content-box as-box hidden">
             <div class="content-line">
@@ -153,14 +105,6 @@
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
             </div>
                 <div id="as-box" class="as-wrapper">
-                         @*<div class="type-d name as-@Model.Item3.IndexOf(item)">@item.procedure</div>*@
-                         @*<div class="type-m name as-@Model.Item3.IndexOf(item)">@item.procedure</div>*@
-
-                        @*<div class="as-info hidden ">*@
-                            @*<p class="as-@Model.Item3.IndexOf(item)">
-                                @item.a_s
-                            </p>*@
-                        @*</div>*@
                 </div>
                 <div class="content-line as-detail">
                     <h4 class="border-bottom"></h4>
@@ -168,7 +112,6 @@
                         <p></p>
                     </div>
                 </div>
-            }
         </div>
     </div>
 </div>
@@ -183,12 +126,10 @@
     var chkRegist = /^[0-9]{13}$/
     // 사용자 이름 한글만입력 가능 2~4자리로 입력
     var chkName = /^[가-힣]{2,4}$/
+    // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
     getHis(1);
-    getAs(1);
-
-
-    // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
+    getAS(1);
     function getHis(cnt) {
         $.ajax({
             url: '@Url.Action("GetHistory", "Mypage")',
@@ -197,11 +138,15 @@
             data: { rcnt : cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                $.each(d, function (el) {
-                    console.log(el.disease_name);
+                for (var i = 0; i < d.length; i++){
+                    console.log(d["list"][i]);
+                }
+                $.each(d["list"], function (el, v) {
+                    console.log(v);
                     var html =
+                        "<div class='card link-template-tabcard'>" +
                         "<div class='card-header  d-flex justify-content-between align-items-center'>" +
-                        "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + el.disease_name + "<span class='treat_data'>" + el.treat_date + "</span></h3>" +
+                        "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + v.disease_name + "<span class='treat_data'>" + v.treat_date + "</span></h3>" +
                         "<ul class='nav nav-tabs card-header-tabs'>" +
                         "<li class='nav-item'>" +
                         "<a class='nav-link active' data-toggle='tab' data-air='desc'>진료정보</a>" +
@@ -217,7 +162,7 @@
                         "<div id='tab-content'>" +
                         "<div>" +
                         "<p>" +
-                        "<strong class='treat_detail'>" + el.treat_details + "</strong>" +
+                        "<strong class='treat_detail'>" + v.treat_details + "</strong>" +
                         "</p>" +
                         "</div>" +
                         "</div>" +
@@ -225,32 +170,36 @@
                         "<div class='tab-pane active desc' role='tabpanel'>" +
                         "<ul class='list-group list-group-flush ml-0 mb-2'>" +
                         "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='disease_name2'>병 명 : " + el.disease_name + "</strong>" +
+                        "<strong class='disease_name2'>병 명 : " + v.disease_name + "</strong>" +
                         "</li>" +
                         "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='staff_name'>담당의 : " + el.staff_name + " 선생님</strong>" +
+                        "<strong class='staff_name'>담당의 : " + v.staff_name + " 선생님</strong>" +
                         "</li>" +
                         "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='pro_name'>치료방법 : " + el.prescription + "</strong>" +
+                        "<strong class='pro_name'>치료방법 : " + v.prescription + "</strong>" +
                         "</li>" +
                         "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='prescription'>시 술 : " + el.procedure_name + " </strong>" +
+                        "<strong class='prescription'>시 술 : " + v.procedure_name + " </strong>" +
                         "</li>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>"
-                        if (el.treat_status_val) { + "<strong>진료완료</strong>" }
+                        "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+                        if (v.treat_status_val) {
+                            html+= "<strong>진료완료</strong>"
+                        }
                         else {
-                           + "<strong>진료 전</strong>"
+                            html += "<strong>진료 전</strong>"
                          }
-                        "</li>" +
+                        html += "</li>" +
                         "</ul>" +
                         "</div>" +
                         "</div>" +
                         "</div>" +
                         "<div class='card-footer bg-transparent d-flex justify-content-between align-items-center'>" +
-                        "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='"+ el.treat_id +"'>처방전 출력</a>" +
+                        "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='"+ v.treat_id +"'>처방전 출력</a>" +
                         "</div>" +
-                        "</div>";
-                    $("#html-form").append(html);
+                        "</div>" +
+                        "</div > ";
+
+                    $(".history-content").append(html);
                 });
 
             },
@@ -259,7 +208,9 @@
             }
         });
     }
-    function getHis(cnt) {
+
+    function getAS(cnt) {
+        
         $.ajax({
             url: '@Url.Action("GetAS", "Mypage")',
             type: "POST",
@@ -267,24 +218,11 @@
             data: { rcnt : cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                $.each(d, function (el) {
-                    console.log(el.disease_name); "+ +"
-                    if (el.AS_TYPE == 'D') {
-                        var html = "<div class='type-d name as-" + index + "'> " + el.item.procedure + "</div> " +
+                $.each(d["list"], function (i, v) {
+                    var html = "<div class='type-" + v.as_type+" name as-" + i + "'> " + v.procedure + " </div> " +
                             "<div class='as-info hidden '> " +
-                            "<p class='as-" + index + "'>" +
-                            "+ el.a_s +" +
-                            "</p>" +
+                            "<p class='as-" + i + "'>" + v.a_s + "</p>" +
                             "</div>";
-                    }
-                    else {
-                        var html = "<div class='type-m name as-" + index + "'> " + el.item.procedure + "</div> " +
-                            "<div class='as-info hidden '> " +
-                            "<p class='as-" + index + "'>" +
-                            "+ el.a_s +" +
-                            "</p>" +
-                            "</div>";
-                    }
                     $("#as-box").append(html);
                 });
 
@@ -327,7 +265,6 @@
         });
     });
     // 유저 알람 끝
-
 
     //주소 시작
     function execDaumPostcode() {
@@ -401,7 +338,6 @@
                 shakeCard($(this).parent(".form-group"), "휴대폰");
                 return false;
             }
-
         }
         else if (ajax_check == "address") {
             ajax_data = $("#roadAddress").val();
@@ -431,7 +367,6 @@
                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
               }
         });
-
     })
     // 개인정보 수정 끝
     // CONTENT 출력 기능 시작
@@ -458,7 +393,7 @@
         }
     }
     // 화면 이벤트 처리
-    $('.nav-link').on("click", function () {
+    $(document).on("click",".nav-item .nav-link", function () {
         var active = $(this).data("air");
         var scale = $(this).parents(".card");
         scale.find(".tab-pane").removeClass("active");
@@ -468,7 +403,7 @@
     var name = null;
     var info = null;
     var index = null;
-    $('.as-wrapper .name').on("click", function () {
+    $(document).on("click", '.as-wrapper .name',function () {
         name = $(this).text();
         index = $(".name").index(this);
         info = $(".as-" + index).text();
@@ -478,7 +413,7 @@
     // 화면 이벤트 처리 끝
 
     // 처방전 및 진단서 출력 이벤트
-    $('.btn-print').on("click", function () {
+    $(document).on("click",".btn-print", function () {
         let treat_id = $(this).data("air");
          $.ajax({
             url: '@Url.Action("UserPrescription", "Mypage")',
@@ -510,7 +445,7 @@
             var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
             printWindow.document.write(printContents);
             printWindow.document.close();
-            printWindow.focus();
+            printWindow.focus = function () { window.close(); }
             setTimeout(function () {
                 printWindow.print();
                 printWindow.close();
