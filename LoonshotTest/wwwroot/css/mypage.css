@@ -201,18 +201,19 @@ body {
     overflow:hidden;
 }
 
-.content.mypage .as-box .as-wrapper .name {
-    display: inline-block;
-    padding: 1rem;
-    border: 1px solid;
-    width: 15%;
-    text-align: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 1rem;
-    float: left;
-    color: #f2f2f2;
-}
+    .content.mypage .as-box .as-wrapper .name {
+        display: inline-block;
+        padding: .5rem;
+        border: 1px solid;
+        width: 20%;
+        text-align: center;
+        font-size: calc(.5rem + 1vw);
+        font-weight: bold;
+        margin: .3rem;
+        float: left;
+        color: #f2f2f2;
+        word-break:keep-all;
+    }
 
     .content.mypage .as-box .as-wrapper .type-D {
         border: 1px solid #f3f3f3;
