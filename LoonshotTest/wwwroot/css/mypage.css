@@ -3,24 +3,20 @@
         background-color: yellow !important;
     }
 }
-@media (min-width: 2000px) {
-    .container {
-        padding: 0 !important;
-        max-width: 100% !important;
-    }
-}
+
 
 body {
     -webkit-print-color-adjust: exact !important;
 }
-
+ 
 body {
     background: #f2f2f2;
 }
 
 .container {
-    min-width: 100%!important;
     padding: 0 !important;
+    width: 100% !important;
+
 }
 
 .content {
