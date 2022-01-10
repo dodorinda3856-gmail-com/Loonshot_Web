@@ -22,13 +22,15 @@ namespace LoonshotTest.Models
 
         public int wait_count { get; set; }
 
+        public string alarm_status { get; set; }
+
         public string phone_num { get; set; }
         public WaitingModel Mywating(WaitingModel waiting)
         {
            using(var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                    	SELECT wrn.r AS WAIT_COUNT , p.PHONE_NUM
+                    	SELECT wrn.r AS WAIT_COUNT , p.PHONE_NUM, p.ALARM_STATUS , patient_login_id
 	                    FROM (
 	                    SELECT
 		                    ROWNUM r,
@@ -51,5 +53,41 @@ namespace LoonshotTest.Models
                 return db.QuerySingle<WaitingModel>(sql, this);
             }
         }
+		public WaitingModel AlarmOff(string patient_id)
+		{
+			using (var db = new MySqlDapperHelper())
+			{
+				string sql = @"
+                    	UPDATE PATIENT_LOGIN
+						SET ALARM_STATUS = 'F'
+						WHERE patient_login_id = : patient_id
+                ";
+				return db.QuerySingle<WaitingModel>(sql, this);
+			}
+		}
+        public void AlarmOff(WaitingModel param)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                db.BeginTransaction();
+                try
+                {
+                    string sql = @"
+                        UPDATE PATIENT_LOGIN
+						SET ALARM_STATUS = 'F'
+						WHERE patient_login_id = : patient_login_id
+                    ";
+
+                    db.Execute(sql, this);
+                    db.Commit();
+                }
+                catch (Exception ex)
+                {
+                    db.Rollback();
+                    throw ex;
+                }
+            }
+        }
+
     }
 }
