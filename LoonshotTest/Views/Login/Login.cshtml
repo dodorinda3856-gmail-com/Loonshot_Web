@@ -1,7 +1,7 @@
 @{ string msg = ViewData["msg"] as string; }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
+<link href="~/css/login.css" rel="stylesheet" />
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
@@ -18,8 +18,7 @@
 
         Kakao.Auth.login({
             scope: 'account_email',
-            success: function (authObj)
-            {
+            success: function (authObj) {
                 Kakao.Auth.setAccessToken(authObj.access_token);
                 //alert(Kakao.Auth.getAccessToken());
                 Kakao.API.request({
@@ -47,61 +46,58 @@
 
 </script>
 
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top:80px;">
-    <div class="auth-box row">
-        <div class="col-lg-7 col-md-5 modal-bg-img">
-        </div>
-        <div class="col-lg-5 col-md-7 bg-white">
-            @if (string.IsNullOrWhiteSpace(msg) == false)
-            {
-                <div class="alert alert-danger">@msg</div>
-            }
-        <div class="p-3">
-            <h2 class="mt-3 text-center"><span>로그인</span> </h2>
-            <p class="text-center">Enter your email address and password to access admin panel.</p>
+<html>
+<body>
 
-            <form id="form1" method="post" action="/Login/Login" class="mt-4">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
-                                   placeholder="enter your id"><br />
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
-                                   placeholder="enter your password"><br />
-                        </div>
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        <button type="submit" class="btn btn-block btn-dark">Sign In</button>
-                    </div>
-                    <div class="col-lg-12 text-center">
-                        Don't have an account? <a href="/login/register" class="text-danger">Sign Up</a>
-                    </div>
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top: 150px;>
+            <div class="loginbackground" style="background-color:blueviolet">
+                <div class="col-lg-5 col-md-7" >
+                    @if (string.IsNullOrWhiteSpace(msg) == false)
+                    {
+                        <div class="alert alert-danger">@msg</div>
+                    }
+                    <div style="background-color:rgb(255,255,255,0.5); border-radius:10px; padding:20px">
+                        <h2 class="mt-3 text-center">Sign In</h2>
+                        <p class="text-center">Enter your email address and password.</p>
 
-                    <!--social login-->
-<div class="social-login">
-    <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
-        <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
-        <span class="icon-Kakao mr-3"></span>
-    </a>
-    <a class="kakao btn d-flex justify-content-center align-items-center" id="naverIdLogin" onclick="javascipt:NaverLogin()">
-        <img src="~/img/login/naver_btn.png" width="200" name="naverLogin">
-        <span class="icon-Naver mr-3"></span>
-    </a>
-    <a class="google btn d-flex justify-content-center align-items-center" name="googleLogin" id="googleLogin" onclick="javascript:googleSign(googleUser)">
-        <img src="~/img/login/google_btn.png" width="200" name="googleLogin">
-        <span class="icon-Google mr-3"></span>
-    </a>
-</div>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
+                        <form id="form1" method="post" action="/Login/Login" class="mt-4">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
+                                               placeholder="enter your id"><br />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
+                                               placeholder="enter your password"><br />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 text-center">
+                                    <button type="submit" class="btn btn-block btn-dark">Sign In</button>
+                                </div>
+                                <br /><br />
+                                <div class="col-lg-12 text-center">
+                                    Don't have an account? <a href="/login/register" class="text-danger">Sign Up</a>
+                                </div>
+
+                                <!--social login-->
+                                <div class="social-login">
+                                    <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
+                                        <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
+                                        <span class="icon-Kakao mr-3"></span>
+                                    </a>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!--col lg 5-->
+            </div> <!--로그인백그라운드-->
+        </div> <!--랩퍼-->
+</body>
+</html>
 
 <script>
     // 로컬 아이디 영어만입력 가능 5~15자리로 입력

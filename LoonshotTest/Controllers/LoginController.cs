@@ -201,6 +201,10 @@ namespace LoonshotTest.Controllers
         {
             LoginModel loginModel = new LoginModel();
             loginModel.patient_login_id = id;
+          if(id == null)
+            {
+                return Content("");
+            }
           if(id.Length < 5 || id.Length > 15)
             {
                 return Content("아이디는 5자리 이상 15자리 이하만 가능합니다.");
@@ -226,7 +230,10 @@ namespace LoonshotTest.Controllers
         {
             Regex rxPassword = new Regex(@"^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{9,}$",
                         RegexOptions.IgnorePatternWhitespace);
-
+            if(pw == null)
+            {
+                return Content("");
+            }
             if (!rxPassword.IsMatch(pw))
             {
                 Debug.WriteLine("비밀번호가 안맞아");
@@ -243,6 +250,10 @@ namespace LoonshotTest.Controllers
         [Route("login/pwCheck2")]
         public ActionResult pwCheck2(string status)
         {
+            if(status == null)
+            {
+                return Content("");
+            }
             if(status == "F")
             {
                 return Content("패스워드가 동일하지 않습니다.");
@@ -261,7 +272,10 @@ namespace LoonshotTest.Controllers
         {
             Regex rxRs = new Regex(@"[0-9]",
                         RegexOptions.IgnorePatternWhitespace);
-
+            if(rs == null)
+            {
+                return Content("");
+            }
             
             if(rxRs.IsMatch(rs) && rs.Length == 13)
             {

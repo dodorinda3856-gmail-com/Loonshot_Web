@@ -59,17 +59,20 @@ namespace LoonshotTest.Models
             }
         }
 
-        public static List<TreatMentModel> TreatmentList(int patient_Id)
+        public static List<TreatMentModel> TreatmentList(int patient_Id, int cnt)
         {
             using (var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                    SELECT t.TREAT_ID, t.TREAT_STATUS__VAL , (SELECT ms.STAFF_NAME FROM MEDI_STAFF ms WHERE ms.STAFF_ID = t.STAFF_ID) AS STAFF_NAME , t.TREAT_DETAILS , t.PRESCRIPTION ,t.TREAT_DATE , nod.DISEASE_NAME , mp.PROCEDURE_NAME, mp.A_S 
+                    SELECT ROWNUM rn t.*
+                    FROM (
+                    SELECT rownum as rn ,t.TREAT_ID, t.TREAT_STATUS__VAL , (SELECT ms.STAFF_NAME FROM MEDI_STAFF ms WHERE ms.STAFF_ID = t.STAFF_ID) AS STAFF_NAME , t.TREAT_DETAILS , t.PRESCRIPTION ,t.TREAT_DATE , nod.DISEASE_NAME , mp.PROCEDURE_NAME, mp.A_S 
                     FROM TREATMENT t LEFT JOIN NAME_OF_DISEASE nod ON t.DISEASE_ID = nod.DISEASE_ID 
                     LEFT JOIN MEDI_PROCEDURE mp ON mp.MEDI_PROCEDURE_ID = nod.MEDI_PROCEDURE_ID 
-                    WHERE t.PATIENT_ID = : patient_Id
+                    WHERE t.PATIENT_ID = : patient_Id) T
+                    WHERE rn > : pre_cnt AND rn <= :nex_cnt 
                 ";
-                return db.Query<TreatMentModel>(sql, new { patient_id = patient_Id });
+                return db.Query<TreatMentModel>(sql, new { patient_id = patient_Id , pre_cnt = cnt, nex_cnt = (cnt + 2)} );
             }
         }
         public int UserBolt(int patient_id)
