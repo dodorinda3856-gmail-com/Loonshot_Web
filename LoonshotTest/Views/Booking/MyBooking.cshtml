@@ -4,29 +4,30 @@
 @model List<MyReservationRecord>
 <link rel="stylesheet" href="~/css/mybooking.css" />
 <div style="margin-top:100px" ;>
+    <h1 class="page-name">내 예약 목록</h1>
     <ul>
         @if (Model.Count == 0)
         {
+            <li class="reservation-list-wrapper">
             <div class="card text-center">
-                <div class="card-header">
-                </div>
                 <div class="card-body">
                     <h5 class="card-title">예약 내용 없음</h5>
                 </div>
             </div>
+            </li>
         }else {
 
         @foreach (var reservation in Model)
         {
             <li class="reservation-list-wrapper">
                 <div class="card text-center">
-                    <div class="card-header">
-                        @reservation.Reservation_Date.ToString(string.Format("MM월 dd일 HH시 mm분"))
-                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">@reservation.Staff_Name</h5>
-                        <p class="card-text">@reservation.Medi_Subject 전문</p>
-                        <button class="confirm-cancel" data-booking-id=@reservation.Reservation_Id>취소</button>
+                        <div>
+                            <h5 class="card-title">@reservation.Staff_Name</h5>
+                            <p class="card-text">@reservation.Medi_Subject 전문</p>
+                        </div>
+                            <p>@reservation.Reservation_Date.ToString(string.Format("MM월 dd일 HH시 mm분"))</p>
+                        <button type="button" class="btn btn-warning confirm-cancel" data-booking-id=@reservation.Reservation_Id>취소</button>
                     </div>
                 </div>
 

@@ -2,5 +2,21 @@
     font-weight: bold;
     text-decoration: none;
     color: black;
+    border: 1px solid rgba(223, 215, 202, 0.75);
+    margin: 1rem;
+    padding:2rem;
+    border-radius: 0.5rem;
+    background-color: white;
+    display: block;
 }
 
+.reservation-card{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.reservation-card div{
+    width: 100%;
+}

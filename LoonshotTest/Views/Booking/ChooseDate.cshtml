@@ -11,6 +11,7 @@
 <div>
     원하시는 날짜를 선택해주세요
 </div>
+
 <div id="datepicker"></div>
 
 
@@ -28,13 +29,10 @@
                     <h2 class="modal-date">예약확인</h2>
                 </div>
                 <div class="modal-body">
-                    <p>@doctor.Staff_Name</p>
+                    <p>@doctor.Staff_Name 의사</p>
                     <input id="confirm-timetable" name="time_id" value="" style="display:none" />
                     <input name="medical_staff_id" value=@doctor.Staff_Id style="display:none" />
-                    <input id="confirm-reservation-time" name="reservation_date" value="" readonly />
-                    <div id="timetable-show">
-                    </div>
-                    <p>예약시간 준수 부탁드립니다.</p>
+                    <input id="confirm-reservation-time" name="reservation_date" value="" readonly style="margin-bottom:1rem;" />
                     <div>
                         <label for="treat_type">방문 분류</label>
                         <select name="treat_type" id="treat-type">
@@ -44,10 +42,11 @@
                         </select>
                     </div>
                     <textarea id='symptom-explain' form="apply-reservation-form" name="symptom" placeholder="병원 방문 이유를 간략히 설명해주세요"></textarea>
+                    <p style="text-align:center; margin-top: 1rem; font-weight:bold;">예약시간 준수 부탁드립니다.</p>
                 </div>
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Create" id="submit-reservation" />
-                    <button type="button" class="btn btn-secondary" id="close-modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="확인" id="submit-reservation" />
+                    <button type="button" class="btn btn-secondary" id="close-modal">닫기</button>
                 </div>
             </form>
         </div>
@@ -142,7 +141,7 @@
                             </div>
                             </div>`
                         } else {
-                            scheduleCard += ` <div class="card text-white bg-success mb-3 reservation-card" style="max-width: 20rem;">
+                            scheduleCard += ` <div class="card bg-success mb-3 reservation-card" style="max-width: 20rem;">
                             <div class="card-header" data-tableid=${timetable[i].time_Id} data-hourmin=${timetable[i].hour}
                             >${timetable[i].hour}</div>
                             <div class="card-body">
@@ -163,7 +162,6 @@
                             var timehour = $(this).children(".card-header").data("hourmin");
                             var date = selectedDate + `-${timehour}`;
                             var timeshow = $(this).children(".card-header").text();
-                            $("#timetable-show").text(timeshow);
                             $("#confirm-timetable").val(time);
                             $("#symptom-explain").val("");
                             $("#confirm-reservation-time").val(date);

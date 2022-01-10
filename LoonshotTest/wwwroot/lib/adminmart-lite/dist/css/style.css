@@ -3499,7 +3499,9 @@ input[type="button"].btn-block {
 
 .card-group {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column; 
+  justify-content: center;
+}
   .card-group > .card {
     margin-bottom: 15px; }
   @media (min-width: 576px) {

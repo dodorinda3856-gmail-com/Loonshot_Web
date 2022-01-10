@@ -1,3 +1,37 @@
-﻿.card{
+﻿.card {
     display: inline-block;
+    color: rgba(255, 255, 255, 0.7);
 }
+
+#datepicker{
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.time-schedule-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 800px;
+    margin:auto;
+    margin-top: 2rem;
+}
+
+.reservation-card:hover {
+    color: white;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .time-schedule-container {
+        display: flex;
+        flex-direction: column;
+    }
+    .card{
+        margin:auto;
+        width: 80%;
+    }
+}
+

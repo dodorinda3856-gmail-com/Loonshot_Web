@@ -39,22 +39,16 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/home/hospital">소개</a>
                         </li>
-                        <li class="nav-item">
-                            @if (Context.Session.GetString("userId") != null)
-                            {
-                                <a class="navlink" id="download">@Context.Session.GetString("userId") 님 안녕하세요.</a>
-                            }
-                        </li>
                     </ul>
                     <ul class="navbar-nav ms-md-auto">
-                        <li class="nav-item">
+                        <li class="nav-item" style="display:flex;">
                             @if (Context.Session.GetString("userId") == null)
                             {
                                 <a rel="noopener" class="nav-link" href="/login/login"><i class="fa fa-github"></i> 로그인</a>
                             }
 
                             @if (Context.Session.GetString("userId") != null)
-                            {
+                            {<div class="navlink" style="display:block;padding:0.3rem; color:white;" id="download">@Context.Session.GetString("userId")님</div>
                                 @if (Context.Session.GetString("kakao") == "T")
                                 {
                                     <a id="kakaoLogout" class="nav-link" href="#"><i class="fa fa-github"></i> 로그아웃</a>

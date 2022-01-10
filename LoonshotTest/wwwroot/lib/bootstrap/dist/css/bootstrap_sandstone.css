@@ -4991,6 +4991,7 @@ fieldset:disabled .btn {
   .card-group {
     display: -ms-flexbox;
     display: flex;
+   justify-content: center;
     -ms-flex-flow: row wrap;
     flex-flow: row wrap;
   }
