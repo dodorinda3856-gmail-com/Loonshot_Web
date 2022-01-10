@@ -1,4 +1,4 @@
-﻿@model Tuple<LoonshotTest.Models.TreatMentModel, List<LoonshotTest.Models.TreatMentModel>, List<LoonshotTest.Models.ASModel>>
+﻿@model Tuple<LoonshotTest.Models.TreatMentModel>
 @using Microsoft.AspNetCore.Http
 <head>
     <link rel="stylesheet" href="~/css/mypage.css" />
@@ -66,7 +66,8 @@
             <div class="form-group">
                 <label for="address-input" class="form-label ">주소 </label>
                 <p></p>
-                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
+                <input type="button"
+                       ="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
                 <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
                 <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
                 <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
@@ -86,12 +87,15 @@
                 <h4>진료기록</h4>
 
             </div>
+            <div>
+                <button type="button" class="btn" onclick="getHis();">더 보기</button>
+            </div>
             <div class="no-item hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
                 <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
             </div>
-            
+
         </div>
         <div class="content-box as-box hidden">
             <div class="content-line">
@@ -104,14 +108,14 @@
                 </div>
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
             </div>
-                <div id="as-box" class="as-wrapper">
+            <div id="as-box" class="as-wrapper">
+            </div>
+            <div class="content-line as-detail">
+                <h4 class="border-bottom"></h4>
+                <div class="as-detail-info">
+                    <p></p>
                 </div>
-                <div class="content-line as-detail">
-                    <h4 class="border-bottom"></h4>
-                    <div class="as-detail-info">
-                        <p></p>
-                    </div>
-                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -128,19 +132,41 @@
     var chkName = /^[가-힣]{2,4}$/
     // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
-    getHis(1);
-    getAS(1);
-    function getHis(cnt) {
+    moreBtn(".history-content .link-template-tabcard");
+    moreBtn("#as-box .as-card");
+
+    function moreBtn(name) {
+        let n = $(name).length;
+        function getAS(cnt) {
         $.ajax({
-            url: '@Url.Action("GetHistory", "Mypage")',
+            url: '@Url.Action("GetAS", "Mypage")',
             type: "POST",
             dataType: 'json',
             data: { rcnt : cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                for (var i = 0; i < d.length; i++){
-                    console.log(d["list"][i]);
-                }
+                $.each(d["list"], function (i, v) {
+                    var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
+                            "<div class='as-info hidden '> " +
+                            "<p class='as-" + i + "'>" + v.a_s + "</p>" +
+                            "</div>";
+                    $("#as-box").append(html);
+                });
+
+            },
+            error: function (requerst, status, error) {
+                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+            }
+        });
+    }
+        function getHis(n) {
+        $.ajax({
+            url: '@Url.Action("GetHistory", "Mypage")',
+            type: "POST",
+            dataType: 'json',
+            data: { rcnt : n },
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            success: function (d) {
                 $.each(d["list"], function (el, v) {
                     console.log(v);
                     var html =
@@ -207,31 +233,28 @@
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
             }
         });
-    }
+        }
 
-    function getAS(cnt) {
-        
-        $.ajax({
-            url: '@Url.Action("GetAS", "Mypage")',
-            type: "POST",
-            dataType: 'json',
-            data: { rcnt : cnt },
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function (d) {
-                $.each(d["list"], function (i, v) {
-                    var html = "<div class='type-" + v.as_type+" name as-" + i + "'> " + v.procedure + " </div> " +
-                            "<div class='as-info hidden '> " +
-                            "<p class='as-" + i + "'>" + v.a_s + "</p>" +
-                            "</div>";
-                    $("#as-box").append(html);
-                });
-
-            },
-            error: function (requerst, status, error) {
-                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
+        if (name == ".history-content .link-template-tabcard") {
+            if (n % 2 == 0) {
+                getHis(n);
             }
-        });
+            else {
+                alert("test");
+            }
+        }
+        else if (name == "#as-box .as-card") {
+            if (n % 6 == 0) {
+                alert(n);
+
+                getAS(n)
+            } else {
+                alert("test");
+            }
+        }
     }
+
+
     // 기본정보 출력 종료
     @*$(".test").on("click", function () {
         $.ajax({
@@ -328,7 +351,6 @@
                 $("#name-input").val("");
                 return false;
             }
-
         }
         else if (ajax_check == "phone") {
             ajax_data = $("#phone-input").val();

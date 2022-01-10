@@ -47,9 +47,9 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-                List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, 1);
-                List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
-                return View(Tuple.Create(myinfo, treatList, asList));
+                //List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, 1);
+                //List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
+                return View(Tuple.Create(myinfo));
             }
             catch (Exception ex) {
                 return Redirect($"/login/login?msg=로그인이 필요한 서비스 입니다.");
@@ -180,7 +180,7 @@ namespace LoonshotTest.Controllers
                 LoginModel loginmodel = new LoginModel();
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-                List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
+                List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id, rcnt);
                 return Json(new
                 {
                     list = asList
