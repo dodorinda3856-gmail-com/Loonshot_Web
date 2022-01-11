@@ -145,7 +145,17 @@
                 connection.start().then(function () {
                     setInterval(function () {
                         var waiting = connection.invoke("Send", p_id, msgCheck);
-                        waiting.then(a => $(".my-wating").text("남은 인원 :" + a + "명"));
+
+                        waiting.then(a => {
+                            if (a == 0) {
+                                $(".my-wating").text("금일 진료가 없습니다.");
+
+                            } else {
+                                $(".my-wating").text("남은 인원 :" + a + "명")
+
+                            }
+                        }
+                        );
                     }, 2000);
                 })
             });
