@@ -20,7 +20,6 @@ namespace LoonshotTest.Hubs
     {
         bool createdNew = false;
         public int Send(string patient_id , string cookieCheck) {
-
             return GetMyWaiting(patient_id, cookieCheck);
         }
 

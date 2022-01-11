@@ -24,7 +24,6 @@ namespace LoonshotTest.Controllers
 {
     public class MypageController : Controller
     {
-        
         private readonly ILogger<MypageController> _logger;
 
         public MypageController(ILogger<MypageController> logger)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LoonshotTest.Hubs
 {
-    public class SendLMS
+    public class SendMMS
     {
         public static void Run(string phone )
         {

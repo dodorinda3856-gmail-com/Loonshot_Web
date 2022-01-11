@@ -16,7 +16,6 @@ static class MessagingLib
         public string imageId;
         public KakaoOptions kakaoOptions;
     }
-
     public class Messages
     {
         public List<Message> messages = new List<Message>();
