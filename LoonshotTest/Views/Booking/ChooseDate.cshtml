@@ -58,130 +58,174 @@
 
 <script>
 
-
-        $(document).on("click", "#close-modal", function (e) {
-                    $('.modal').css("display", "none");
-        });
-
-        $(function() {
-            $( "#datepicker" ).datepicker();
-        });
-
-
-
-         $.datepicker.setDefaults({
-            dateFormat: 'yymmdd',
-            prevText: '이전 달',
-            nextText: '다음 달',
-            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-            showMonthAfterYear: true,
-            yearSuffix: '년'
-        });
+      var holidays = {
+      "0101":{type:0, title:"신정", year:""},
+      "0131":{type:0, title:"설날", year:""},
+      "0201":{type:0, title:"설날", year:""},
+      "0202":{type:0, title:"설날", year:""},
+      "0301":{type:0, title:"삼일절", year:""},
+      "0505":{type:0, title:"어린이날", year:""},
+      "0606":{type:0, title:"현충일", year:""},
+      "0815":{type:0, title:"광복절", year:""},
+      "1003":{type:0, title:"개천절", year:""},
+      "1009":{type:0, title:"한글날", year:""},
+      "1225":{type:0, title:"크리스마스", year:""}
+    };
 
 
+            $(document).on("click", "#close-modal", function (e) {
+                        $('.modal').css("display", "none");
+            });
 
-        $('#datepicker').datepicker({
-        dateFormat: 'yy-mm-dd',
-        minDate: 1,
-        maxDate: 31,
-        defaultDate: null,
-        onSelect: function(){
-               var selectedDate = $(this).val();
-               var day = new Date(selectedDate).getDay();
-               $.ajax({
-                   url: "/api/BookingApi/Appointment",
-                   type: 'GET',
-                   data: ({
-                        doctorId: window.location.pathname.split("/").pop(),
-                        date: selectedDate
-                    }),
-                    success: function (booked) {
-
-        $.ajax({
-            url: "/api/BookingApi/Schedule",
-            type: 'GET',
-            data: ({
-                day: day
-            }),
-            success: function (timetable) {
-
-                var scheduleCard = '';
-                console.log(timetable);
-                console.log(booked);
+            $(function() {
+                $( "#datepicker" ).datepicker();
+            });
 
 
-                var index = booked.findIndex(b=> b.patient_Id==@ViewBag.userId)
-                console.log(index, @ViewBag.userId);
-                if (index>-1) {
-                    scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-                            <div class="card-header">${booked[index].hour}</div>
-                            <div class="card-body">
-                            <h4 class="card-title">내 예약</h4>
-                            <p class="card-text" style="display: none"></p>
-                            </div>
-                            </div>`
-                } else {
-                    if(timetable.length<1){
-                        scheduleCard+="<div>예약이 불가한 날짜입니다.</div>"
-                    }
-                    else{
 
-                    for (let i = 0; i < timetable.length; i++) {
+             $.datepicker.setDefaults({
+                dateFormat: 'yymmdd',
+                prevText: '이전 달',
+                nextText: '다음 달',
+                monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+                dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+                showMonthAfterYear: true,
+                yearSuffix: '년'
+            });
 
-                        if (booked.some(b => b.time_Id == timetable[i].time_Id)) {
-                            scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
-                            <div class="card-header">${timetable[i].hour}</div>
-                            <div class="card-body">
-                            <h4 class="card-title">예약 불가</h4>
-                            <p class="card-text" style="display: none"></p>
-                            </div>
-                            </div>`
-                        } else {
-                            scheduleCard += ` <div class="card bg-success mb-3 reservation-card" style="max-width: 20rem;">
-                            <div class="card-header" data-tableid=${timetable[i].time_Id} data-hourmin=${timetable[i].hour}
-                            >${timetable[i].hour}</div>
-                            <div class="card-body">
-                            <h4 class="card-title">예약 가능</h4>
-                            <p class="card-text" style="display: none"></p>
-                            </div>
-                            </div>`
+
+
+            $('#datepicker').datepicker({
+            dateFormat: 'yy-mm-dd',
+            minDate: 1,
+            maxDate: 31,
+            defaultDate: null,
+            beforeShowDay: function(day) {
+         var result;
+         var holiday = holidays[$.datepicker.formatDate("mmdd",day )];
+         var thisYear = $.datepicker.formatDate("yy", day);
+
+         // exist holiday?
+         if (holiday) {
+         if(thisYear == holiday.year || holiday.year == "") {
+            result =  [false, "date-holiday", holiday.title];
+         }
+         }
+
+         if(!result) {
+         switch (day.getDay()) {
+            case 0: // is sunday?
+               result = [false, "date-sunday"];
+               break;
+            case 6: // is saturday?
+               result = [true, "date-saturday"];
+               break;
+            default:
+               result = [true, ""];
+               break;
+         }
+         }
+
+         return result;
+      },
+
+
+            onSelect: function(){
+                   var selectedDate = $(this).val();
+                   var day = new Date(selectedDate).getDay();
+                   $.ajax({
+                       url: "/api/BookingApi/Appointment",
+                       type: 'GET',
+                       data: ({
+                            doctorId: window.location.pathname.split("/").pop(),
+                            date: selectedDate
+                        }),
+                        success: function (booked) {
+
+            $.ajax({
+                url: "/api/BookingApi/Schedule",
+                type: 'GET',
+                data: ({
+                    day: day
+                }),
+                success: function (timetable) {
+
+                    var scheduleCard = '';
+                    console.log(timetable);
+                    console.log(booked);
+
+
+                    var index = booked.findIndex(b=> b.patient_Id==@ViewBag.userId)
+                    console.log(index, @ViewBag.userId);
+                    if (index>-1) {
+                        scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                                <div class="card-header">${booked[index].hour}</div>
+                                <div class="card-body">
+                                <h4 class="card-title">내 예약</h4>
+                                <p class="card-text" style="display: none"></p>
+                                </div>
+                                </div>`
+                    } else {
+                        if(timetable.length<1){
+                            scheduleCard+="<div>예약이 불가한 날짜입니다.</div>"
                         }
-                    }
-                    }
+                        else{
+
+                        for (let i = 0; i < timetable.length; i++) {
+
+                            if (booked.some(b => b.time_Id == timetable[i].time_Id)) {
+                                scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
+                                <div class="card-header">${timetable[i].hour}</div>
+                                <div class="card-body">
+                                <h4 class="card-title">예약 불가</h4>
+                                <p class="card-text" style="display: none"></p>
+                                </div>
+                                </div>`
+                            } else {
+                                scheduleCard += ` <div class="card bg-success mb-3 reservation-card" style="max-width: 20rem;">
+                                <div class="card-header" data-tableid=${timetable[i].time_Id} data-hourmin=${timetable[i].hour}
+                                >${timetable[i].hour}</div>
+                                <div class="card-body">
+                                <h4 class="card-title">예약 가능</h4>
+                                <p class="card-text" style="display: none"></p>
+                                </div>
+                                </div>`
+                            }
+                        }
+                        }
 
 
+                    }
+
+         $(document).on("click", ".reservation-card", function (e) {
+                                $('.modal').css("display", "block");
+                                var time = $(this).children(".card-header").data("tableid");
+                                var timehour = $(this).children(".card-header").data("hourmin");
+                                var date = selectedDate + `-${timehour}`;
+                                var timeshow = $(this).children(".card-header").text();
+                                $("#confirm-timetable").val(time);
+                                $("#symptom-explain").val("");
+                                $("#confirm-reservation-time").val(date);
+                            });
+                            $('.time-schedule-container').empty();
+                            $('.time-schedule-container').append(scheduleCard);
                 }
-
-     $(document).on("click", ".reservation-card", function (e) {
-                            $('.modal').css("display", "block");
-                            var time = $(this).children(".card-header").data("tableid");
-                            var timehour = $(this).children(".card-header").data("hourmin");
-                            var date = selectedDate + `-${timehour}`;
-                            var timeshow = $(this).children(".card-header").text();
-                            $("#confirm-timetable").val(time);
-                            $("#symptom-explain").val("");
-                            $("#confirm-reservation-time").val(date);
-                        });
-                        $('.time-schedule-container').empty();
-                        $('.time-schedule-container').append(scheduleCard);
-            }
-        });
+            });
 
 
-    },
-    error: function () {
-        alert("failed to retrieve data");
-    }
-
-               })
+        },
+        error: function () {
+            alert("failed to retrieve data");
         }
-        });
-   
-        $('.ui-datepicker-current-day').click();
+
+                   })
+            }
+            });
+
+            $('.ui-datepicker-current-day').click();
 
 </script>
 
