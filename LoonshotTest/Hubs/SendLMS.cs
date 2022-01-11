@@ -7,7 +7,6 @@ static class SendLMS
         // TextingLib.GetGroupList()
         // Dim group = New TextingLib.Group()
         // Console.WriteLine(group.GetList())
-
         MessagingLib.Messages messages = new MessagingLib.Messages();
         messages.Add(new MessagingLib.Message()
         {

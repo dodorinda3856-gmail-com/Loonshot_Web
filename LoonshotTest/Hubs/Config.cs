@@ -4,7 +4,6 @@ static class Config
     //public static string apiKey = "NCS3CFQYJ6SRQWWE";
     //public static string apiSecret = "B3FZ9GIEJOHOGMOKQNJ1AWXKQ7CP2PRZ";
 
-
     //public static string apiKey = "NCS2OREUKEALU4RP";
     //public static string apiSecret = "ETA0JOZVHF6GEZCAWZYC5QZQP4IQ2MWB";
 
