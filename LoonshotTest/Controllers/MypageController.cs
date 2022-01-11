@@ -106,15 +106,11 @@ namespace LoonshotTest.Controllers
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
             LoginModel loginmodel = new LoginModel();
-            TreatMentModel alarmStat = new TreatMentModel();
             string message = "succces";
             try
             {
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId"); ;
-                loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-                alarmStat.patient_Id = loginmodel.patient_id;
-                alarmStat.agree_Of_Alarm = (AGREE_OF_ALARM == "true" ? 'T' : 'F');
-                if (alarmStat.UserAlarm(alarmStat) != 1)
+                if (loginmodel.UserAlarm(loginmodel, (AGREE_OF_ALARM == "true" ? "T" : "F")) != 1)
                 {
                     message = "500";
                 }

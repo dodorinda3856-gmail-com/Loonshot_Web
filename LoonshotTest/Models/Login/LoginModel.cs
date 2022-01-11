@@ -255,9 +255,30 @@ namespace LoonshotTest.Models.Login
                 }
             }
         }
-
+        public int UserAlarm(LoginModel param , string alarmStatus)
+        {
+            using (var db = new MySqlDapperHelper())
+            {
+                db.BeginTransaction();
+                try
+                {
+                    string sql = @"
+                        UPDATE PATIENT_LOGIN
+						SET ALARM_STATUS = : alarmStatus
+						WHERE patient_login_id = : patient_login_id
+                    ";
+                    int r = 0;
+                    r = db.Execute(sql, new {alarmStatus = alarmStatus , patient_login_id = param.patient_login_id });
+                    db.Commit();
+                    return r;
+                }
+                catch (Exception ex)
+                {
+                    db.Rollback();
+                    throw ex;
+                }
+            }
+        }
     }
-
-
     }
 
