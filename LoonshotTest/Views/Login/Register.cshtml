@@ -1,5 +1,3 @@
-
-
 @{
     string msg = ViewData["msg"] as string;
     //string msg = "";
@@ -19,7 +17,7 @@
         <div class="auth-box row" style="justify-content: center;" >
             <div class="col-sm-6" style=" background-color: rgb(255,255,255,0.5); padding: 0px 30px 0px 30px; margin:100px 0px; border-radius:10px;">
                 <div class="p-3">
-                    <h2 class="mt-3 text-center">Sign Up for Free</h2>
+                    <h2 class="mt-3 text-center">íšŒì›ê°€ì…</h2>
                     <!--
                     @if (string.IsNullOrWhiteSpace(msg) == false)
                     {
@@ -31,7 +29,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input id="login_id" name="patient_login_id" class="form-control" type="text" placeholder="insert your id">
+                                    <input id="login_id" name="patient_login_id" class="form-control" type="text" placeholder="ì›í•˜ì‹œëŠ” ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”">
                                     <!--<input name="patient_login_id" class="form-control" type="text" placeholder="insert your id" onkeyup="checkId(this.value);">-->
                                     <br />
                                 </div>
@@ -39,7 +37,7 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input id="login_pw" name="patient_login_pw" class="form-control" type="password" placeholder="insert your password">
+                                    <input id="login_pw" name="patient_login_pw" class="form-control" type="password" placeholder="ë¹„ë°€ë²ˆí˜¸">
                                     <!--<input name="patient_login_pw" class="form-control" type="password" placeholder="insert your password" onkeyup="checkPw(this.value);">-->
                                     <br />
                                 </div>
@@ -47,13 +45,13 @@
 
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <input id="login_pw2" name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password">
+                                    <input id="login_pw2" name="patient_login_pw2" class="form-control" type="password" placeholder="ë¹„ë°€ë²ˆí˜¸ í™•ì¸">
                                 </div>
                                 <br />
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input id="regiden_regist" name="resident_regist_num" class="form-control" type="text" placeholder="insert your regist_num">
+                                        <input id="regiden_regist" name="resident_regist_num" class="form-control" type="text" placeholder="ì£¼ë¯¼ë²ˆí˜¸ (-) ì œì™¸ ìˆ«ì ì…ë ¥">
                                         <br />
                                     </div>
                                     <!--<input name="patient_login_pw2" class="form-control" type="password" placeholder="confirm password" onkeyup="checkPw(this.value);">-->
@@ -62,21 +60,23 @@
 
                                 <div class="col-lg-12">
                                     <div class="form-group">
-                                        <input id="pnNum" name="phone_num" class="form-control" type="text" placeholder="your phone number">
+                                        <input id="pnNum" name="phone_num" class="form-control" type="text" placeholder="ì—°ë½ì²˜ (-) ì œì™¸ ìˆ«ì ì…ë ¥">
                                         <br />
-                                        <input id="authNum" name="Authentication number" class="form-control" type="text" placeholder="Authentication number">
+                                        <input id="authNum" name="Authentication number" class="form-control" type="text" placeholder="ì¸ì¦ë²ˆí˜¸">
                                     </div>
 
                                     <br />
                                     <div class="col-lg-12 text-center">
-                                        <button type="button" class="btn btn-secondary" onClick="fncAuth()" disabled>Send Code</button>
-                                        <button type="button" class="btn btn-success" onClick="fncCheckAuth()" disabled>Certify</button>
+                                        <button type="button" class="btn btn-secondary" onClick="fncAuth()" disabled>ì¸ì¦ë²ˆí˜¸ ìš”ì²­</button>
+                                        <button type="button" class="btn btn-success" onClick="fncCheckAuth()" disabled>ì¸ì¦ë²ˆí˜¸ í™•ì¸</button>
                                         <!-- <button id="signUp" type="submit" class="btn btn-primary" disabled>Sign Up</button> -->
-
-                                        <button id="signUp" type="submit" class="btn btn-primary">Sign Up</button>
                                     </div>
+                                    <div class="col-lg-12 text-center" style="margin-top:1rem">
+                                           <button id="signUp" type="submit" class="btn btn-primary">íšŒì›ê°€ì…</button>
+                                    </div>
+                                             
                                     <div class="col-lg-12 text-center mt-5">
-                                        Already have an account? <br /><a href="/login/login" class="text-danger">Sign In</a>
+                                        ì´ë¯¸ íšŒì›ì´ì‹­ë‹ˆê¹Œ? <br /><a href="/login/login" class="text-danger">ë¡œê·¸ì¸</a>
                                     </div>
                                 </div>
                             </div>
@@ -102,13 +102,13 @@
                 },
                 success:
                     function (resp) {
-                        console.log("³Ñ¾î¿Â ¸Ş¼¼Áö : " + resp);
+                        console.log("ë„˜ì–´ì˜¨ ë©”ì„¸ì§€ : " + resp);
                         $("#notify").text(resp);
                     }
-            });	 //ajaxÁ¾·á
-        }; //if¹® Á¾·á
+            });	 //ajaxì¢…ë£Œ
+        }; //ifë¬¸ ì¢…ë£Œ
         
-    }); // ¾ÆÀÌµğ Ã¼Å© Á¾·á
+    }); // ì•„ì´ë”” ì²´í¬ ì¢…ë£Œ
 
 
     $("#login_pw").change(function () {
@@ -121,11 +121,11 @@
             },
             success:
                 function (resp) {
-                    console.log("³Ñ¾î¿Â ¸Ş¼¼Áö : " + resp);
+                    console.log("ë„˜ì–´ì˜¨ ë©”ì„¸ì§€ : " + resp);
                     $("#notify").text(resp);
                 }
-        });	 //ajaxÁ¾·á
-    })//ºñ¹ø Ã¼Å© Á¾·á
+        });	 //ajaxì¢…ë£Œ
+    })//ë¹„ë²ˆ ì²´í¬ ì¢…ë£Œ
 
     $("#login_pw2").change(function () {
         var status = "";
@@ -143,11 +143,11 @@
             },
             success:
                 function (resp) {
-                    console.log("³Ñ¾î¿Â ¸Ş¼¼Áö : " + resp);
+                    console.log("ë„˜ì–´ì˜¨ ë©”ì„¸ì§€ : " + resp);
                     $("#notify").text(resp);
           }
-        });	 //ajaxÁ¾·á
-    })//ºñ¹ø1 ºñ¹ø2 µ¿ÀÏ¿©ºÎ Ã¼Å© Á¾·á
+        });	 //ajaxì¢…ë£Œ
+    })//ë¹„ë²ˆ1 ë¹„ë²ˆ2 ë™ì¼ì—¬ë¶€ ì²´í¬ ì¢…ë£Œ
 
     $("#regiden_regist").change(function () {
 
@@ -159,13 +159,13 @@
             },
             success:
                 function (resp) {
-                    console.log("³Ñ¾î¿Â ¸Ş¼¼Áö : " + resp);
+                    console.log("ë„˜ì–´ì˜¨ ë©”ì„¸ì§€ : " + resp);
                     $("#notify").text(resp);
                 }
-        });	 //ajaxÁ¾·á
+        });	 //ajaxì¢…ë£Œ
 
 
-    })//ÁÖ¹Î¹øÈ£ À¯È¿¼º Ã¼Å© Á¾·á
+    })//ì£¼ë¯¼ë²ˆí˜¸ ìœ íš¨ì„± ì²´í¬ ì¢…ë£Œ
 
 
 
@@ -174,13 +174,13 @@
     var key = "";
     var authNum = "";
     var chkPhone = /^[0-9]{11}$/
-    // ÁÖ¹Î¹øÈ£ ¹øÈ£¸¸À¸·Î 13ÀÚ¸® ÀÔ·Â
+    // ì£¼ë¯¼ë²ˆí˜¸ ë²ˆí˜¸ë§Œìœ¼ë¡œ 13ìë¦¬ ì…ë ¥
     var chkRegist = /^[0-9]{13}$/
-    // »ç¿ëÀÚ ÀÌ¸§ ÇÑ±Û¸¸ÀÔ·Â °¡´É 2~4ÀÚ¸®·Î ÀÔ·Â
-    var chkName = /^[°¡-ÆR]{2,4}$/
-    // ·ÎÄÃ ¾ÆÀÌµğ ¿µ¾î¸¸ÀÔ·Â °¡´É 5~15ÀÚ¸®·Î ÀÔ·Â
+    // ì‚¬ìš©ì ì´ë¦„ í•œê¸€ë§Œì…ë ¥ ê°€ëŠ¥ 2~4ìë¦¬ë¡œ ì…ë ¥
+    var chkName = /^[ê°€-í£]{2,4}$/
+    // ë¡œì»¬ ì•„ì´ë”” ì˜ì–´ë§Œì…ë ¥ ê°€ëŠ¥ 5~15ìë¦¬ë¡œ ì…ë ¥
     var chkId = /^[a-zA-z]{5,15}$/
-    // ·ÎÄÃ ºñ¹Ğ¹øÈ£ ¼ıÀÚ,¹®ÀÚ,Æ¯¼ö¹®ÀÚÀÔ·Â ÃÖ¼Ò 8ÀÚ¸®ÀÌ»óÀ¸·Î ÀÔ·Â
+    // ë¡œì»¬ ë¹„ë°€ë²ˆí˜¸ ìˆ«ì,ë¬¸ì,íŠ¹ìˆ˜ë¬¸ìì…ë ¥ ìµœì†Œ 8ìë¦¬ì´ìƒìœ¼ë¡œ ì…ë ¥
     var chkPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$$!%*#?&])[A-Za-z\d$$!%*#?&]{8,}$/
     function checkPhone(v) {
         if (!chkPhone.test(v)) {
@@ -234,13 +234,13 @@
             method: "GET",
             success:
                 function (resp) {
-                    console.log("³Ñ¾î¿Â Å° °ª : " + resp);
+                    console.log("ë„˜ì–´ì˜¨ í‚¤ ê°’ : " + resp);
                     alert(resp);
                     key = resp;
                     alert(key);
                 }
 
-        });	 //ajaxÁ¾·á */
+        });	 //ajaxì¢…ë£Œ */
     };
 
 

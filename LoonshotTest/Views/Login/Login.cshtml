@@ -13,7 +13,7 @@
 
     function KakaoLogin() {
         console.log("start kakao API!!!!!");
-        // Ä«Ä«¿À API key
+        // ì¹´ì¹´ì˜¤ API key
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
 
         Kakao.Auth.login({
@@ -29,8 +29,8 @@
                         console.log("kakaoemail : " + response.kakao_account['email']);
                         //console.log("nickname : " + response.kakao_account['nickName']);
                         //console.log("nickname2 :" + response.nickName);
-                        //console.log("¼ºº° : "+response.kakao_account['gender']);
-                        //console.log("»ıÀÏ : "+response.kakao_account['birthday']);
+                        //console.log("ì„±ë³„ : "+response.kakao_account['gender']);
+                        //console.log("ìƒì¼ : "+response.kakao_account['birthday']);
                         var userId = response.id;
                         var kakaoemail = response.kakao_account['email'];
                         //alert(Kakao.Auth.getAccessToken());
@@ -46,40 +46,37 @@
 
 </script>
 
-<html>
-<body>
 
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top: 150px;>
-            <div class="loginbackground" style="background-color:blueviolet">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative" style="top: 150px;">
+            <div class="loginbackground">
                 <div class="col-lg-5 col-md-7" >
                     @if (string.IsNullOrWhiteSpace(msg) == false)
                     {
                         <div class="alert alert-danger">@msg</div>
                     }
                     <div style="background-color:rgb(255,255,255,0.5); border-radius:10px; padding:20px">
-                        <h2 class="mt-3 text-center">Sign In</h2>
-                        <p class="text-center">Enter your email address and password.</p>
+                        <h2 class="mt-3 text-center">ë¡œê·¸ì¸</h2>
 
                         <form id="form1" method="post" action="/Login/Login" class="mt-4">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
-                                               placeholder="enter your id"><br />
+                                               placeholder="ì•„ì´ë””"><br />
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
-                                               placeholder="enter your password"><br />
+                                               placeholder="íŒ¨ìŠ¤ì›Œë“œ"><br />
                                     </div>
                                 </div>
                                 <div class="col-lg-12 text-center">
-                                    <button type="submit" class="btn btn-block btn-dark">Sign In</button>
+                                    <button type="submit" class="btn btn-block btn-dark">ë¡œê·¸ì¸</button>
                                 </div>
                                 <br /><br />
                                 <div class="col-lg-12 text-center">
-                                    Don't have an account? <a href="/login/register" class="text-danger">Sign Up</a>
+                                    ì•„ì§ íšŒì›ì´ ì•„ë‹ˆì‹ ê°€ìš”? <a href="/login/register" class="text-danger">íšŒì›ê°€ì…</a>
                                 </div>
 
                                 <!--social login-->
@@ -94,15 +91,14 @@
                         </form>
                     </div>
                 </div> <!--col lg 5-->
-            </div> <!--·Î±×ÀÎ¹é±×¶ó¿îµå-->
-        </div> <!--·¦ÆÛ-->
-</body>
-</html>
+            </div> <!--ë¡œê·¸ì¸ë°±ê·¸ë¼ìš´ë“œ-->
+        </div> <!--ë©í¼-->
+</>
 
 <script>
-    // ·ÎÄÃ ¾ÆÀÌµğ ¿µ¾î¸¸ÀÔ·Â °¡´É 5~15ÀÚ¸®·Î ÀÔ·Â
+    // ë¡œì»¬ ì•„ì´ë”” ì˜ì–´ë§Œì…ë ¥ ê°€ëŠ¥ 5~15ìë¦¬ë¡œ ì…ë ¥
     var chkId = /^[a-zA-z]{5,15}$/
-    // ·ÎÄÃ ºñ¹Ğ¹øÈ£ ¼ıÀÚ,¹®ÀÚ,Æ¯¼ö¹®ÀÚÀÔ·Â ÃÖ¼Ò 8ÀÚ¸®ÀÌ»óÀ¸·Î ÀÔ·Â
+    // ë¡œì»¬ ë¹„ë°€ë²ˆí˜¸ ìˆ«ì,ë¬¸ì,íŠ¹ìˆ˜ë¬¸ìì…ë ¥ ìµœì†Œ 8ìë¦¬ì´ìƒìœ¼ë¡œ ì…ë ¥
     var chkPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$$!%*#?&])[A-Za-z\d$$!%*#?&]{8,}$/
 
     function checkId(v) {
