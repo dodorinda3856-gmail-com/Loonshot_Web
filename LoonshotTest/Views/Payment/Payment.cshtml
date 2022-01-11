@@ -4,7 +4,7 @@
 
     PaymentViewModel paymentViewModel = ViewData["paymentView"] as PaymentViewModel;
     double discount = paymentViewModel.treatment_amount * 0.999;
-    double final = paymentViewModel.treatment_amount * 0.0005;
+    double final = paymentViewModel.treatment_amount * 0.001;
 
 
 }
@@ -62,6 +62,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
+                <th scope="col">상병명</th>
                 <th scope="col">보험정보</th>
                 <th scope="col">피보관계</th>
                 <th scope="col">보훈여부</th>
@@ -69,6 +70,7 @@
         </thead>
         <tbody>
             <tr class="table-light">
+                <td>@paymentViewModel.disease_name</td>
                 <td>의료급여 1종</td>
                 <td>본인</td>
                 <td>N</td>
@@ -82,7 +84,7 @@
 <h2>상세 진료 내역</h2>
 <p>@paymentViewModel.treat_details</p>
 
-<h1 style="padding-top:50px">결제하실 금액은 <span class="amount">@final</span>원 입니다.</h1>
+<h2 style="padding-top:50px">결제하실 금액은 <span class="amount"><stong>@final</stong></span>원 입니다.</h2>
 
 <button class="btn btn-outline-primary" type="button"
         id="check_module" onclick="javascript:pay(price)"

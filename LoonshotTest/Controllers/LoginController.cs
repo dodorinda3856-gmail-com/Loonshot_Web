@@ -39,9 +39,9 @@ namespace LoonshotTest.Controllers
 
         SmsApi api = new SmsApi(new SmsApiOptions
         {
-            ApiKey = "NCSENK9RJHKZBKGK",
-            ApiSecret = "P0ZHGQDFSJABRRVTFJQTFEGKOKQVGPEK",
-            DefaultSenderId = "01028642902" 
+            ApiKey = "NCSV8FXAG2HITRNS",
+            ApiSecret = "CNYDVWYSQOTTMEV4V2NQWQ71QKUQS0NC",
+            DefaultSenderId = "01020933698" 
         });
 
         [HttpGet]

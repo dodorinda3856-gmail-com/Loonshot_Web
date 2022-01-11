@@ -19,13 +19,14 @@ namespace LoonshotTest.Models
         public string treat_date { get; set; }
         public string treat_details { get; set; }
         public int disease_id { get; set; }
+        public string disease_name { get; set; }
 
         public PaymentViewModel PaymentView()
         {
             PaymentViewModel paymentViewModel;
 
             string sql = @"
-                SELECT l.patient_login_id, p.patient_name, p.patient_id, t.disease_id, m.staff_name, t.treat_id, t.prescription, e.treatment_amount, TO_CHAR(t.treat_date, 'YYYY/MM/DD') treat_date, t.treat_details
+                SELECT l.patient_login_id, p.patient_name, p.patient_id, t.disease_id, m.staff_name, n.disease_name, t.treat_id, t.prescription, e.treatment_amount, TO_CHAR(t.treat_date, 'YYYY/MM/DD') treat_date, t.treat_details
                 FROM patient_login l, patient p, treatment t, medi_staff m, name_of_disease n, medi_procedure e
                 WHERE l.patient_login_id = :patient_login_id AND
                 l.patient_id = p.patient_id AND
@@ -40,9 +41,9 @@ namespace LoonshotTest.Models
             {
 
                 paymentViewModel = db.QuerySingle<PaymentViewModel>(sql, this);
-                //Debug.WriteLine("***************디비에서 넘어온 값 : "+paymentViewModel.patient_name);
-                //Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.prescription);
-                //Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.staff_name);
+                Debug.WriteLine("***************디비에서 넘어온 값 : "+paymentViewModel.patient_name);
+                Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.prescription);
+                Debug.WriteLine("***************디비에서 넘어온 값 : " + paymentViewModel.staff_name);
 
             }
             if (paymentViewModel != null)
