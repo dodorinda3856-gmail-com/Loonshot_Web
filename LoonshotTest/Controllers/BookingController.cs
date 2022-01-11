@@ -31,7 +31,10 @@ namespace LoonshotTest.Controllers
             loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
 
-
+            if(loginmodel == null)
+            {
+                return RedirectToAction("login", "login", new { msg = "로그인이 필요한 서비스입니다." });
+            }
 
             for (int i = 0; i < reservationDays; i++)
             {
@@ -61,7 +64,7 @@ namespace LoonshotTest.Controllers
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
 
             ReservationService.DeleteMyReservation(loginmodel.patient_id, id);
-            return RedirectToAction(nameof(MyBooking));
+            return Redirect(HttpContext.Request.Headers["Referer"]);
         }
 
         public ActionResult MyBooking()
@@ -70,7 +73,12 @@ namespace LoonshotTest.Controllers
             LoginModel loginmodel = new LoginModel();
             loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
-            
+
+            if (loginmodel == null)
+            {
+                return RedirectToAction("login", "login", new { msg = "로그인이 필요한 서비스입니다."});
+            }
+
             var reservationRecord = ReservationService.GetMyReservation(loginmodel.patient_id);
 
 

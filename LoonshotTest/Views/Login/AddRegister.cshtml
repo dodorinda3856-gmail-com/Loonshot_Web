@@ -11,7 +11,7 @@
         </div>
         <div class="col-lg-5 col-md-7 bg-white">
             <div class="p-3">
-                <h2 class="mt-3 text-center">Please your additional information</h2>
+                <h2 class="mt-3 text-center">ì¶”ê°€ ì •ë³´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”</h2>
                 @if (string.IsNullOrWhiteSpace(msg) == false)
                 {
                     <div id="notify" class="alert alert-danger">@msg</div>
@@ -20,25 +20,25 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="phone_num" class="form-control" type="text" onkeyup="checkPhone(this.value);" placeholder="insert your phoneNumber" >
+                                <input name="phone_num" class="form-control" type="text" onkeyup="checkPhone(this.value);" placeholder="ì „í™”ë²ˆí˜¸ (-) ì œì™¸ ìˆ«ì" >
                                 <br />
                             </div>
                         </div>
 
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="resident_regist_num" class="form-control" type="text" placeholder="insert regident regist number" onkeyup="checkRegist(this.value);">
+                                <input name="resident_regist_num" class="form-control" type="text" placeholder="ì£¼ë¯¼ë“±ë¡ë²ˆí˜¸ (-) ì œì™¸ ìˆ«ì" onkeyup="checkRegist(this.value);">
                                 <br />
                             </div>
                         </div>
 
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="patient_name" class="form-control" type="text" placeholder="your name" onkeyup="checkName(this.value);">
+                                <input name="patient_name" class="form-control" type="text" placeholder="ì´ë¦„" onkeyup="checkName(this.value);">
                             </div>
                             <br />
                             <div class="col-lg-12 text-center">
-                                <button id="signUp" type="submit" class="btn btn-primary">Register</button>
+                                <button id="signUp" type="submit" class="btn btn-primary">íšŒì›ê°€ì…</button>
                             </div>
                             
                         </div>
@@ -49,12 +49,12 @@
     </div>
 </div>
 <script>
-    // ÇÚµåÆù ¹øÈ£ ¹øÈ£¸¸ 11ÀÚ¸® ÀÔ·Â
+    // ï¿½Úµï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½ï¿½È£ï¿½ï¿½ 11ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½
     var chkPhone = /^[0-9]{11}$/
-    // ÁÖ¹Î¹øÈ£ ¹øÈ£¸¸À¸·Î 13ÀÚ¸® ÀÔ·Â
+    // ï¿½Ö¹Î¹ï¿½È£ ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 13ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½
     var chkRegist = /^[0-9]{13}$/
-    // »ç¿ëÀÚ ÀÌ¸§ ÇÑ±Û¸¸ÀÔ·Â °¡´É 2~4ÀÚ¸®·Î ÀÔ·Â 
-    var chkName = /^[°¡-ÆR]{2,4}$/
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½Ñ±Û¸ï¿½ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ 2~4ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ 
+    var chkName = /^[ï¿½ï¿½-ï¿½R]{2,4}$/
     function checkPhone(v) {
         if (!chkPhone.test(v)) {
             console.log("error input");
