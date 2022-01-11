@@ -66,18 +66,17 @@
             <div class="form-group">
                 <label for="address-input" class="form-label ">주소 </label>
                 <p></p>
-                <input type="button"
-                       ="execDaumPostcode()" value="우편번호 찾기" class="hidden submit-btn">
+                <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="hidden btn submit-btn">
                 <input type="text" id="roadAddress" class="form-control" value="@Model.Item1.address" name="address2" placeholder="도로명주소" disabled="disabled">
                 <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+                <button type="button" class="btn submit-btn hidden" data="address"><i class="fas fa-check"></i> 적용하기</button>
             </div>
             <div class="form-group mr">
                 <label for="phone-input" class="form-label ">핸드폰</label>
                 <p></p>
                 <input type="text" class="form-control " id="phone-input" value="@Model.Item1.phone_Num" name="phone_num" disabled="disabled">
                 <button type="button" class="btn mody-btn"><i class="fas fa-pen btn-pen"></i> 수정하기</button>
-                <button type="button" class="btn submit-btn hidden" data="name"><i class="fas fa-check"></i> 적용하기</button>
+                <button type="button" class="btn submit-btn hidden" data="phone"><i class="fas fa-check"></i> 적용하기</button>
             </div>
         </div>
 
@@ -88,7 +87,7 @@
 
             </div>
             <div>
-                <button type="button" class="btn" onclick="getHis();">더 보기</button>
+                <button type="button" class="btn bnt-more" onclick="moreBtn('.history-content .link-template-tabcard');">더 보기</button>
             </div>
             <div class="no-item hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
@@ -145,6 +144,10 @@
             data: { rcnt : cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
+                if (d["list"].length == 0) {
+                    alert("사후관리 정보가 더 없습니다.");
+                    return false;
+                }
                 $.each(d["list"], function (i, v) {
                     var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
                             "<div class='as-info hidden '> " +
@@ -167,67 +170,68 @@
             data: { rcnt : n },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                $.each(d["list"], function (el, v) {
-                    console.log(v);
-                    var html =
-                        "<div class='card link-template-tabcard'>" +
-                        "<div class='card-header  d-flex justify-content-between align-items-center'>" +
-                        "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + v.disease_name + "<span class='treat_data'>" + v.treat_date + "</span></h3>" +
-                        "<ul class='nav nav-tabs card-header-tabs'>" +
-                        "<li class='nav-item'>" +
-                        "<a class='nav-link active' data-toggle='tab' data-air='desc'>진료정보</a>" +
-                        "</li>" +
-                        "<li class='nav-item'>" +
-                        "<a class='nav-link ' data-toggle='tab' data-air='info'>상세정보</a>" +
-                        "</li>" +
-                        "</ul>" +
-                        "</div>" +
-                        "<div class='card-body p-0'>" +
-                        "<div class='tab-content'>" +
-                        "<div class='tab-pane p-4 info' role='tabpanel'>" +
-                        "<div id='tab-content'>" +
-                        "<div>" +
-                        "<p>" +
-                        "<strong class='treat_detail'>" + v.treat_details + "</strong>" +
-                        "</p>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "<div class='tab-pane active desc' role='tabpanel'>" +
-                        "<ul class='list-group list-group-flush ml-0 mb-2'>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='disease_name2'>병 명 : " + v.disease_name + "</strong>" +
-                        "</li>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='staff_name'>담당의 : " + v.staff_name + " 선생님</strong>" +
-                        "</li>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='pro_name'>치료방법 : " + v.prescription + "</strong>" +
-                        "</li>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
-                        "<strong class='prescription'>시 술 : " + v.procedure_name + " </strong>" +
-                        "</li>" +
-                        "<li class='list-group-item d-flex justify-content-between align-items-center'>";
+                if (d["list"].length == 0) {
+                    alert("진료 기록이 없습니다.");
+                    return false;
+                }
+                    $.each(d["list"], function (el, v) {
+                        var html =
+                            "<div class='card link-template-tabcard'>" +
+                            "<div class='card-header  d-flex justify-content-between align-items-center'>" +
+                            "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + v.disease_name + "<span class='treat_data'>" + v.treat_date + "</span></h3>" +
+                            "<ul class='nav nav-tabs card-header-tabs'>" +
+                            "<li class='nav-item'>" +
+                            "<a class='nav-link active' data-toggle='tab' data-air='desc'>진료정보</a>" +
+                            "</li>" +
+                            "<li class='nav-item'>" +
+                            "<a class='nav-link ' data-toggle='tab' data-air='info'>상세정보</a>" +
+                            "</li>" +
+                            "</ul>" +
+                            "</div>" +
+                            "<div class='card-body p-0'>" +
+                            "<div class='tab-content'>" +
+                            "<div class='tab-pane p-4 info' role='tabpanel'>" +
+                            "<div id='tab-content'>" +
+                            "<div>" +
+                            "<p>" +
+                            "<strong class='treat_detail'>" + v.treat_details + "</strong>" +
+                            "</p>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='tab-pane active desc' role='tabpanel'>" +
+                            "<ul class='list-group list-group-flush ml-0 mb-2'>" +
+                            "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
+                            "<strong class='disease_name2'>병 명 : " + v.disease_name + "</strong>" +
+                            "</li>" +
+                            "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
+                            "<strong class='staff_name'>담당의 : " + v.staff_name + " 선생님</strong>" +
+                            "</li>" +
+                            "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
+                            "<strong class='pro_name'>치료방법 : " + v.prescription + "</strong>" +
+                            "</li>" +
+                            "<li class='list-group-item d-flex justify-content-between align-items-center'>" +
+                            "<strong class='prescription'>시 술 : " + v.procedure_name + " </strong>" +
+                            "</li>" +
+                            "<li class='list-group-item d-flex justify-content-between align-items-center'>";
                         if (v.treat_status_val) {
-                            html+= "<strong>진료완료</strong>"
+                            html += "<strong>진료완료</strong>"
                         }
                         else {
                             html += "<strong>진료 전</strong>"
-                         }
+                        }
                         html += "</li>" +
-                        "</ul>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "<div class='card-footer bg-transparent d-flex justify-content-between align-items-center'>" +
-                        "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='"+ v.treat_id +"'>처방전 출력</a>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div > ";
-
-                    $(".history-content").append(html);
+                            "</ul>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>" +
+                            "<div class='card-footer bg-transparent d-flex justify-content-between align-items-center'>" +
+                            "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='" + v.treat_id + "'>처방전 출력</a>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div > ";
+                        $(".history-content").append(html);
                 });
-
             },
             error: function (requerst, status, error) {
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -236,44 +240,26 @@
         }
 
         if (name == ".history-content .link-template-tabcard") {
+            console.log(n % 2, n);
             if (n % 2 == 0) {
+                console.log(n);
                 getHis(n);
             }
             else {
-                alert("test");
+                alert("진료 기록이 업습니다.");
             }
         }
         else if (name == "#as-box .as-card") {
             if (n % 6 == 0) {
                 getAS(n)
             } else {
-                alert("test");
+                alert("사후관리 정보가 더 없습니다.");
             }
         }
     }
-
-
-    // 기본정보 출력 종료
-    @*$(".test").on("click", function () {
-        $.ajax({
-            url: '@Url.Action("Test", "Mypage")',
-            type: "POST",
-            dataType: 'json',
-             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            success: function (d) {
-                console.log(d);
-             },
-             error: function (requerst, status, error) {
-               console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
-              }
-        });
-    });*@
-
-
     // 유저 알람 처리 시작
     $("input[name=agree_of_alarm]").on("click", function () {
         var alarm_check = $(this).prop("checked");
-        alert(alarm_check);
         $.ajax({
             url: '@Url.Action("ChangeAlarm", "Mypage")',
             type: "POST",
@@ -469,7 +455,7 @@
             setTimeout(function () {
                 printWindow.print();
                 printWindow.close();
-            }, 500);
+            }, 1000);
         } else {
             var divContents = $("#" + divName).html();
             var printWindow = window.open('', '', 'height=400,width=800');

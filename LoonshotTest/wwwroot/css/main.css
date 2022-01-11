@@ -1,11 +1,20 @@
-﻿.content {
+﻿
+.content {
     position: relative;
-    top: 5.25rem;
     margin: 0 auto;
-    padding-bottom: 80px;
+    top: 53px;
+    padding-bottom: 60px;
     background-color: white !important;
 }
-
+    .content .main-img {
+        width: 100%;
+        height: 0;
+        padding-top: 44%;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        background-image: url(/img/Main/main-img.png);
+    }
     .content .card-box {
         flex-wrap: wrap;
         justify-content: center;
@@ -104,6 +113,16 @@
     background-color: red;
 }
 
+.kakao-area {
+    background-color: #f8f9fa;
+    margin-top: 1rem;
+}
+
+.kakao-area a {
+    text-align: center;
+}
+
+
 @media (max-width: 1024px) {
     .content .card-box .card {
         width: 50% 
@@ -112,8 +131,17 @@
         width: 100%;
     }
 
-    .content .card-box .text-posi .card-detail {
-        display: none !important;
+        .content .card-box .text-posi .card-title div {
+            padding-bottom : 60%;
+        }
+
+        .content .card-box .text-posi .card-detail {
+            display: none !important;
+        }
+    .kakao-area a {
+        display: inline-block;
+        width: 31%;
+        text-align: center;
     }
 }
 
