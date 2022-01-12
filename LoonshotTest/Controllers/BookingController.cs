@@ -43,6 +43,19 @@ namespace LoonshotTest.Controllers
             ViewData["Days"] = dateList;
             ViewData["Doctor"] = doctor;
             ViewBag.userId = loginmodel.patient_id;
+
+            // 사용자의 사이트 이동경로 파악 로그
+            // Infomation("해당 경로", 로그인한 유저의 아이디) 값 매개변수로 설정
+            // 아래와 같이 올바르게 실행되는 결과 try 문의 가장 하단에 반환(return) 전에 해당 메서드를 추가
+            Log.Infomation("BookingController-ChooseDate-22", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
+
+
+
+            //catch (Exception e) { }
+            //실패의 경우 에는 e에 실패에 대한 경로, 원인, 해당 레벨 등이 자동으로 DB의 저장되므로 아래와 같이 catch 에 해당 메소드만 추가 해주면 됩니다.
+            //Log.ERROR(e, HttpContext.Session.GetString("userId"));
+
+
             return View(ReservationService.GetList(id));
         }
 
@@ -80,10 +93,6 @@ namespace LoonshotTest.Controllers
             }
 
             var reservationRecord = ReservationService.GetMyReservation(loginmodel.patient_id);
-
-
-            
-
             return View(reservationRecord);
         }
 

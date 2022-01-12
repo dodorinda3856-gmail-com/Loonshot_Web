@@ -1,4 +1,6 @@
 ﻿body {
-    background-image:url(/img/login/sky2.jpg
-);
+    background-image: url(/img/login/sky2.jpg );
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }

@@ -10,6 +10,7 @@ static class SendLMS
         MessagingLib.Messages messages = new MessagingLib.Messages();
         messages.Add(new MessagingLib.Message()
         {
+
             to = phone,
             from = "01020933698",
             text = "안녕하세요. 이지피부과입니다. 3분 이후 고객님의 진료차례 입니다. 대략 30분이후 방문을 부탁들리며, 도움이 필요하시면 02-324-4413 로 연락 주세요."

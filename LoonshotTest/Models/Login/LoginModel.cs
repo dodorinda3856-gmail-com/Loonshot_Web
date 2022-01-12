@@ -77,7 +77,6 @@ namespace LoonshotTest.Models.Login
                       INSERT INTO patient_login(patient_login_id, patient_id, patient_login_pw, status, phone_num, resident_regist_num, patient_name, del_status)
                       VALUES(:patient_login_id, :patient_id, :patient_login_pw, :status, :phone_num, :resident_regist_num, :patient_name, 'T')";
 
-
             using (var db = new MySqlDapperHelper())
             {
                 return db.Execute(sql, this);

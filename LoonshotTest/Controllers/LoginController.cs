@@ -22,19 +22,13 @@ namespace LoonshotTest.Controllers
 {
     public class LoginController : Controller
     {
-        
+
         public static string social_Id = "";       
-
-
-        public LoginController()
-        {
-
-        }
 
 
         public IActionResult Index()
         {
-            return View("/login/login");
+           return View("/login/login");            
         }
 
         SmsApi api = new SmsApi(new SmsApiOptions
@@ -48,20 +42,27 @@ namespace LoonshotTest.Controllers
         [Route("/login/sendSMS")]
         public string SendSMS(string phone)
         {
-            Debug.WriteLine("+++++++++들어온값 : " + phone);
-            Random rand = new Random();
             string content = "";
-
-            for(int i =0; i < 6; i++)
+            try
             {
-                int a = rand.Next(1, 10);
-                content += a.ToString();
-            }
-            
-            Debug.WriteLine("+++++++++인증코드값 : " + content);
+                Debug.WriteLine("+++++++++들어온값 : " + phone);
+                Random rand = new Random();
 
-            var result = api.SendMessageAsync(phone, "이지피부과 인증코드는 ["+content+"] 입니다.");
-            return content;
+                for (int i = 0; i < 6; i++)
+                {
+                    int a = rand.Next(1, 10);
+                    content += a.ToString();
+                }
+
+                Debug.WriteLine("+++++++++인증코드값 : " + content);
+
+                var result = api.SendMessageAsync(phone, "이지피부과 인증코드는 [" + content + "] 입니다.");
+            }
+            catch (Exception e)
+            {
+                Log.ERROR(e, "no-login");
+            }
+            return content; 
         }
 
 
@@ -77,61 +78,33 @@ namespace LoonshotTest.Controllers
 
         [HttpGet]
         [Route("/login/kakaologin")]
-        public async Task <IActionResult> KakaoLogin(string userId, string kakaoemail, string token)
+        public IActionResult KakaoLogin(string userId, string kakaoemail, string token)
         {
-            
-            Debug.WriteLine("+++++++++들어온값 : " + userId);
-            Debug.WriteLine("+++++++++들어온값 : " + kakaoemail);
-            Debug.WriteLine("+++++++++들어온토큰값 : " + token);
             social_Id = kakaoemail;
             LoginModel loginModel = new LoginModel();
             int j = 0;
 
-            loginModel.patient_login_id = kakaoemail;
-            loginModel.social_id = userId;
-            loginModel.status = 'K';
-             j = loginModel.SocialCheck();
-
-
-            //로그인작업
-            //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-            //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
-            //identity.AddClaim(new Claim(ClaimTypes.Email, kakaoemail));
-            //identity.AddClaim(new Claim(ClaimTypes.Name, kakaoemail));
-        
-            //identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
-
-            //Debug.WriteLine("+++++++++들어온값클래임+++ : " + identity.FindFirst(ClaimTypes.NameIdentifier));
-
-            //identity.FindFirst(ClaimTypes.Email);
-
-            //var principal = new ClaimsPrincipal(identity);
-            HttpContext.Session.SetString("userId", kakaoemail);
-            HttpContext.Session.SetString("kakao", "T");
-            HttpContext.Session.SetString("token", token);
-            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-            //{
-            //    IsPersistent = false,
-            //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-            //    AllowRefresh = true
-            //});
-            if (j == 1)
+            try
             {
-                //return Response.Redirect(string.Format("/login/AddRegister"));
-                //byte[] utf8Bytes = Encoding.UTF8.GetBytes("/login/AddRegister");
-                Debug.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                
+                loginModel.patient_login_id = kakaoemail;
+                loginModel.social_id = userId;
+                loginModel.status = 'K';
+                j = loginModel.SocialCheck();
+
+                HttpContext.Session.SetString("userId", kakaoemail);
+                HttpContext.Session.SetString("kakao", "T");
+                HttpContext.Session.SetString("token", token);
+
                 return Redirect("/login/AddRegister");
             }
-            else
-            {       
+            catch (Exception e)
+            {
+                Log.FATAL(e, "no-login");
                 return Redirect("/");
-                
             }
-            
         }
 
-     
+
         public IActionResult AddRegister()
         {
             Debug.WriteLine("inside add register");
@@ -143,8 +116,13 @@ namespace LoonshotTest.Controllers
         [Route("/login/socialRegister")]
         public IActionResult socialRegister([FromForm] LoginModel input)
         {
-            input.patient_login_id = social_Id;
-            input.SocialRegister();
+            try {
+                input.patient_login_id = social_Id;
+                input.SocialRegister();
+            }
+            catch (Exception e) {
+                Log.ERROR(e, "no-login");
+            }
 
             return Redirect("/");
         }
@@ -155,33 +133,19 @@ namespace LoonshotTest.Controllers
         {
             try
             {
+
                 input.ConvertPassword();
                 var Login = input.GetLoginUser();
 
-                //로그인작업
-                //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.UserData);
-                //identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, Login.patient_login_id));
-                //identity.AddClaim(new Claim(ClaimTypes.Name, Login.patient_login_id));
-                //identity.AddClaim(new Claim("LastCheckDateTime", DateTime.UtcNow.ToString("yyyyMMDDHHmmss")));
-
-                //var principal = new ClaimsPrincipal(identity);
-
-                //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
-                //{
-                //    IsPersistent = false,
-                //    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                //    AllowRefresh = true
-                //});
                 HttpContext.Session.SetString("userId", Login.patient_login_id);
-                //Debug.WriteLine("쎼쎤값********************"+HttpContext.Session.GetString("userId"));
-                //Debug.WriteLine("********************프린시팔값:"+principal);
-                //Debug.WriteLine("********************프린씨팔의 네임 값" + principal.Identity.Name);
-            
+                Log.Infomation("LoginController-LoginProc", Login.patient_login_id);
+
                 return Redirect("/");
             }
-            catch(Exception ex)
+            catch(Exception e)
             {
-                return Redirect($"/login/login?msg={HttpUtility.UrlEncode(ex.Message)}");
+                Log.ERROR(e, "fail-login");
+                return Redirect($"/login/login?msg={HttpUtility.UrlEncode(e.Message)}");
             }
     
         }
@@ -297,6 +261,7 @@ namespace LoonshotTest.Controllers
            try
             {
                 input.UserCheck(input.patient_login_id);
+                input = null;
                 string patient_login_pw2 = Request.Form["patient_login_pw2"];
 
                 if(input.patient_login_id.Length < 5 || input.patient_login_id.Length > 14)
@@ -317,12 +282,13 @@ namespace LoonshotTest.Controllers
                 input.ConvertPassword();
                 input.checkPhone();
                 input.Register();
-            
+                Log.Infomation("LoginContorller-RegisterProc", "no-login");
                 return Redirect("/login/login");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return Redirect($"/login/register?msg={HttpUtility.UrlEncode(ex.Message)}");
+                Log.ERROR(e, "no-login");
+                return Redirect($"/login/register?msg={HttpUtility.UrlEncode(e.Message)}");
                 //return Redirect("/login/register");
             }
         }
@@ -333,6 +299,7 @@ namespace LoonshotTest.Controllers
             Debug.WriteLine("******************토큰값:"+ HttpContext.Session.GetString("token"));
             
             Debug.WriteLine("들어왔니?");
+            LoonshotTest.Log.Infomation("LoginController-LoginProc", HttpContext.Session.GetString("userId"));
             HttpContext.Session.Clear();
             //await HttpContext.SignOutAsync();
             return Redirect("/");

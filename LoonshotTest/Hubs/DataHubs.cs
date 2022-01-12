@@ -18,13 +18,14 @@ namespace LoonshotTest.Hubs
 {
     public class DataHubs : Hub
     {
-        bool createdNew = false;
-        public int Send(string patient_id , string cookieCheck) {
+        public int Send(string patient_id, string cookieCheck)
+        {
             return GetMyWaiting(patient_id, cookieCheck);
         }
 
         [HttpGet]
-        public int GetMyWaiting(string p_id , string cookie) {
+        public int GetMyWaiting(string p_id, string cookie)
+        {
             WaitingModel waitmodel = new WaitingModel();
             try
             {
@@ -32,21 +33,17 @@ namespace LoonshotTest.Hubs
                 waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
                 waitmodel = waitmodel.Mywating(waitmodel);
 
-                Mutex dup = new Mutex(true, "File Sync Manager", out createdNew);
-                if (waitmodel.alarm_status == "T" && createdNew && waitmodel.wait_count == 3)
+                if (waitmodel.alarm_status == "T" && waitmodel.wait_count == 3)
                 {
                     SendLMS.Run(waitmodel.phone_num);
                     waitmodel.AlarmOff(waitmodel);
                 }
-
                 return (waitmodel.wait_count);
-
             }
             catch (Exception ex)
             {
                 return (0);
             }
-
         }
     }
 }
