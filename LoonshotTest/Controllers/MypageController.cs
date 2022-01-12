@@ -46,11 +46,12 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-                //List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, 1);
-                //List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id);
+
+                Log.Infomation("MypageController-Mypage()-50", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
                 return View(Tuple.Create(myinfo));
             }
-            catch (Exception ex) {
+            catch (Exception e) {
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
                 return Redirect($"/login/login?msg=로그인이 필요한 서비스 입니다.");
             }
         }
@@ -60,11 +61,14 @@ namespace LoonshotTest.Controllers
             try
             {
                 LoginModel loginmodel = new LoginModel();
+                Log.Infomation("MypageController-MypageUserRemove()-64", HttpContext.Session.GetString("userId"));
+
                 loginmodel.UserBolt(HttpContext.Session.GetString("userId"));
                 HttpContext.SignOutAsync();
                 return Redirect("/");
             }
-            catch (Exception ex) {
+            catch (Exception e) {
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
                 return Redirect("/ERROR/500");
             }
         }
@@ -78,6 +82,8 @@ namespace LoonshotTest.Controllers
             try
             {
                 treatModel = treatModel.Prescription(treat_id);
+
+                Log.Infomation("MypageController-MypageUserRemove()-64", HttpContext.Session.GetString("userId"));
                 return Json(new
                 {
                     name = treatModel.patient_name,
@@ -88,8 +94,10 @@ namespace LoonshotTest.Controllers
                     message = message
                 });
             }
-            catch (Exception ex) {
+            catch (Exception e) {
                 message = "Error";
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
+
                 return Json(new
                 {
                     name = treatModel.patient_name,
@@ -100,22 +108,24 @@ namespace LoonshotTest.Controllers
                     message = message
                 });
             } 
-           
         }
         [HttpPost]
         public JsonResult ChangeAlarm(string AGREE_OF_ALARM) {
             LoginModel loginmodel = new LoginModel();
-            string message = "succces";
+            string message = "succes";
             try
             {
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId"); ;
                 if (loginmodel.UserAlarm(loginmodel, (AGREE_OF_ALARM == "true" ? "T" : "F")) != 1)
                 {
-                    message = "500";
+                    message = "succes";
                 }
+                Log.Infomation("MypageController-ChangeAlarm()-113", HttpContext.Session.GetString("userId"));
+
             }
-            catch (Exception ex){
+            catch (Exception e){
                 message = "500";
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
             }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
         }
@@ -140,8 +150,11 @@ namespace LoonshotTest.Controllers
                 {
                     message = "500";
                 }
+                Log.Infomation("MypageController-UpdateUser()-133", HttpContext.Session.GetString("userId"));
+
             }
-            catch (Exception ex) {
+            catch (Exception e) {
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
                 message = "500";
             }
             return new JsonResult(new { Message = message, System.Web.Mvc.JsonRequestBehavior.AllowGet });
@@ -156,13 +169,15 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 List<TreatMentModel> treatList = TreatMentModel.TreatmentList(loginmodel.patient_id, rcnt);
+                Log.Infomation("MypageController-GetHistory()-163", HttpContext.Session.GetString("userId"));
                 return Json(new
                 {
                     list = treatList
                 });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
                 return null;
             }
         }
@@ -171,18 +186,19 @@ namespace LoonshotTest.Controllers
         {
             try
             {
-                //LoginCheck();
                 LoginModel loginmodel = new LoginModel();
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 List<ASModel> asList = ASModel.UserAS(loginmodel.patient_id, rcnt);
+                Log.Infomation("MypageController-ActionResult()-182", HttpContext.Session.GetString("userId"));
                 return Json(new
                 {
                     list = asList
                 });
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
+                Log.ERROR(e, HttpContext.Session.GetString("userId"));
                 return null;
             }
         }
