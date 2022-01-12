@@ -35,10 +35,14 @@ namespace LoonshotTest.Controllers
                 paymentView.PaymentView();
 
                 ViewData["paymentView"] = paymentView.PaymentView();
+
+                Log.Infomation("PaymentController-Payment()-23", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
                 return View();
 
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
+                Log.ERROR(ex, HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
                 return Redirect("/payment/NoPayment");
             }
             
@@ -48,6 +52,7 @@ namespace LoonshotTest.Controllers
         [Route("/payment/NoPayment")]
         public IActionResult NoPayment()
         {
+            Log.Infomation("PaymentController-Payment()-23", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
             return View();
         }
 
@@ -56,9 +61,15 @@ namespace LoonshotTest.Controllers
         [Route("/payment/PaymentInsert")]
         public IActionResult PaymentInsert(PaymentModel paymentModel)
         {
-          
-            paymentModel.Insert();
-            return Content("결제가 성공하였씁니다.");
+            try { 
+                Log.Infomation("PaymentController-Payment()-23", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
+                paymentModel.Insert();
+                return Content("결제가 성공하였씁니다.");
+            }
+            catch (Exception e) {
+                Log.ERROR(e, HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
+                return Content("결제가 실패했니다.");
+            }
         }
     }
 }

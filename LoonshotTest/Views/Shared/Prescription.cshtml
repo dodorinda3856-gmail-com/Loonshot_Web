@@ -2,7 +2,7 @@
     <link rel="stylesheet" href="~/css/print.css" />
 </head>
 <body>
-    <div class="hidden page" id="printArea" >
+    <div class=" page hidden" id="printArea" >
        <div class="print-body br-top-blue">
            <table border="1" style=" border: 1px solid black; text-align: center; font-size: 15px;" width="100%" table-layout: auto; width: 100%;>
                <colgroup>
@@ -55,37 +55,38 @@
                    <td class="table-title" rowspan="2" colspan="2">질병분류번호</td>
                    <td id="disease_code"rowspan="2" colspan="5"></td>
                    <td rowspan="2" colspan="3" class="table-title">의료처방자 서명</td>
-                   <td colspan="5" rowspan="2" class="sign">최 영 욱</td>
+                   <td colspan="5" style="position:relative" rowspan="2" class="sign">
+                       <img style="width:40%; position:absolute; z-index: 1; top:50%; left:50%; transform:translate(-50%,-50%)" src="~/img/Main/sign.png" />
+                       <span style="z-index:3;">최 영 욱</span>
+                   </td>
                    <td colspan="2" class="table-title">면허종별</td>
-                   <td colspan="3">피부과</td>
+                   <td colspan="3">의사</td>
                </tr>
                <tr>
                    <td colspan="2" class="table-title">면허번호</td>
-                   <td colspan="3">1031-39284</td>
+                   <td colspan="3">72273</td>
                </tr>
                <tr>
-                   <td rowspan="1" colspan="10" class="table-title">처방 의약품의 명칭</td>
+                   <td rowspan="1" colspan="10" class="table-title">처방 의약품 / 시술</td>
                    <td rowspan="1" colspan="2" class="table-title">1회 투약량</td>
                    <td rowspan="1" colspan="2" class="table-title">1일 투여횟수</td>
-                   <td rowspan="1" colspan="2" class="table-title">증투약 일수</td>
+                   <td rowspan="1" colspan="2" class="table-title">총 투약 일수</td>
                    <td rowspan="1" colspan="4" class="table-title">용법</td>
                </tr>
-               <tr>
-                   <td  colspan="10">1</td>
+               <tr class="procedures" style="height: 10cm;">
+                   <td colspan="10">654100060 씨잘정 5mg / 1정</td>
                    <td  colspan="2">1</td>
                    <td  colspan="2">1</td>
-                   <td  colspan="2">1</td>
-                   <td  colspan="4">1</td>
+                   <td  colspan="2">20일</td>
+                   <td  colspan="4">오후(졸림)</td>
                </tr>
                <tr>
                    <td colspan="3" class="table-title">사용기간</td>
-                   <td colspan="7" class="table-title">교부일 부터 ( 3 ) 일간</td>
-                   <td colspan="10" class="table-title">사용기간 내에 약국에 제출하여야 합니다.</td>
+                   <td colspan="7" class="table-title">교부일 부터 ( 14 ) 일간</td>
+                   <td colspan="10" class="table-title" style="color: red"> *사용기간 내에 약국에 제출하여야 합니다.</td>
                </tr>
            </table>
        </div>   
     </div>
 </body>
-
-
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -40,6 +40,10 @@ table {
         background-color: #8ce9df;
         font-weight: bold;
     }
+
+    .procedures {
+        min-height: 10cm;
+    }
 }
 .page {
     width: 21cm;
@@ -51,15 +55,14 @@ table {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+.procedures {
+    min-height: 10cm;
+}
+
 @page {
-    size: A4 landscape;
+    size: A4 portrait;
     margin: 0;
+    padding: 2cm;
     /*size: landscape;*/
 }
 
-.sign {
-    background-image: url(/img/Main/sign.png);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-}

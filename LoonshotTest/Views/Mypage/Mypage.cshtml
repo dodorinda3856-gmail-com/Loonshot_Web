@@ -131,6 +131,7 @@
     var chkName = /^[가-힣]{2,4}$/
     // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
+
     moreBtn(".history-content .link-template-tabcard");
     moreBtn("#as-box .as-card");
 
@@ -174,11 +175,12 @@
                     alert("진료 기록이 없습니다.");
                     return false;
                 }
-                    $.each(d["list"], function (el, v) {
+                $.each(d["list"], function (el, v) {
+                    console.log((v));
                         var html =
                             "<div class='card link-template-tabcard'>" +
                             "<div class='card-header  d-flex justify-content-between align-items-center'>" +
-                            "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + v.disease_name + "<span class='treat_data'>" + v.treat_date + "</span></h3>" +
+                            "<h3 class='package-title disease_name' style='max-width: 60%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;margin-top: 10px'>" + v.disease_name + "<span class='treat_data'>" + (v.treat_date).substring(0, 4) + "-" + (v.treat_date).substring(5, 7) + "-" + (v.treat_date).substring(8, 10) + "</span></h3>" +
                             "<ul class='nav nav-tabs card-header-tabs'>" +
                             "<li class='nav-item'>" +
                             "<a class='nav-link active' data-toggle='tab' data-air='desc'>진료정보</a>" +
@@ -214,7 +216,7 @@
                             "<strong class='prescription'>시 술 : " + v.procedure_name + " </strong>" +
                             "</li>" +
                             "<li class='list-group-item d-flex justify-content-between align-items-center'>";
-                        if (v.treat_status_val) {
+                        if (v.treat_status__val == "F") {
                             html += "<strong>진료완료</strong>"
                         }
                         else {
@@ -447,7 +449,7 @@
         var ua = navigator.userAgent.toLowerCase();
         var isAndroid = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
         if (!isAndroid) {
-            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>my div</title>' + document.getElementById(divName).innerHTML;
+            var printContents = '<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print">  <title>이지피부과 처방전</title>' + document.getElementById(divName).innerHTML;
             var printWindow = window.open("", "Print_Content", 'scrollbars=1,width=900,height=900top=' + (screen.height - 700) / 2 + ',left=' + (screen.width - 700) / 2);
             printWindow.document.write(printContents);
             printWindow.document.close();
@@ -459,7 +461,7 @@
         } else {
             var divContents = $("#" + divName).html();
             var printWindow = window.open('', '', 'height=400,width=800');
-            printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>처방전</title>');
+            printWindow.document.write('<html><head> <link rel="stylesheet" href="/css/print.css"/> <link rel="stylesheet" type="text/css" href="/css/realprint.css" media="print"> <title>이지피부과 처방전</title>');
             printWindow.document.write('</head><body >');
             printWindow.document.write(divContents);
             printWindow.document.write('</body></html>');
