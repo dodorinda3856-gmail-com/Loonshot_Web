@@ -261,7 +261,7 @@ namespace LoonshotTest.Controllers
            try
             {
                 input.UserCheck(input.patient_login_id);
-                input = null;
+                
                 string patient_login_pw2 = Request.Form["patient_login_pw2"];
 
                 if(input.patient_login_id.Length < 5 || input.patient_login_id.Length > 14)
