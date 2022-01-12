@@ -45,17 +45,16 @@
     } //End Function
 
 </script>
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
-            <div class="loginbackground">
-                <div class="col-lg-5 col-md-7 login-box" >
+        <div class="row justify-content-center align-self-center" >
+                
                     @if (string.IsNullOrWhiteSpace(msg) == false)
                     {
                         <div class="alert alert-danger">@msg</div>
                     }
-                    <div style="background-color:rgb(255,255,255,0.5); border-radius:10px; padding:20px">
-                        <h2 class="mt-3 text-center">로그인</h2>
+                    <div class="col-lg-4" style="background-color: rgb(255,255,255,0.5); border-radius: 10px; padding: 20px; margin: 100px 0px;">
+                        <h2 class="text-center">로그인</h2>
 
-                        <form id="form1" method="post" action="/Login/Login" class="mt-4">
+                        <form id="form1" method="post" action="/Login/Login" class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="form-group">
@@ -88,8 +87,8 @@
                             </div>
                         </form>
                     </div>
-                </div> <!--col lg 5-->
-            </div> <!--로그인백그라운드-->
+ 
+  
         </div> <!--랩퍼-->
 </>
 
