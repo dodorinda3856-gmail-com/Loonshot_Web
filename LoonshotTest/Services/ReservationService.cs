@@ -77,8 +77,8 @@ namespace LoonshotTest.Services
         {
             using (var db = new MySqlDapperHelper())
             {
-                string sql = "INSERT INTO RESERVATION (PATIENT_ID, TIME_ID, RESERVATION_DATE, MEDICAL_STAFF_ID, SYMPTOM, TREAT_TYPE) VALUES (" +
-                    " :patientId, :timeId, To_Date(:reservationDate, 'YYYY-MM-DD-HH24:MI'), :medicalStaffId, :symptom, :treatType)";
+                string sql = "INSERT INTO RESERVATION (PATIENT_ID, TIME_ID, RESERVATION_DATE, MEDICAL_STAFF_ID, SYMPTOM, TREAT_TYPE, RESERVE_STATUS_VAL) VALUES (" +
+                    " :patientId, :timeId, To_Date(:reservationDate, 'YYYY-MM-DD-HH24:MI'), :medicalStaffId, :symptom, :treatType, 'T')";
                 db.Execute(sql, new { patientId, medicalStaffId, reservationDate, timeId, symptom, treatType });
                 string getMax = "SELECT R.RESERVATION_ID, R.RESERVATION_DATE, R.SYMPTOM, T.HOUR, M.STAFF_NAME, P.PATIENT_NAME " +
                     "FROM(SELECT* FROM RESERVATION WHERE RESERVATION_ID= (SELECT MAX(RESERVATION_ID) FROM (SELECT * FROM RESERVATION WHERE PATIENT_ID=:patientId))) R " +
