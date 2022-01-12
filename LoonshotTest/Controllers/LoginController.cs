@@ -278,7 +278,7 @@ namespace LoonshotTest.Controllers
                 {
                     throw new Exception("패스워드가 불일치 합니다.");
                 }
-                */
+                
 
                 input.status = 'L';
                 input.ConvertPassword();
