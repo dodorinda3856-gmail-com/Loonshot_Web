@@ -86,7 +86,7 @@
 
             </div>
             <div>
-                <button type="button" class="btn bnt-more" onclick="moreBtn('.history-content .link-template-tabcard');">더 보기</button>
+                <button type="button" class="btn bnt-more" onclick="moreBtn('.history-content .link-template-tabcard', 'h');">더 보기</button>
             </div>
             <div class="no-item hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
@@ -97,7 +97,8 @@
         </div>
         <div class="content-box as-box hidden">
             <div class="content-line">
-                <h4>사후관리</h4>
+                <h4> 사후관리 </h4>
+                <div><btn type="button" onclick="moreBtn('#as-box .as-card', 'm');" class="btn pre-btn"> <i class="fas fa-arrow-left"></i> </btn> <btn type="button" onclick="moreBtn('#as-box .as-card','p');" class="btn -btn"> <i class="fas fa-arrow-right"></i> </btn></div>
             </div>
             <div class="no-item hidden">
                 <div class="no-item">
@@ -130,28 +131,32 @@
     var chkName = /^[가-힣]{2,4}$/
     // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
-    moreBtn(".history-content .link-template-tabcard");
-    moreBtn("#as-box .as-card");
+    var asCount = 0;
 
-    function moreBtn(name) {
+    moreBtn(".history-content .link-template-tabcard", "p");
+    moreBtn("#as-box .as-card", "p");
+
+    function moreBtn(name, state) {
+        console.log(name, state, asCount);
         let n = $(name).length;
         function getAS(cnt) {
         $.ajax({
             url: '@Url.Action("GetAS", "Mypage")',
             type: "POST",
             dataType: 'json',
-            data: { rcnt : cnt },
+            data: { rcnt: cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
                 if (d["list"].length == 0) {
                     alert("사후관리 정보가 더 없습니다.");
                     return false;
                 }
+                $("#as-box").empty();
                 $.each(d["list"], function (i, v) {
                     var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
                             "<div class='as-info hidden '> " +
                             "<p class='as-" + i + "'>" + v.a_s + "</p>" +
-                            "</div>";
+                        "</div>";
                     $("#as-box").append(html);
                 });
 
@@ -174,7 +179,6 @@
                     return false;
                 }
                 $.each(d["list"], function (el, v) {
-                    console.log((v));
                         var html =
                             "<div class='card link-template-tabcard'>" +
                             "<div class='card-header  d-flex justify-content-between align-items-center'>" +
@@ -240,9 +244,7 @@
         }
 
         if (name == ".history-content .link-template-tabcard") {
-            console.log(n % 2, n);
             if (n % 2 == 0) {
-                console.log(n);
                 getHis(n);
             }
             else {
@@ -250,10 +252,19 @@
             }
         }
         else if (name == "#as-box .as-card") {
-            if (n % 6 == 0) {
-                getAS(n)
-            } else {
-                alert("사후관리 정보가 더 없습니다.");
+            if (state == "m") {
+                if ((asCount - 1) >= 0) {
+                    asCount -= 1;
+                }
+                else {
+                    asCount = 1;
+                    alert("사후관리 정보가 더 없습니다.");
+                }
+                getAS(asCount)
+            } else if (state == "p") {
+
+                asCount += 1;
+                getAS(asCount);
             }
         }
     }
