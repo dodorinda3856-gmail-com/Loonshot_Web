@@ -22,7 +22,7 @@ namespace LoonshotTest.Services
         {
             using (var db = new MySqlDapperHelper())
             {
-                string sql = "SELECT * FROM MEDI_STAFF WHERE STAFF_ID=:id";
+                string sql = "SELECT * FROM MEDI_STAFF WHERE STAFF_ID=:id AND POSITION='D'";
                 return db.QuerySingle<MediStaff>(sql, new { id });
             }
         }

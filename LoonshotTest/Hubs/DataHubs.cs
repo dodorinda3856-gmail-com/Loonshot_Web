@@ -32,13 +32,15 @@ namespace LoonshotTest.Hubs
                 waitmodel.patient_login_id = p_id;
                 waitmodel.request_to_wait = DateTime.Now.ToString("yyyy-MM-dd");
                 waitmodel = waitmodel.Mywating(waitmodel);
-
+                /*
                 if (waitmodel.alarm_status == "T" && waitmodel.wait_count == 3)
                 {
                     SendLMS.Run(waitmodel.phone_num);
                     waitmodel.AlarmOff(waitmodel);
-                }
+                
                 return (waitmodel.wait_count);
+                */
+                return 1;
             }
             catch (Exception ex)
             {

@@ -50,10 +50,14 @@ namespace LoonshotTest.Models
                         where 
                         treat_id = :treat_id
                         ";
+            string sql3 = @"
+            UPDATE RESERVATION SET RESERVE_STATUS_VAL = 'F' WHERE PATIENT_ID=:patient_id AND RESERVATION_DATE=(SELECT RESERVATION_DATE FROM (SELECT RESERVATION_DATE FROM RESERVATION WHERE PATIENT_ID=:patient_id ORDER BY RESERVATION_DATE DESC) WHERE ROWNUM=1)
+            ";
 
             using (var db = new MySqlDapperHelper())
             {
                 db.Execute(sql2, this);
+                db.Execute(sql3, this);
                 return db.Execute(sql, this);
                 
             }
