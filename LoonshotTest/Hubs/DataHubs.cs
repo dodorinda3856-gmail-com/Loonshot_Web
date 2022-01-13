@@ -42,6 +42,7 @@ namespace LoonshotTest.Hubs
             }
             catch (Exception ex)
             {
+                Log.ERROR(ex, "login");
                 return (0);
             }
         }
