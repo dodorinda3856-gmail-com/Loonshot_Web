@@ -111,6 +111,7 @@
 
 .content .card-box .card:nth-child(4) .card-title {
     background-color: red;
+    cursor: none;
 }
 
 .kakao-area {

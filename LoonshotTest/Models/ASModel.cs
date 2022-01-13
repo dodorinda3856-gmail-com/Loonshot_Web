@@ -33,7 +33,7 @@ namespace LoonshotTest.Models
                         WHERE mp.DELETE_OR_NOT = 'T') t) tt
                         WHERE rn >= : pre_cnt AND rn < :next_cnt ORDER BY tt.treat_date DESC";
                 
-                return db.Query<ASModel>(sql, new { patient_id = patient_id , pre_cnt = (cnt <= 0 ? 0 : cnt - 1) * 6, next_cnt = (cnt * 6) });
+                return db.Query<ASModel>(sql, new { patient_id = patient_id , pre_cnt = (cnt <= 0 ? 0 : cnt - 1) * 6, next_cnt = (cnt * 6 + 1)  });
             }
         }
     }
