@@ -33,8 +33,8 @@ namespace LoonshotTest.Controllers
 
         SmsApi api = new SmsApi(new SmsApiOptions
         {
-            ApiKey = "NCS8MFAZLUUNTIAC",
-            ApiSecret = "5GRHMBBAWFN72IOQ2QHBIEACJVNEPY1Z",
+            ApiKey = "NCSV8FXAG2HITRNS",
+            ApiSecret = "CNYDVWYSQOTTMEV4V2NQWQ71QKUQS0NC",
             DefaultSenderId = "01020933698" 
         });
 
@@ -261,7 +261,7 @@ namespace LoonshotTest.Controllers
            try
             {
                 input.UserCheck(input.patient_login_id);
-                input = null;
+                
                 string patient_login_pw2 = Request.Form["patient_login_pw2"];
 
                 if(input.patient_login_id.Length < 5 || input.patient_login_id.Length > 14)
@@ -278,6 +278,8 @@ namespace LoonshotTest.Controllers
                 {
                     throw new Exception("패스워드가 불일치 합니다.");
                 }
+                
+
                 input.status = 'L';
                 input.ConvertPassword();
                 input.checkPhone();
