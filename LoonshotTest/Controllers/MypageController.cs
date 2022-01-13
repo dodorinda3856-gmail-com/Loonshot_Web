@@ -19,6 +19,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using Microsoft.AspNetCore.Http;
 using System.Web;
+using System.Net;
 
 namespace LoonshotTest.Controllers
 {
@@ -52,7 +53,8 @@ namespace LoonshotTest.Controllers
             }
             catch (Exception e) {
                 Log.ERROR(e, HttpContext.Session.GetString("userId"));
-                return Redirect($"/login/login?msg=로그인이 필요한 서비스 입니다.");
+                var encodedLocationName = WebUtility.UrlEncode("로그인이 필요한 서비스 입니다.");
+                return Redirect($"/login/login?msg="+encodedLocationName);
             }
         }
 
