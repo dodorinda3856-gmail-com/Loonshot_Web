@@ -327,11 +327,12 @@
         var ajax_data = null;
         var data_type = null;
         var search = $(this);
+        let shakeDiv = $(this).parent(".form-group");
         if (ajax_check == "name") {
             ajax_data = $("#name-input").val();
             data_type = "N";
             if (!chkName.test(ajax_data)) {
-                shakeCard($(this).parent(".form-group"), "성명");
+                shakeCard(shakeDiv, "성명");
                 $("#name-input").val("");
                 return false;
             }
@@ -341,7 +342,7 @@
             data_type = "P";
             if (!chkPhone.test(ajax_data)) {
                 $("#phone-input").val("");
-                shakeCard($(this).parent(".form-group"), "휴대폰");
+                shakeCard(shakeDiv, "휴대폰");
                 return false;
             }
         }
@@ -350,7 +351,7 @@
             data_type = "A";
             if (ajax_data.length < 3) {
                 $("#roadAddress").val("");
-                shakeCard($(this).parent(".form-group"), "주소");
+                shakeCard(shakeDiv, "주소");
                 return false;
             }
         }
@@ -371,6 +372,7 @@
                  CloseLoading();
              },
              success: function (data) {
+                 OkshakeCard(shakeDiv);
                  search.hide();
                  search.parent(".form-group").find(".form-control").attr("disabled", true);
                  search.prev().show();
@@ -393,20 +395,8 @@
     // Content 출력 기능 끝
 
     // ajax 성공 흔들기
-    function OkshakeCard(n, v) {
-        n.effect('shake', "", 500);
-        n.addClass("check-group");
-        switch (v) {
-            case "성명":
-                n.find("p").text("이름은 2~4의 형태로 한글만 입력 가능합니다.");
-                break;
-            case "주소":
-                n.find("p").text("주소는 빈 값으로 입력 할 수 없습니다.");
-                break;
-            case "핸드폰":
-                n.find("p").text("핸드폰은 11자리 숫자로만 입력 할 수 있습니다.");
-                break;
-        }
+    function OkshakeCard(n) {
+        n.effect('bounce', "", 500).css("border","1px solid #F89406");
     }
 
     // shake
