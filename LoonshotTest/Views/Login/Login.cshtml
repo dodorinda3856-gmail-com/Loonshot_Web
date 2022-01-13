@@ -46,47 +46,47 @@
 
 </script>
         <div class="row justify-content-center align-self-center" >
-                
-                    @if (string.IsNullOrWhiteSpace(msg) == false)
-                    {
-                        <div class="alert alert-danger">@msg</div>
-                    }
-                    <div class="col-lg-4" style="background-color: rgb(255,255,255,0.5); border-radius: 10px; padding: 20px; margin: 100px 0px;">
-                        <h2 class="text-center">로그인</h2>
+               
+            <div class="col-lg-4" style="background-color: rgb(255,255,255,0.5); border-radius: 10px; padding: 20px; margin: 100px 0px;">
+                @if (string.IsNullOrWhiteSpace(msg) == false)
+                {
+                    <div class="alert alert-danger">@msg</div>
+                }
+                <h2 class="text-center">로그인</h2>
 
-                        <form id="form1" method="post" action="/Login/Login" class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
-                                               placeholder="아이디"><br />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
-                                               placeholder="패스워드"><br />
-                                    </div>
-                                </div>
-                                <div class="col-lg-12 text-center">
-                                    <button type="submit" class="btn btn-block btn-dark">로그인</button>
-                                </div>
-                                <br /><br />
-                                <div class="col-lg-12 text-center">
-                                    아직 회원이 아니신가요? <a href="/login/register" class="text-danger">회원가입</a>
-                                </div>
-
-                                <!--social login-->
-                                <div class="social-login">
-                                    <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
-                                        <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
-                                        <span class="icon-Kakao mr-3"></span>
-                                    </a>
-
-                                </div>
+                <form id="form1" method="post" action="/Login/Login" class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input class="form-control" name="patient_login_id" type="text" onkeyup="checkId(this.value);"
+                                       placeholder="아이디"><br />
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input class="form-control" name="patient_login_pw" type="password" onkeyup="checkPw(this.value);"
+                                       placeholder="패스워드"><br />
+                            </div>
+                        </div>
+                        <div class="col-lg-12 text-center">
+                            <button type="submit" class="btn btn-block btn-dark">로그인</button>
+                        </div>
+                        <br /><br />
+                        <div class="col-lg-12 text-center">
+                            아직 회원이 아니신가요? <a href="/login/register" class="text-danger">회원가입</a>
+                        </div>
+
+                        <!--social login-->
+                        <div class="social-login">
+                            <a class="Kakao btn d-flex justify-content-center align-items-center" name="kakaoLogin" onclick="javascript:KakaoLogin()">
+                                <img src="~/img/login/kakao_btn.png" width="200" name="kakaoLogin">
+                                <span class="icon-Kakao mr-3"></span>
+                            </a>
+
+                        </div>
                     </div>
+                </form>
+            </div>
  
   
         </div> <!--랩퍼-->

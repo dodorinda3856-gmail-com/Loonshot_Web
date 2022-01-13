@@ -58,9 +58,9 @@ namespace LoonshotTest
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            if (!env.IsDevelopment())
+            if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(); //azure에서 오류 보려고
             }
             else
             {
