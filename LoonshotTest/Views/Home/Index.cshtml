@@ -144,7 +144,7 @@
 
                 connection.start().then(function () {
                     setInterval(function () {
-                        var waiting = connection.invoke("Send", p_id, msgCheck);
+                        var waiting = connection.invoke("Send", p_id);
                         
                         waiting.then(a => {
                             if (a == 0) {
