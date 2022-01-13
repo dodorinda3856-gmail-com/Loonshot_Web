@@ -36,6 +36,8 @@ namespace LoonshotTest.Models
                 catch (Exception ex)
                 {
                     db.Rollback();
+
+                    return 0;
                 }
                 return r;
             }
