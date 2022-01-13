@@ -133,14 +133,26 @@ namespace LoonshotTest.Controllers
             string treat_type,
             int time_Id)
         {
+            try
+            {
+
             LoginModel loginmodel = new LoginModel();
             loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
             loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
             Debug.WriteLine("reservationd date" + reservation_date);
             var reservationInfo=ReservationService.AddReservation(loginmodel.patient_id, medical_staff_id, reservation_date, treat_type, symptom, time_Id);
-            
-            return RedirectToAction(nameof(Info), new { docName = reservationInfo.Staff_Name, date = reservationInfo.Reservation_Date,
+
+                Log.Infomation("BookingController- Create Reservation " + reservation_date + " " + medical_staff_id, HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
+
+
+                return RedirectToAction(nameof(Info), new { docName = reservationInfo.Staff_Name, date = reservationInfo.Reservation_Date,
                 hour = reservationInfo.Hour, symptom = reservationInfo.Symptom, patientName=reservationInfo.Patient_Name });
+            }
+            catch (Exception err)
+            {
+                Log.ERROR(err, HttpContext.Session.GetString("userId"));
+                return Redirect("~/Views/Error/Error.cshtml");
+            }
         }
 
     }
