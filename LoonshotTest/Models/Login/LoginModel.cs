@@ -35,7 +35,7 @@ namespace LoonshotTest.Models.Login
 
         public void checkPhone()
         {
-            string sql = "SELECT patient_id FROM patient WHERE phone_num = :phone_num";
+            string sql = "SELECT patient_id FROM patient WHERE phone_num = :phone_num AND resident_regist_num = :resident_regist_num";
 
             using(var db = new MySqlDapperHelper())
             {
