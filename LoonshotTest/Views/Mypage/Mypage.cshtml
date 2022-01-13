@@ -392,6 +392,23 @@
     }
     // Content 출력 기능 끝
 
+    // ajax 성공 흔들기
+    function OkshakeCard(n, v) {
+        n.effect('shake', "", 500);
+        n.addClass("check-group");
+        switch (v) {
+            case "성명":
+                n.find("p").text("이름은 2~4의 형태로 한글만 입력 가능합니다.");
+                break;
+            case "주소":
+                n.find("p").text("주소는 빈 값으로 입력 할 수 없습니다.");
+                break;
+            case "핸드폰":
+                n.find("p").text("핸드폰은 11자리 숫자로만 입력 할 수 있습니다.");
+                break;
+        }
+    }
+
     // shake
     function shakeCard(n, v) {
         n.effect('shake', "", 500);

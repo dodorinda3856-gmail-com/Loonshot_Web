@@ -18,13 +18,13 @@ namespace LoonshotTest.Hubs
 {
     public class DataHubs : Hub
     {
-        public int Send(string patient_id, string cookieCheck)
+        public int Send(string patient_id)
         {
-            return GetMyWaiting(patient_id, cookieCheck);
+            return GetMyWaiting(patient_id);
         }
 
         [HttpGet]
-        public int GetMyWaiting(string p_id, string cookie)
+        public int GetMyWaiting(string p_id)
         {
             WaitingModel waitmodel = new WaitingModel();
             try
