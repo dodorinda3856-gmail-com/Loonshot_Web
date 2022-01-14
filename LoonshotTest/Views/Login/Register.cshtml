@@ -100,7 +100,7 @@
     var arr = [];
 
     $("#login_id").change(function () {
-        console.log($(this).val());
+
         if ($(this).val() != null) {
             $.ajax({
                 url: "/login/idCheck",
@@ -120,7 +120,6 @@
 
 
     $("#login_pw").change(function () {
-        console.log($(this).val());
         $.ajax({
             url: "/login/pwCheck",
             method: "POST",
@@ -137,7 +136,7 @@
 
     $("#login_pw2").change(function () {
         var status = "";
-        console.log($(this).val());
+
         if ($(this).val() != $("#login_pw").val()) {
             status = "F";
         } else {

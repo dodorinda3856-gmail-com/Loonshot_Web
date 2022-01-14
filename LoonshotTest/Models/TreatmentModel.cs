@@ -48,6 +48,7 @@ namespace LoonshotTest.Models
         public string disease_code { get; set; }
 
         public string procedure { get; set;}
+
         public static TreatMentModel GetMyinfo(int patient_Id)
         {
             using (var db = new MySqlDapperHelper())

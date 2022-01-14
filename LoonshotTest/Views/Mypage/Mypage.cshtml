@@ -140,7 +140,6 @@
     moreBtn("#as-box .as-card", "p");
 
     function moreBtn(name, state) {
-        console.log(name, state, asCount);
         let n = $(name).length;
         function getAS(cnt) {
         $.ajax({
@@ -466,6 +465,7 @@
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
                  $("#disease_code").text(m.disease_code);
                  $("#procedure").text("시술 :" + m.procedure);
+                 $("#procedureCount").text()
                  printDiv("printArea");
              },
              error: function (requerst, status, error) {

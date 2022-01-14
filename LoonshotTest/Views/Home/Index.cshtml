@@ -134,14 +134,12 @@
     $(function () {
         var msgCheck = null;
         var p_id = $(".waitng").data("air");
-        console.log(p_id);
         if (typeof (p_id) != "undefined") {
 
             // 소켓 통신 시작
             $(function () {
                 var connection = new signalR.HubConnectionBuilder().withUrl("/hubs").build();
-                console.log(p_id + "2");
-
+                
                 connection.start().then(function () {
                     setInterval(function () {
                         var waiting = connection.invoke("Send", p_id);
