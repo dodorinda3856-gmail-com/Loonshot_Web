@@ -50,9 +50,9 @@ namespace LoonshotTest.Models.Login
                 string sql3 = "SELECT PATIENT_SEQ.CURRVAL AS patient FROM DUAL";
                 string sql2 = @"
                         INSERT INTO patient(patient_id, resident_regist_num, 
-                         phone_num, regist_date, patient_status_val, agree_of_alarm)
+                         phone_num, regist_date, patient_status_val, agree_of_alarm, patient_name)
                         VALUES(:patient_id, :resident_regist_num, :phone_num, CURRENT_TIMESTAMP,
-                        'T', 'T') ";
+                        'T', 'T', :patient_name) ";
                                    
                 using(var db = new MySqlDapperHelper())
                 {
