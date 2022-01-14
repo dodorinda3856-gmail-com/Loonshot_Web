@@ -129,6 +129,11 @@ body {
         font-weight:bold
     }
 
+    .user-profile .user-box .mypage-tap .tap-title.active {
+    color:white;
+    }
+
+
 .content.mypage {
     max-width: 85%;
     margin : 0 auto 6rem auto;

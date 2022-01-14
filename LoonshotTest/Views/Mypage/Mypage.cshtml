@@ -12,24 +12,24 @@
         <h2>@Model.Item1.patient_name</h2>
         <div class="user-box">
             <div class="mypage-tap">
-                <div class="btn-tap" onclick="contentshow('input-box')">
+                <div class="btn-tap" onclick="contentshow('myinfo-title','input-box')">
                     <div>
                         <img src="/img/AfterService/user.png" />
                     </div>
-                    <h4>내 정보</h4>
+                    <h4 class="tap-title myinfo-title active">내 정보</h4>
                 </div>
-                <div class="btn-tap" onclick="contentshow('history-box')">
+                <div class="btn-tap" onclick="contentshow('myhis-title','history-box')">
                     <div>
                         <img src="~/img/AfterService/history.png" />
                     </div>
-                    <h4>진료이력</h4>
+                    <h4 class="tap-title myhis-title">진료이력</h4>
                 </div>
 
-                <div class="btn-tap" onclick="contentshow('as-box')">
+                <div class="btn-tap" onclick="contentshow('myas-title','as-box')">
                     <div>
                         <img src="~/img/AfterService/as.png" />
                     </div>
-                    <h4>사후관리</h4>
+                    <h4 class="tap-title myas-title">사후관리</h4>
                 </div>
             </div>
         </div>
@@ -415,9 +415,11 @@
     })
     // 개인정보 수정 끝
     // CONTENT 출력 기능 시작
-    function contentshow(v) {
+    function contentshow(n, v) {
         $(".content-box").hide();
         $(".content-box." + v).show();
+        $(".tap-title").removeClass("active");
+        $("."+n).addClass("active");
     }
     // Content 출력 기능 끝
 
