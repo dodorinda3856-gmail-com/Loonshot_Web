@@ -12,7 +12,6 @@
     });
 
     function KakaoLogin() {
-        console.log("start kakao API!!!!!");
         // 카카오 API key
         Kakao.init('4b30f76e508ad0268c3bec3825ed6843');
 
@@ -24,9 +23,7 @@
                 Kakao.API.request({
                     url: '/v2/user/me',
                     success: function (response) {
-                        console.log("id : " + response.id);
-                        console.log("kakaoaccount : " + response.kakao_account);
-                        console.log("kakaoemail : " + response.kakao_account['email']);
+                       
                         //console.log("nickname : " + response.kakao_account['nickName']);
                         //console.log("nickname2 :" + response.nickName);
                         //console.log("성별 : "+response.kakao_account['gender']);
