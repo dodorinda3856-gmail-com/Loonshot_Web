@@ -19,6 +19,7 @@ using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
 using Microsoft.AspNetCore.Http;
 using System.Web;
+using System.Net;
 
 namespace LoonshotTest.Controllers
 {
@@ -46,13 +47,13 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-
                 Log.Infomation("MypageController-Mypage()-50", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
                 return View(Tuple.Create(myinfo));
             }
             catch (Exception e) {
                 Log.ERROR(e, HttpContext.Session.GetString("userId"));
-                return Redirect($"/login/login?msg=로그인이 필요한 서비스 입니다.");
+                var encodedLocationName = WebUtility.UrlEncode("로그인이 필요한 서비스 입니다.");
+                return Redirect($"/login/login?msg="+encodedLocationName);
             }
         }
 
@@ -91,6 +92,7 @@ namespace LoonshotTest.Controllers
                     produce = treatModel.names,
                     print_id = treatModel.print_id,
                     disease_code = treatModel.disease_code,
+                    procedure = treatModel.procedure,
                     message = message
                 });
             }

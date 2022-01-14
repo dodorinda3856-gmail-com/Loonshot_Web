@@ -13,7 +13,7 @@ namespace LoonshotTest.Services
         {
             using (var db = new MySqlDapperHelper())
             {
-                string sql = "SELECT * FROM MedI_STAFF WHERE POSITION='D'";
+                string sql = "SELECT * FROM MedI_STAFF WHERE POSITION='D' AND MEDI_STAFF_STATUS='T'";
                 return db.Query<MediStaff>(sql);
             }
         }
@@ -22,7 +22,7 @@ namespace LoonshotTest.Services
         {
             using (var db = new MySqlDapperHelper())
             {
-                string sql = "SELECT * FROM MEDI_STAFF WHERE STAFF_ID=:id";
+                string sql = "SELECT * FROM MEDI_STAFF WHERE STAFF_ID=:id AND POSITION='D' AND MEDI_STAFF_STATUS='T'";
                 return db.QuerySingle<MediStaff>(sql, new { id });
             }
         }

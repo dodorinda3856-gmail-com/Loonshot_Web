@@ -9,28 +9,27 @@
 
 <div id="non-printArea">
     <div class="user-profile">
-        <h2>@Model.Item1.patient_name </h2>
+        <h2>@Model.Item1.patient_name</h2>
         <div class="user-box">
             <div class="mypage-tap">
-                <div class="btn-tap" onclick="contentshow('input-box')">
+                <div class="btn-tap" onclick="contentshow('myinfo-title','input-box')">
                     <div>
                         <img src="/img/AfterService/user.png" />
                     </div>
-                    <h4>내 정보</h4>
+                    <h4 class="tap-title myinfo-title active">내 정보</h4>
                 </div>
-
-                <div class="btn-tap" onclick="contentshow('history-box')">
+                <div class="btn-tap" onclick="contentshow('myhis-title','history-box')">
                     <div>
                         <img src="~/img/AfterService/history.png" />
                     </div>
-                    <h4>진료이력</h4>
+                    <h4 class="tap-title myhis-title">진료이력</h4>
                 </div>
 
-                <div class="btn-tap" onclick="contentshow('as-box')">
+                <div class="btn-tap" onclick="contentshow('myas-title','as-box')">
                     <div>
                         <img src="~/img/AfterService/as.png" />
                     </div>
-                    <h4>사후관리</h4>
+                    <h4 class="tap-title myas-title">사후관리</h4>
                 </div>
             </div>
         </div>
@@ -41,7 +40,7 @@
         <div class="content-box input-box">
             <div class="content-line">
                 <h4>개인정보</h4>
-                <button type="button" class="btn btn-remove">회원 탈퇴</button>
+                <button type="button" class="w-btn  w-btn-indigo btn btn-remove">회원 탈퇴</button>
 
             </div>
             <div class="form-check form-switch alarm-switch">
@@ -82,14 +81,16 @@
 
 
         <div class="content-box history-box hidden">
-            <div class="content-line history-content">
-                <h4>진료기록</h4>
-
+            <div class="content-line history-content pt-0">
+                <div style="position: relative; padding: 1rem 0; clear: both; margin-bottom: 1rem;">
+                    <h4>진료기록</h4>
+                    <button type="button" class="w-btn w-btn-indigo more" onclick="moreBtn('.history-content .link-template-tabcard', 'h', 's');">더 보기</button>
+                </div>
             </div>
             <div>
-                <button type="button" class="btn bnt-more" onclick="moreBtn('.history-content .link-template-tabcard');">더 보기</button>
+               
             </div>
-            <div class="no-item hidden">
+            <div class="no-item myhis hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
                 <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
@@ -98,24 +99,26 @@
         </div>
         <div class="content-box as-box hidden">
             <div class="content-line">
-                <h4>사후관리</h4>
-            </div>
-            <div class="no-item hidden">
-                <div class="no-item">
-                    <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
-                    <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
+                <h4> 사후관리 </h4>
+                <button type="button" onclick="moreBtn('#as-box .as-card', 'm','s');" class="w-btn w-btn-indigo more">Previous</button>
+                <button type="button" onclick="moreBtn('#as-box .as-card','p', 's');" class="w-btn w-btn-indigo more">Next</button>
+                <div class="no-item myas hidden">
+                    <div class="">
+                        <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                        <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
+                    </div>
+                    <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
                 </div>
-                <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
-            </div>
-            <div id="as-box" class="as-wrapper">
-            </div>
-            <div class="content-line as-detail">
-                <h4 class="border-bottom"></h4>
-                <div class="as-detail-info">
-                    <p></p>
+                <div id="as-box" class="as-wrapper mt-4">
+                </div>
+
+                <div class="content-line as-detail">
+                    <h4 class="border-bottom"></h4>
+                    <div class="as-detail-info">
+                        <p></p>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -131,32 +134,39 @@
     var chkName = /^[가-힣]{2,4}$/
     // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
-    
-    moreBtn(".history-content .link-template-tabcard");
-    moreBtn("#as-box .as-card");
+    var asCount = 0;
+    moreBtn(".history-content .link-template-tabcard", "p", "f");
+    moreBtn("#as-box .as-card", "p", "f");
 
-    function moreBtn(name) {
+    function moreBtn(name, state, c) {
         let n = $(name).length;
         function getAS(cnt) {
         $.ajax({
             url: '@Url.Action("GetAS", "Mypage")',
             type: "POST",
             dataType: 'json',
-            data: { rcnt : cnt },
+            data: { rcnt: cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                if (d["list"].length == 0) {
-                    alert("사후관리 정보가 더 없습니다.");
-                    return false;
+                if (c == "f" && d["list"].length == 0) {
+                    $(".myas").show();
+                    $(".more").hide();
                 }
-                $.each(d["list"], function (i, v) {
-                    var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
-                            "<div class='as-info hidden '> " +
-                            "<p class='as-" + i + "'>" + v.a_s + "</p>" +
+                else { 
+                    if (d["list"].length == 0) {
+                        alert("종단 페이지 입니다.");
+                        return false;
+                    }
+                    $("#as-box").empty();
+                    $.each(d["list"], function (i, v) {
+                        var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
+                                "<div class='as-info hidden '> " +
+                                "<p class='as-" + i + "'>" + v.a_s + "</p>" +
                             "</div>";
-                    $("#as-box").append(html);
-                });
-
+                        $("#as-box").append(html);
+                        $(".myhis").hide();
+                    });
+                }
             },
             error: function (requerst, status, error) {
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -171,12 +181,18 @@
             data: { rcnt : n },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
+                if (c == "f" && d["list"].length == 0) {
+                    $(".myhis").show();
+                    $(".more").hide();
+                }
+                else { 
                 if (d["list"].length == 0) {
-                    alert("진료 기록이 없습니다.");
+                    alert("더 이상 진료 기록이 없습니다.");
+                    $(".myhis").show();
+
                     return false;
                 }
                 $.each(d["list"], function (el, v) {
-                    console.log((v));
                         var html =
                             "<div class='card link-template-tabcard'>" +
                             "<div class='card-header  d-flex justify-content-between align-items-center'>" +
@@ -231,9 +247,11 @@
                             "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='" + v.treat_id + "'>처방전 출력</a>" +
                             "</div>" +
                             "</div>" +
-                            "</div > ";
+                        "</div > ";
+                        $(".myhis").hide();
                         $(".history-content").append(html);
                 });
+                }
             },
             error: function (requerst, status, error) {
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -242,9 +260,7 @@
         }
 
         if (name == ".history-content .link-template-tabcard") {
-            console.log(n % 2, n);
             if (n % 2 == 0) {
-                console.log(n);
                 getHis(n);
             }
             else {
@@ -252,10 +268,19 @@
             }
         }
         else if (name == "#as-box .as-card") {
-            if (n % 6 == 0) {
-                getAS(n)
-            } else {
-                alert("사후관리 정보가 더 없습니다.");
+            if (state == "m") {
+                if ((asCount - 1) >= 0) {
+                    asCount -= 1;
+                }
+                else {
+                    asCount = 1;
+                    alert("사후관리 정보가 더 없습니다.");
+                }
+                getAS(asCount)
+            } else if (state == "p") {
+
+                asCount += 1;
+                getAS(asCount);
             }
         }
     }
@@ -329,11 +354,12 @@
         var ajax_data = null;
         var data_type = null;
         var search = $(this);
+        let shakeDiv = $(this).parent(".form-group");
         if (ajax_check == "name") {
             ajax_data = $("#name-input").val();
             data_type = "N";
             if (!chkName.test(ajax_data)) {
-                shakeCard($(this).parent(".form-group"), "성명");
+                shakeCard(shakeDiv, "성명");
                 $("#name-input").val("");
                 return false;
             }
@@ -343,7 +369,7 @@
             data_type = "P";
             if (!chkPhone.test(ajax_data)) {
                 $("#phone-input").val("");
-                shakeCard($(this).parent(".form-group"), "휴대폰");
+                shakeCard(shakeDiv, "휴대폰");
                 return false;
             }
         }
@@ -352,7 +378,7 @@
             data_type = "A";
             if (ajax_data.length < 3) {
                 $("#roadAddress").val("");
-                shakeCard($(this).parent(".form-group"), "주소");
+                shakeCard(shakeDiv, "주소");
                 return false;
             }
         }
@@ -366,10 +392,21 @@
             dataType: 'json',
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
              data: { SqlType: data_type, ajaxData: ajax_data },
+             beforeSend: function () {
+                 LoadingWithMask();
+             },
+             complete: function () {
+                 CloseLoading();
+             },
              success: function (data) {
+                 OkshakeCard(shakeDiv);
                  search.hide();
                  search.parent(".form-group").find(".form-control").attr("disabled", true);
                  search.prev().show();
+
+                 if (ajax_check == "name") {
+                     $(".user-profile h2").text(ajax_data);
+                 }
              },
              error: function (requerst, status, error) {
                console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -378,11 +415,18 @@
     })
     // 개인정보 수정 끝
     // CONTENT 출력 기능 시작
-    function contentshow(v) {
+    function contentshow(n, v) {
         $(".content-box").hide();
         $(".content-box." + v).show();
+        $(".tap-title").removeClass("active");
+        $("."+n).addClass("active");
     }
     // Content 출력 기능 끝
+
+    // ajax 성공 흔들기
+    function OkshakeCard(n) {
+        n.effect('bounce', "", 500).css("border","1px solid #F89406");
+    }
 
     // shake
     function shakeCard(n, v) {
@@ -430,12 +474,17 @@
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
              data: { treat_id: treat_id },
              success: function (m) {
-                 let d =  new Date();
+                 let d = new Date();
+                 let myArray = ['1', '3', '7', '10', '경과 후 판단'];
+                 let rand = Math.floor(Math.random() * myArray.length);
+                 let rValue = myArray[rand];
                  $("#print_id").text(m.print_id);
                  $("#print_name").text(m.name);
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
                  $("#disease_code").text(m.disease_code);
+                 $("#procedure").text("시술 :" + m.procedure);
+                 $("#procedureCount").text(rValue + "일");
                  printDiv("printArea");
              },
              error: function (requerst, status, error) {
@@ -469,5 +518,33 @@
             printWindow.print();
         }
         return false;
+    }
+
+    // ajax 로딩 바 추가
+    function LoadingWithMask() {
+        var maskHeight = $(document).height();
+        var maskWidth = window.document.body.clientWidth;
+
+        var mask = "<div id='mask' style='position:absolute; z-index:9000; background-color:#000000; display:none; left:0; top:0;'></div>";
+        var loadingImg = '';
+
+        loadingImg += "<div id='loadingImg' style='position:absolute; top:50%; left:50%; transform:translate(-50%,-50%)'>";
+        loadingImg += " <img src='/img/Main/loading.gif' style='position: relative; display: block; margin: 0px auto;'/>";
+        loadingImg += "</div>";
+
+        $('body')
+            .append(mask)
+            .append(loadingImg)
+
+        $('#mask').css({
+            'width': maskWidth
+            , 'height': maskHeight
+            , 'opacity': '0.3'
+        }).show();
+        
+    }
+    function CloseLoading() {
+        $('#mask, #loadingImg').hide();
+        $('#mask, #loadingImg').remove();
     }
 </script>

@@ -60,7 +60,7 @@ namespace LoonshotTest
         {
             if (!env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage(); //azure에서 오류 보려고
             }
             else
             {
