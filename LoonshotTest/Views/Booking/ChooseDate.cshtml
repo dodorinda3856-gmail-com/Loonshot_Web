@@ -154,12 +154,12 @@
                 success: function (timetable) {
 
                     var scheduleCard = '';
-                    console.log(timetable);
-                    console.log(booked);
+                    //console.log(timetable);
+                    //console.log(booked);
 
 
                     var index = booked.findIndex(b=> b.patient_Id==@ViewBag.userId)
-                    console.log(index, @ViewBag.userId);
+                    //console.log(index, @ViewBag.userId);
                     if (index>-1) {
                         scheduleCard += ` <div class="card text-white bg-danger mb-3" style="max-width: 20rem;">
                                 <div class="card-header">${booked[index].hour}</div>
