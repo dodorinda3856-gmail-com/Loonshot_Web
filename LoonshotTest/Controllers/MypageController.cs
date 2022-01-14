@@ -47,7 +47,6 @@ namespace LoonshotTest.Controllers
                 loginmodel.patient_login_id = HttpContext.Session.GetString("userId");
                 loginmodel = loginmodel.GetUserInfo(loginmodel.patient_login_id);
                 TreatMentModel myinfo = TreatMentModel.GetMyinfo(loginmodel.patient_id);
-
                 Log.Infomation("MypageController-Mypage()-50", HttpContext.Session.GetString("userId") != null ? HttpContext.Session.GetString("userId") : "no-login");
                 return View(Tuple.Create(myinfo));
             }

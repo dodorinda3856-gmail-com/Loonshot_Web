@@ -84,13 +84,13 @@
             <div class="content-line history-content pt-0">
                 <div style="position: relative; padding: 1rem 0; clear: both; margin-bottom: 1rem;">
                     <h4>진료기록</h4>
-                    <button type="button" class="w-btn w-btn-indigo" onclick="moreBtn('.history-content .link-template-tabcard', 'h');">더 보기</button>
+                    <button type="button" class="w-btn w-btn-indigo more" onclick="moreBtn('.history-content .link-template-tabcard', 'h', 's');">더 보기</button>
                 </div>
             </div>
             <div>
                
             </div>
-            <div class="no-item hidden">
+            <div class="no-item myhis hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
                 <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                 <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
@@ -100,10 +100,10 @@
         <div class="content-box as-box hidden">
             <div class="content-line">
                 <h4> 사후관리 </h4>
-                <button type="button" onclick="moreBtn('#as-box .as-card', 'm');" class="w-btn w-btn-indigo">Previous</button>
-                <button type="button" onclick="moreBtn('#as-box .as-card','p');" class="w-btn w-btn-indigo">Next</button>
-                <div class="no-item hidden">
-                    <div class="no-item">
+                <button type="button" onclick="moreBtn('#as-box .as-card', 'm','s');" class="w-btn w-btn-indigo more">Previous</button>
+                <button type="button" onclick="moreBtn('#as-box .as-card','p', 's');" class="w-btn w-btn-indigo more">Next</button>
+                <div class="no-item myas hidden">
+                    <div class="">
                         <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
                         <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
                     </div>
@@ -135,11 +135,10 @@
     // 마이페이지 기본 정보 가져오기(진료이력, 사후관리)
 
     var asCount = 0;
+    moreBtn(".history-content .link-template-tabcard", "p", "f");
+    moreBtn("#as-box .as-card", "p", "f");
 
-    moreBtn(".history-content .link-template-tabcard", "p");
-    moreBtn("#as-box .as-card", "p");
-
-    function moreBtn(name, state) {
+    function moreBtn(name, state, c) {
         let n = $(name).length;
         function getAS(cnt) {
         $.ajax({
@@ -149,19 +148,25 @@
             data: { rcnt: cnt },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
-                if (d["list"].length == 0) {
-                    alert("사후관리 정보가 더 없습니다.");
-                    return false;
+                if (c == "f" && d["list"].length == 0) {
+                    $(".myas").show();
+                    $(".more").hide();
                 }
-                $("#as-box").empty();
-                $.each(d["list"], function (i, v) {
-                    var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
-                            "<div class='as-info hidden '> " +
-                            "<p class='as-" + i + "'>" + v.a_s + "</p>" +
-                        "</div>";
-                    $("#as-box").append(html);
-                });
-
+                else { 
+                    if (d["list"].length == 0) {
+                        alert("종단 페이지 입니다.");
+                        return false;
+                    }
+                    $("#as-box").empty();
+                    $.each(d["list"], function (i, v) {
+                        var html = "<div class='type-" + v.as_type+" name as-" + i + " as-card'> " + v.procedure + " </div> " +
+                                "<div class='as-info hidden '> " +
+                                "<p class='as-" + i + "'>" + v.a_s + "</p>" +
+                            "</div>";
+                        $("#as-box").append(html);
+                        $(".myhis").hide();
+                    });
+                }
             },
             error: function (requerst, status, error) {
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -176,8 +181,15 @@
             data: { rcnt : n },
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             success: function (d) {
+                if (c == "f" && d["list"].length == 0) {
+                    $(".myhis").show();
+                    $(".more").hide();
+                }
+                else { 
                 if (d["list"].length == 0) {
-                    alert("진료 기록이 없습니다.");
+                    alert("더 이상 진료 기록이 없습니다.");
+                    $(".myhis").show();
+
                     return false;
                 }
                 $.each(d["list"], function (el, v) {
@@ -235,9 +247,11 @@
                             "<a class='wpdm-download-link wpdm-download-locked btn btn-info btn-print' data-air='" + v.treat_id + "'>처방전 출력</a>" +
                             "</div>" +
                             "</div>" +
-                            "</div > ";
+                        "</div > ";
+                        $(".myhis").hide();
                         $(".history-content").append(html);
                 });
+                }
             },
             error: function (requerst, status, error) {
                 console.log("code:", +  requerst.status + " Message:" + requerst.responseText + " error:" + error);
@@ -458,14 +472,17 @@
              contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
              data: { treat_id: treat_id },
              success: function (m) {
-                 let d =  new Date();
+                 let d = new Date();
+                 let myArray = ['1', '3', '7', '10', '경과 후 판단'];
+                 let rand = Math.floor(Math.random() * myArray.length);
+                 let rValue = myArray[rand];
                  $("#print_id").text(m.print_id);
                  $("#print_name").text(m.name);
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
                  $("#disease_code").text(m.disease_code);
                  $("#procedure").text("시술 :" + m.procedure);
-                 $("#procedureCount").text()
+                 $("#procedureCount").text(rValue + "일");
                  printDiv("printArea");
              },
              error: function (requerst, status, error) {
