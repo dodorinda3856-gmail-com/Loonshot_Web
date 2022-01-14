@@ -74,7 +74,7 @@ namespace LoonshotTest.Models
                     WHERE t.PATIENT_ID = : patient_Id
                     ORDER BY t.TREAT_DATE DESC) t
                     WHERE rn > : pre_cnt AND rn <= :nex_cnt 
-                    
+                    ORDER BY TREAT_DATE DESC
                 ";
                 return db.Query<TreatMentModel>(sql, new { patient_id = patient_Id , pre_cnt = cnt, nex_cnt = (cnt + 2)} );
             }
