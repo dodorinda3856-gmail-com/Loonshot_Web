@@ -7,9 +7,9 @@
 
 @Html.Partial("Prescription")
 
-<div id="non-printArea">
+<div id="non-printArea" style="width: 100vw">
     <div class="user-profile">
-        <h2>@Model.Item1.patient_name </h2>
+        <h2>@Model.Item1.patient_name</h2>
         <div class="user-box">
             <div class="mypage-tap">
                 <div class="btn-tap" onclick="contentshow('input-box')">
@@ -40,7 +40,7 @@
         <div class="content-box input-box">
             <div class="content-line">
                 <h4>개인정보</h4>
-                <button type="button" class="btn btn-remove">회원 탈퇴</button>
+                <button type="button" class="w-btn  w-btn-indigo btn btn-remove">회원 탈퇴</button>
 
             </div>
             <div class="form-check form-switch alarm-switch">
@@ -81,12 +81,14 @@
 
 
         <div class="content-box history-box hidden">
-            <div class="content-line history-content">
-                <h4>진료기록</h4>
-
+            <div class="content-line history-content pt-0">
+                <div style="position: relative; padding: 1rem 0; clear: both; margin-bottom: 1rem;">
+                    <h4>진료기록</h4>
+                    <button type="button" class="w-btn w-btn-indigo" onclick="moreBtn('.history-content .link-template-tabcard', 'h');">더 보기</button>
+                </div>
             </div>
             <div>
-                <button type="button" class="btn bnt-more" onclick="moreBtn('.history-content .link-template-tabcard', 'h');">더 보기</button>
+               
             </div>
             <div class="no-item hidden">
                 <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
@@ -98,24 +100,25 @@
         <div class="content-box as-box hidden">
             <div class="content-line">
                 <h4> 사후관리 </h4>
-                <div><btn type="button" onclick="moreBtn('#as-box .as-card', 'm');" class="btn pre-btn"> <i class="fas fa-arrow-left"></i> </btn> <btn type="button" onclick="moreBtn('#as-box .as-card','p');" class="btn -btn"> <i class="fas fa-arrow-right"></i> </btn></div>
-            </div>
-            <div class="no-item hidden">
-                <div class="no-item">
-                    <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
-                    <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
+                <button type="button" onclick="moreBtn('#as-box .as-card', 'm');" class="w-btn w-btn-indigo">Previous</button>
+                <button type="button" onclick="moreBtn('#as-box .as-card','p');" class="w-btn w-btn-indigo">Next</button>
+                <div class="no-item hidden">
+                    <div class="no-item">
+                        <h2>@Context.Session.GetString("userId") 님의 진료 기록이 없습니다.</h2>
+                        <h4>항상 건강한 당신의 모습을 기도 하며 최선을 다하는 이지피부미용병원이 되겠습니다.</h4>
+                    </div>
+                    <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
                 </div>
-                <img src="~/img/AfterService/nodata.png" alt="유저 데이터없음" />
-            </div>
-            <div id="as-box" class="as-wrapper">
-            </div>
-            <div class="content-line as-detail">
-                <h4 class="border-bottom"></h4>
-                <div class="as-detail-info">
-                    <p></p>
+                <div id="as-box" class="as-wrapper mt-4">
+                </div>
+
+                <div class="content-line as-detail">
+                    <h4 class="border-bottom"></h4>
+                    <div class="as-detail-info">
+                        <p></p>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -462,6 +465,7 @@
                  $("#print_id_number").text(m.resident_num);
                  $("#print_id").text(d.toLocaleDateString() + "-" + m.print_id);
                  $("#disease_code").text(m.disease_code);
+                 $("#procedure").text("시술 :" + m.procedure);
                  printDiv("printArea");
              },
              error: function (requerst, status, error) {

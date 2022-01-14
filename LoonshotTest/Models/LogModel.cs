@@ -21,17 +21,15 @@ namespace LoonshotTest.Models
             using (var db = new MySqlDapperHelper())
             {
                 db.BeginTransaction();
-
+                int r = 0;
                 try
                 {
                     string sql = @"
                         INSERT INTO LOG (LOG_ID, USER_ID, LOG_LEVEL, ACCESS_PATH, LOG_MESSAGE, USER_IP) 
                         VALUES(LOG_SEQ.NEXTVAL, :user_id, :log_level, :log_path, :log_massage, :user_ip)
                     ";
-
-                    int r = 0;
+                    
                     r += db.Execute(sql, this);
-
                     db.Commit();
                     return r;
                 }
@@ -41,6 +39,7 @@ namespace LoonshotTest.Models
 
                     return 0;
                 }
+                return r;
             }
         }
     }

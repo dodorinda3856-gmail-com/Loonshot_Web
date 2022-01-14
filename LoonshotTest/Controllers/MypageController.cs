@@ -93,6 +93,7 @@ namespace LoonshotTest.Controllers
                     produce = treatModel.names,
                     print_id = treatModel.print_id,
                     disease_code = treatModel.disease_code,
+                    procedure = treatModel.procedure,
                     message = message
                 });
             }

@@ -45,7 +45,9 @@ namespace LoonshotTest.Models
         public int print_id { get; set; }
         public string names { get; set; }
 
-        public string disease_code { get; set;  }
+        public string disease_code { get; set; }
+
+        public string procedure { get; set;}
         public static TreatMentModel GetMyinfo(int patient_Id)
         {
             using (var db = new MySqlDapperHelper())
@@ -111,7 +113,7 @@ namespace LoonshotTest.Models
             using (var db = new MySqlDapperHelper())
             {
                 string sql = @"
-                       SELECT print_seq.nextval AS PRINT_ID, p.PATIENT_NAME ,nod2.DISEASE_CODE , p.RESIDENT_REGIST_NUM , (SELECT LISTAGG(t1.PROCEDURE_NAME , ',') WITHIN GROUP(ORDER BY t1.PROCEDURE_NAME)
+                       SELECT print_seq.nextval AS PRINT_ID, p.PATIENT_NAME ,nod2.DISEASE_CODE , mp2.PROCEDURE_NAME as procedure, p.RESIDENT_REGIST_NUM , (SELECT LISTAGG(t1.PROCEDURE_NAME , ',') WITHIN GROUP(ORDER BY t1.PROCEDURE_NAME)
                                                                             FROM (((SELECT mp.PROCEDURE_NAME 
                                                                                     FROM (SELECT  nod.MEDI_PROCEDURE_ID 
 							                                                                FROM (SELECT DISEASE_ID 
@@ -119,6 +121,7 @@ namespace LoonshotTest.Models
 									                                                                WHERE TREATMENT_ID = :treat_id) t LEFT JOIN NAME_OF_DISEASE nod ON nod.DISEASE_ID = t.DISEASE_ID) t LEFT JOIN  MEDI_PROCEDURE mp ON t.MEDI_PROCEDURE_ID = mp.MEDI_PROCEDURE_ID ))) t1)  AS names
                         FROM TREATMENT t LEFT JOIN PATIENT p ON t.PATIENT_ID = p.PATIENT_ID 
                         LEFT JOIN NAME_OF_DISEASE nod2 ON t.DISEASE_ID = nod2.DISEASE_ID
+                        LEFT JOIN MEDI_PROCEDURE mp2 ON nod2.MEDI_PROCEDURE_ID  = mp2.MEDI_PROCEDURE_ID 
                         WHERE t.TREAT_ID  = :treat_id";
                 return db.QuerySingle<TreatMentModel>(sql, new { treat_id = treat_id });
             }
